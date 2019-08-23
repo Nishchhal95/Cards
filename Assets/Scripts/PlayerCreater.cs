@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerCreater : MonoBehaviour
 {
     public List<Transform> placeholder;
+    public List<Transform> place;
 
     int playercount;
 
@@ -17,17 +18,22 @@ public class PlayerCreater : MonoBehaviour
 
     private void Start()
     {
+        place = placeholder;
         Placeplayer();
     }
 
 
     private void Placeplayer()
     {
-        playercount = Random.Range(1, 6);
+        playercount = Random.Range(1,6);
         print(playercount);
+        int index = 5;
         for(int i =0; i<playercount;i++)
         {
-            Instantiate(player,placeholder[i].transform.position,player.transform.rotation);
+            int posindex = Random.Range(0, index--);
+            Instantiate(player,place[posindex].transform.position,player.transform.rotation);
+            place.RemoveAt(posindex);
         }
+        place = placeholder;
     }
 }
