@@ -5,13 +5,15 @@ public class PlayerCreater : MonoBehaviour
 {
     public List<Transform> placeholder;
     public List<Transform> place;
+    public List<GameObject> players;
 
-    int playercount;
-
+   public static int playercount;
+    public static int indexInPlay;                                                                                               
     public GameObject player;
 
     private void Awake()
     {
+        indexInPlay = 0;
         playercount = 0;
     }
 
@@ -31,9 +33,18 @@ public class PlayerCreater : MonoBehaviour
         for(int i =0; i<playercount;i++)
         {
             int posindex = Random.Range(0, index--);
-            Instantiate(player,place[posindex].transform.position,player.transform.rotation);
+            GameObject go = Instantiate(player,place[posindex].transform.position,player.transform.rotation);
+            players.Add(go);
             place.RemoveAt(posindex);
         }
-        place = placeholder;
     }
+
+    private void Update()
+    {
+      
+    }
+
+  
+
 }
+ 
