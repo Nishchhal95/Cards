@@ -6,27 +6,39 @@ using UnityEngine;
 
 public class cardsLogic : MonoBehaviour
 {
+    public enum SuitEnum { Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
 
-    public List<Card> CardDeck;  // List of Randomly Ordered 52 Cards.
-    public List<Card> DiscardDeck; // List of Cards which has been already used.
+    public List<Card> CardDeck = new List<Card>();  // List of Randomly Ordered 52 Cards.
+
+   // public List<Card> DiscardDeck; // List of Cards which has been already used.
+
     public int playerNo;     // no of people to assign 3 cards to them.
     int k;  // that will randomly fetch cards from database
 
     public class Card   //A Card class we are going to use in Lists. A datatype.
-    {
-        public enum SuitEnum {  Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
+    {     
+        public SuitEnum Suit;
         public int Rank;
-        public Card(SuitEnum suit, int rank)
+        public Card(SuitEnum newSuit, int newRank)
         {
-            //string assetName = string.Format("Card_{0}_{1}", suit, rank);  
-            // Example:  "Card_1_10" would be the Jack of Hearts.
-           // Debug.Log(assetName);
+            Suit = newSuit;
+            Rank = newRank;
         }
     }
 
     void Start()
     {
-        AssignCardToXpeople(); 
+        MakeDatabase();
+       // AssignCardToXpeople(); 
+    }
+
+    public void MakeDatabase()
+    {
+        // Here we have to Add Random Cards to List. 
+        Card CardToAdd = new Card(SuitEnum.Hearts, 1);      // "A" of Hearts.
+        CardDeck.Insert(0, CardToAdd);                      //Add it.
+
+        Debug.Log(CardToAdd.Rank + " of " + CardToAdd.Suit); 
     }
 
     public void AssignCardToXpeople()
