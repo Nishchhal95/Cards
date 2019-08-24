@@ -7,8 +7,8 @@ public class PlayerCreater : MonoBehaviour
     public List<Transform> place;
     public List<GameObject> players;
 
-    int playercount;
-    int indexInPlay;                                                                                               
+   public static int playercount;
+    public static int indexInPlay;                                                                                               
     public GameObject player;
 
     private void Awake()
@@ -41,51 +41,10 @@ public class PlayerCreater : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.B))
-        {
-            Blind();
-            Indexchange();
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Show();
-            Indexchange();
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Fold();
-            Indexchange();
-        }
+      
     }
 
-    void Blind()
-    {
-        print("Player " + indexInPlay + " Plays Blind");
-    }
-
-    void Show()
-    {
-        Debug.Log("Player " + indexInPlay + " Plays Show");
-    }
-
-    void Fold()
-    {
-        Debug.Log("Player " + indexInPlay + " Plays Fold");
-    }
-
-   void Indexchange()
-    {
-       if(indexInPlay==playercount)
-        {
-            indexInPlay=0;
-        }
-       else
-        {
-            indexInPlay++;
-        }
-    }
+  
 
 }
  
