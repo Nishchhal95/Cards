@@ -86,4 +86,51 @@ public class cardsLogic : MonoBehaviour
 
     }
 
+
+    //---------------------------------
+
+    // method to compare 3 ranks of the cards
+
+    public void compareHighestofThree(int a, int b, int c)
+    {
+
+        int higheshPriority = a;
+        if (b >= a && b >= c)
+        {
+            higheshPriority = b;
+        }
+
+        else if (c >= a && c >= b)
+        {
+            higheshPriority = c;
+        }
+        else
+        {
+            higheshPriority = a;
+        }
+
+        Debug.Log("card with highest priority is " + higheshPriority);
+    }
+
+
+    void sortingCardDeck()
+
+    {
+        CardDeck.Sort();
+
+
+    }
+
+
+    
+
+    //to check rank of 3 cards index consecutively 
+
+    void printHighestCardRank()
+    {
+
+        compareHighestofThree(CardDeck[k].Rank, CardDeck[k + 1].Rank, CardDeck[k + 2].Rank);
+    }
+
+
 }
