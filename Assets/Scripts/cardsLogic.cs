@@ -6,13 +6,15 @@ public class cardsLogic : MonoBehaviour
 {
     public enum SuitEnum { Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
 
+    
     public List<Card> CardDeck = new List<Card>();  // List of Ordered 52 Cards.
 
-   // public List<Card> DiscardDeck; // List of Cards which has been already used.
+    public List<CardList> PlayersList = new List<CardList>();  //List of Players
 
     public int playerNo;     // No of people to assign 3 cards to them.
     int k;  // That will randomly fetch cards from database
 
+    [System.Serializable]
     public class Card   //A Card class we are going to use in Lists. A datatype.
     {     
         public SuitEnum Suit;
@@ -24,10 +26,15 @@ public class cardsLogic : MonoBehaviour
         }
     }
 
+    [System.Serializable]
+    public class CardList   
+    {
+        public List<Card> CardsList = new List<Card>();  //List of Card of specific player.
+    }
+
     void Start()
     {
         MakeDatabase();
-       // AssignCardToXpeople(); 
     }
 
     public void MakeDatabase()
@@ -56,11 +63,14 @@ public class cardsLogic : MonoBehaviour
         {
             Debug.Log("Assigning 3 cards to Player Number " + i); // so that its known which card assigned to which player
             AssignCards();
+          
         }
     }
     public void AssignCards()
-    {  
-        //Assign Random Card to Player from List and Removes that Card from List.
+    {
+       //Assign Random Card to Player from List and Removes that Card from List.
+
+       // Here we will create new list of player
 
         for (int i=0;i<3;i++)
         {
@@ -69,8 +79,11 @@ public class cardsLogic : MonoBehaviour
             Debug.Log(CardDeck[k].Rank + "of" + CardDeck[k].Suit);    // Fetching value from cards database.
 
             CardDeck.RemoveAt(k);  // Avoid repeattion of aassignment of cards. 
+
+
+            //Here we will add Cards to that new list of Player.
         }
 
     }
- 
+
 }
