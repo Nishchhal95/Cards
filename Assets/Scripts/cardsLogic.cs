@@ -6,7 +6,7 @@ public class cardsLogic : MonoBehaviour
 {
     public enum SuitEnum { Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
 
-    public List<Card> CardDeck = new List<Card>();  // List of Randomly Ordered 52 Cards.
+    public List<Card> CardDeck = new List<Card>();  // List of Ordered 52 Cards.
 
    // public List<Card> DiscardDeck; // List of Cards which has been already used.
 
