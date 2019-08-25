@@ -6,19 +6,17 @@ public class cardsLogic : MonoBehaviour
 {
     public enum SuitEnum { Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
 
-    public List<Card> CardDeck = new List<Card>();  // List of Randomly Ordered 52 Cards.
+   
 
-<<<<<<< HEAD
-  [SerializeField]  public List<Card> CardDeck;  // List of Randomly Ordered 52 Cards.
+
+   public List<Card> CardDeck;  // List of Randomly Ordered 52 Cards.
     public List<Card> DiscardDeck; // List of Cards which has been already used.
     public int playerNo;     // no of people to assign 3 cards to them.
     int k;  // that will randomly fetch cards from database
-=======
-   // public List<Card> DiscardDeck; // List of Cards which has been already used.
 
-    public int playerNo;     // No of people to assign 3 cards to them.
-    int k;  // That will randomly fetch cards from database
->>>>>>> 1b0d19e8f8c9fd9db97e64d85117000a24b8fa8f
+ 
+
+   
 
 
 
@@ -41,8 +39,11 @@ public class cardsLogic : MonoBehaviour
     void Start()
     {
         MakeDatabase();
-       // AssignCardToXpeople(); 
+       //AssignCardToXpeople(); 
     }
+
+
+
 
     public void MakeDatabase()
     {
@@ -55,7 +56,7 @@ public class cardsLogic : MonoBehaviour
                 Card CardToAdd = new Card((SuitEnum)i, j);      // "A" of Hearts.
                 CardDeck.Insert(0, CardToAdd); //Add it.
 
-                // Debug.Log(CardToAdd.Rank + " of " + CardToAdd.Suit);
+               //  Debug.Log(CardToAdd.Rank + " of " + CardToAdd.Suit);
             }
         }
 
@@ -79,6 +80,10 @@ public class cardsLogic : MonoBehaviour
             AssignCards();
         }
     }
+
+
+
+
     public void AssignCards()
     {  
         //Assign Random Card to Player from List and Removes that Card from List.
