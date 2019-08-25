@@ -7,10 +7,12 @@ using UnityEngine;
 public class cardsLogic : MonoBehaviour
 {
 
-    public List<Card> CardDeck;  // List of Randomly Ordered 52 Cards.
+  [SerializeField]  public List<Card> CardDeck;  // List of Randomly Ordered 52 Cards.
     public List<Card> DiscardDeck; // List of Cards which has been already used.
     public int playerNo;     // no of people to assign 3 cards to them.
     int k;  // that will randomly fetch cards from database
+
+
 
     public class Card   //A Card class we are going to use in Lists. A datatype.
     {
@@ -24,10 +26,22 @@ public class cardsLogic : MonoBehaviour
         }
     }
 
+
+
+
+
+
     void Start()
     {
         AssignCardToXpeople(); 
     }
+
+
+
+
+
+
+
 
     public void AssignCardToXpeople()
     {
