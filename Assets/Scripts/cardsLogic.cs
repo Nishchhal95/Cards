@@ -2,27 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class cardsLogic : MonoBehaviour
 {
+    public enum SuitEnum { Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
 
+    public List<Card> CardDeck = new List<Card>();  // List of Randomly Ordered 52 Cards.
+
+<<<<<<< HEAD
   [SerializeField]  public List<Card> CardDeck;  // List of Randomly Ordered 52 Cards.
     public List<Card> DiscardDeck; // List of Cards which has been already used.
     public int playerNo;     // no of people to assign 3 cards to them.
     int k;  // that will randomly fetch cards from database
+=======
+   // public List<Card> DiscardDeck; // List of Cards which has been already used.
+
+    public int playerNo;     // No of people to assign 3 cards to them.
+    int k;  // That will randomly fetch cards from database
+>>>>>>> 1b0d19e8f8c9fd9db97e64d85117000a24b8fa8f
 
 
 
     public class Card   //A Card class we are going to use in Lists. A datatype.
-    {
-        public enum SuitEnum {  Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
+    {     
+        public SuitEnum Suit;
         public int Rank;
-        public Card(SuitEnum suit, int rank)
+        public Card(SuitEnum newSuit, int newRank)
         {
-            //string assetName = string.Format("Card_{0}_{1}", suit, rank);  
-            // Example:  "Card_1_10" would be the Jack of Hearts.
-           // Debug.Log(assetName);
+            Suit = newSuit;
+            Rank = newRank;
         }
     }
 
@@ -33,7 +40,26 @@ public class cardsLogic : MonoBehaviour
 
     void Start()
     {
-        AssignCardToXpeople(); 
+        MakeDatabase();
+       // AssignCardToXpeople(); 
+    }
+
+    public void MakeDatabase()
+    {
+        //Create Ordered List of Cards.
+
+        for(int i=1; i<=4; i++)  //Loop for Suits
+        {    
+            for(int j=1; j<=13; j++)  //Loop for Number.
+            {
+                Card CardToAdd = new Card((SuitEnum)i, j);      // "A" of Hearts.
+                CardDeck.Insert(0, CardToAdd); //Add it.
+
+                // Debug.Log(CardToAdd.Rank + " of " + CardToAdd.Suit);
+            }
+        }
+
+        AssignCardToXpeople();
     }
 
 
@@ -45,33 +71,27 @@ public class cardsLogic : MonoBehaviour
 
     public void AssignCardToXpeople()
     {
-        Debug.Log("Assigning three random cards to" + playerNo + " number of players : ");
+        Debug.Log("Assigning three random cards to " + playerNo + " number of players : ");
+
         for (int i = 1; i <= playerNo; i++)
         {
-            Debug.Log("assigning 3 cards to player number  " + i); // so that its known which card assigned to which player
+            Debug.Log("Assigning 3 cards to Player Number " + i); // so that its known which card assigned to which player
             AssignCards();
         }
     }
     public void AssignCards()
-    {   
+    {  
+        //Assign Random Card to Player from List and Removes that Card from List.
 
-        //Here have to remove top card from deck.
-        //and add to discardedcard list
-        //and distribute this card to player.
-        //  WE HAVE TO CHANGE BELOW CODE.
-
-        // printing  3 random cards for a player
         for (int i=0;i<3;i++)
         {
-            k = Random.Range(0, CardDeck.Count);  // get random index from list
+            k = Random.Range(0, CardDeck.Count);  // Get random index from cards list.
 
-            Debug.Log(CardDeck[k]);    //fetching value from cards database
+            Debug.Log(CardDeck[k].Rank + "of" + CardDeck[k].Suit);    // Fetching value from cards database.
 
-            CardDeck.RemoveAt(k);  // avoid repeattion of aassignment of cards
+            CardDeck.RemoveAt(k);  // Avoid repeattion of aassignment of cards. 
         }
+
     }
-
-
-
  
 }
