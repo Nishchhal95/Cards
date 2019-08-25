@@ -4,32 +4,38 @@ using UnityEngine;
 
 public class cardsLogic : MonoBehaviour
 {
+    //---------------------------------------------------------------------------------
+    // WARNING : DONT CHANGE THE ORDER IN WHICH SCRIPT LINES ARE WRITTEN. THEY MATTERS.
+    //---------------------------------------------------------------------------------
     public enum SuitEnum { Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
+    public enum ColorEnum { Red = 1, Black = 2}
 
-    
     public List<Card> CardDeck = new List<Card>();  // List of Ordered 52 Cards.
 
-    public List<CardList> PlayersList = new List<CardList>();  //List of Players
-
-    public int playerNo;     // No of people to assign 3 cards to them.
+    public int NumberOfPlayers;     // No of people to assign 3 cards to them.
     int k;  // That will randomly fetch cards from database
 
     [System.Serializable]
     public class Card   //A Card class we are going to use in Lists. A datatype.
     {     
         public SuitEnum Suit;
+        public ColorEnum Color;
         public int Rank;
-        public Card(SuitEnum newSuit, int newRank)
+        public Card(SuitEnum newSuit, int newRank, ColorEnum newColor)
         {
             Suit = newSuit;
             Rank = newRank;
+            Color = newColor;
         }
     }
 
+    public List<CardList> PlayersList = new List<CardList>();  //List of Card of specific player.
+    
     [System.Serializable]
-    public class CardList   
+    public class CardList
     {
         public List<Card> CardsList = new List<Card>();  //List of Card of specific player.
+        public int PlayerNo;
     }
 
     void Start()
@@ -45,32 +51,36 @@ public class cardsLogic : MonoBehaviour
         {    
             for(int j=1; j<=13; j++)  //Loop for Number.
             {
-                Card CardToAdd = new Card((SuitEnum)i, j);      // "A" of Hearts.
-                CardDeck.Insert(0, CardToAdd); //Add it.
-
-                // Debug.Log(CardToAdd.Rank + " of " + CardToAdd.Suit);
+                if(i==1 || i== 3)  //For Color
+                {
+                    Card CardToAdd = new Card((SuitEnum)i, j, (ColorEnum)1);      // "A" of Hearts.
+                    CardDeck.Insert(0, CardToAdd); //Add it.
+                }
+                else
+                {
+                    Card CardToAdd = new Card((SuitEnum)i, j, (ColorEnum)2);      // "A" of Hearts.
+                    CardDeck.Insert(0, CardToAdd); //Add it.
+                }
             }
         }
-
         AssignCardToXpeople();
     }
 
     public void AssignCardToXpeople()
     {
-        Debug.Log("Assigning three random cards to " + playerNo + " number of players : ");
+        Debug.Log("Assigning three random cards to " + NumberOfPlayers + " number of players : ");
 
-        for (int i = 1; i <= playerNo; i++)
+        for (int i = 1; i <= NumberOfPlayers; i++)
         {
             Debug.Log("Assigning 3 cards to Player Number " + i); // so that its known which card assigned to which player
-            AssignCards();
-          
+            PlayersList.Add(new CardList() { PlayerNo = i });  //Add Player which Contains Cards and Player Number.
+            AssignCards(i);
+            
         }
     }
-    public void AssignCards()
+    public void AssignCards(int playerno)
     {
-       //Assign Random Card to Player from List and Removes that Card from List.
-
-       // Here we will create new list of player
+        //Assign Random Card to Player from List and Removes that Card from List.
 
         for (int i=0;i<3;i++)
         {
@@ -78,10 +88,10 @@ public class cardsLogic : MonoBehaviour
 
             Debug.Log(CardDeck[k].Rank + "of" + CardDeck[k].Suit);    // Fetching value from cards database.
 
+            PlayersList[playerno-1].CardsList.Add(new Card(CardDeck[k].Suit, CardDeck[k].Rank, CardDeck[k].Color));  //Add Card to respective Player.
+
             CardDeck.RemoveAt(k);  // Avoid repeattion of aassignment of cards. 
 
-
-            //Here we will add Cards to that new list of Player.
         }
 
     }
