@@ -9,21 +9,20 @@ public class WebGetRequest : MonoBehaviour
 
     private void Awake()
     {
-        URL = "http://factoryprice.co.in/best_deals/login_token.php?";
+        URL = "http://factoryprice.co.in/best_deals/point_dec.php?";
     }
 
     [System.Serializable]
     public class LoginMessage
     {
-        public string emailId;
+        public string email;
         public int coins;
         public float XP;
 
         public override string ToString()
         {
-            return "emailId=" + emailId.ToString() + "&"
-                + "coins=" + coins.ToString() + "&"
-                 + "XP=" + XP.ToString();
+            return "email=" + email.ToString() + "&"
+                + "points=" + coins.ToString();
         }
     }
 
@@ -43,14 +42,14 @@ public class WebGetRequest : MonoBehaviour
 
     public void OnLogin()
     {
-        LoginMessage loginMessage = new LoginMessage { emailId = "abc@xyz.com", coins = 100, XP = 200f };
+        LoginMessage loginMessage = new LoginMessage { email = "abc@xyz.com", coins = 100 };
 
         HttpRequest<LoginMessage> httpRequest = new HttpRequest<LoginMessage>(loginMessage, URL);
 
         HttpHandler.Get(httpRequest, (LoginResponse loginResponse) =>
          {
              Debug.Log("Response: " + loginResponse.status);
-         }, () =>
+         }, () =>   
          {
              Debug.Log("False");
          });

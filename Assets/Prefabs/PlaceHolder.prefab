@@ -49,10 +49,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
   place: []
-  players: []
-  player: {fileID: 7698499907808687378, guid: 6f3d035c70d43c34aa0fcff9b8b85d7a, type: 3}
+  players:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1062142714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,5 +68,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   photo: {fileID: 0}
-  name: 
-  coin: 0
+  name: {fileID: 0}

@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        photo = FB_Handler.instance.FB_Profile;
+        photo.sprite = FB_Handler.instance.FB_Profile.sprite;
         name.text = FB_Handler.instance.FB_UserName.text;
     }
 
