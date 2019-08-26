@@ -78,6 +78,9 @@ public class cardsLogic : MonoBehaviour
             
         }
     }
+
+
+
     public void AssignCards(int playerno)
     {
         //Assign Random Card to Player from List and Removes that Card from List.
@@ -101,7 +104,7 @@ public class cardsLogic : MonoBehaviour
 
     // method to compare 3 ranks of the cards
 
-    public void compareHighestofThree(int a, int b, int c)
+    public int compareHighestofThree(int a, int b, int c)
     {
 
         int higheshPriority = a;
@@ -120,6 +123,7 @@ public class cardsLogic : MonoBehaviour
         }
 
         Debug.Log("card with highest priority is " + higheshPriority);
+        return higheshPriority;  // now method can also return the value
     }
 
 
@@ -136,10 +140,61 @@ public class cardsLogic : MonoBehaviour
 
     //to check rank of 3 cards index consecutively 
 
+
+
+
     void printHighestCardRank()
     {
+    
 
-        compareHighestofThree(CardDeck[k].Rank, CardDeck[k + 1].Rank, CardDeck[k + 2].Rank);
+        compareHighestofThree(CardDeck[0].Rank, CardDeck[1].Rank, CardDeck[2].Rank);
+
+       
+    }
+
+//-------------------------------------------------------
+
+    // finding all same suits, finding any two same suits, finding all diff suits
+
+    void methodForSuitCompare()
+
+
+    {
+
+        //permuation and combination logic for all 3 cards of same suit 
+        if(CardDeck[0].Suit==CardDeck[1].Suit    &&   CardDeck[0].Suit==CardDeck[2].Suit
+            
+            && CardDeck[1].Suit == CardDeck[2].Suit)
+
+
+
+        {
+            Debug.Log("all three suits are same");
+        }
+
+
+        //p & c logic for any 2 cards of same suit 
+        // out of 0 ,1,2
+        // 0 or 1 
+        // 0 02 1
+        //1 or 2
+
+
+      else   if   (CardDeck[0].Suit==CardDeck[1].Suit  || CardDeck[0].Suit == CardDeck[2].Suit || CardDeck[1].Suit == CardDeck[2].Suit)
+
+
+        {
+            Debug.Log("any two suits are same");
+        }
+
+
+
+
+        else
+
+        {
+            Debug.Log("all suits are of diffrent kind ");
+        }
     }
 
 
