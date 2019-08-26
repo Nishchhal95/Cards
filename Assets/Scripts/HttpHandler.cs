@@ -13,14 +13,13 @@ using UnityEngine.Networking;
 ///public class LoginMessage
 ///{
 ///    public string emailId;
-///    public int points;
+///    public int coins;
 ///    public float XP;
 
-///    public override string ToString()
-///    {
-
+/// public override string ToString()
+/// {
 ///        return "emailId=" + emailId.ToString() + "&"
-///            + "points=" + points.ToString() + "&"
+///            + "coins=" + coins.ToString() + "&"
 ///             + "XP=" + XP.ToString();
 ///    }
 ///}
@@ -41,6 +40,7 @@ using UnityEngine.Networking;
 /// }
 /// -------------------------------------------------------------------------
 /// HttpRequest<LoginMessage> httpRequest = new HttpRequest(loginMessage, URL);
+/// 
 /// HttpHandler.Get(httpRequest, (LoginResponse loginResponse) => 
 /// { 
 ///     Debug.Log("Resposne: " + loginResponse.status); 
@@ -140,7 +140,7 @@ public class HttpHandler : MonoBehaviour
 [Serializable]
 public class HttpRequest<T>
 {
-    public string URI = "";
+    public string URI ="";
     public string message;
 
     public HttpRequest(T message, string uri)

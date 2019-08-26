@@ -1,35 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;                            
+using UnityEngine.Networking;
 
 public class WebGetRequest : MonoBehaviour
 {
+    public string URL;
 
-    void Start()
+    private void Awake()
     {
-        string url = "http://factoryprice.co.in/best_deals/testapi.php";
-        StartCoroutine(GetRequest(url));
+        URL = "http://factoryprice.co.in/best_deals/login_token.php?";
     }
 
-
-
-    IEnumerator GetRequest(string url)
+    [System.Serializable]
+    public class LoginMessage
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        public string emailId;
+        public int coins;
+        public float XP;
+
+        public override string ToString()
         {
-       
-            yield return webRequest.SendWebRequest();
-
-
-            if (webRequest.isNetworkError || webRequest.isHttpError)
-            {
-                Debug.Log(": Error: " + webRequest.error);
-            }
-            else
-            {
-                Debug.Log(":\nReceived: " + webRequest.downloadHandler.text);
-            }
+            return "emailId=" + emailId.ToString() + "&"
+                + "coins=" + coins.ToString() + "&"
+                 + "XP=" + XP.ToString();
         }
     }
+
+    [System.Serializable]
+    public class LoginResponse
+    {
+        public string responseMessage;
+        public int statusCode;
+        public string status;
+    }
+
+    private void Start()
+    {
+        OnLogin();
+    }
+
+
+    public void OnLogin()
+    {
+        LoginMessage loginMessage = new LoginMessage { emailId = "abc@xyz.com", coins = 100, XP = 200f };
+
+        HttpRequest<LoginMessage> httpRequest = new HttpRequest<LoginMessage>(loginMessage, URL);
+
+        HttpHandler.Get(httpRequest, (LoginResponse loginResponse) =>
+         {
+             Debug.Log("Response: " + loginResponse.status);
+         }, () =>
+         {
+             Debug.Log("False");
+         });
+    }
+
 }

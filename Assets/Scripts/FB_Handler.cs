@@ -10,8 +10,21 @@ public class FB_Handler : MonoBehaviour
     public Image FB_Profile;
 
     /* While using this prefab, You will need Username Text, Profile Image, and Login Button to Call FBLogin() Function inside Canvas. */
+    public static FB_Handler instance;
     
     private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+    private void Start()
     {
         FB.Init(SetInit, onHidenUnity);  //Trigger on Game start.
     }

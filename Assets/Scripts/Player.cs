@@ -1,9 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] Image photo;
+    [SerializeField] TextMeshProUGUI name;
+
+    private void Start()
+    {
+        photo = FB_Handler.instance.FB_Profile;
+        name.text = FB_Handler.instance.FB_UserName.text;
+    }
 
     private void Update()
     {
@@ -52,4 +62,6 @@ public class Player : MonoBehaviour
             PlayerCreater.indexInPlay++;
         }
     }  
+
+
 }
