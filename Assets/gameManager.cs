@@ -10,6 +10,7 @@ public class gameManager : MonoBehaviour
     
 {
     Player player;
+    bool playerActive = false;
 
     public int playerWhoseTurnActive;
     public static gameManager Instance { get; set; }
@@ -47,10 +48,17 @@ public class gameManager : MonoBehaviour
 
 
     void PlayerTurnFunction()
+
+        //this method can be set active only for the player whose turn is on
     {
-        player.Blind();
-        player.Fold();
-        player.Indexchange();
+        if(playerActive)
+
+        {
+            player.Blind();
+            player.Fold();
+            player.Indexchange();
+        }
+        
     }
 
 }
