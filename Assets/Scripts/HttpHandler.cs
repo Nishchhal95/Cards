@@ -97,7 +97,7 @@ public class HttpHandler : MonoBehaviour
             onError?.Invoke();
             yield break;
         }
-
+        
         string json = unityWebRequest.downloadHandler.text;
         Utils.ColorLog("green", "Http Response " + json);
         T reseponse = JsonConvert.DeserializeObject<T>(json);
