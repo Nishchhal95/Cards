@@ -36,22 +36,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Blind()
+   public  void Blind()
     {
         print("Player " + PlayerCreater.indexInPlay + " Plays Blind");
     }
 
-    void Show()
+    public void Show()
     {
         Debug.Log("Player " + PlayerCreater.indexInPlay + " Plays Show");
     }
 
-    void Fold()
+    public void Fold()
     {
         Debug.Log("Player " + PlayerCreater.indexInPlay + " Plays Fold s");
     }
 
-    void Indexchange()
+   public  void Indexchange()
     {
         if (PlayerCreater.indexInPlay ==PlayerCreater.playercount)
         {

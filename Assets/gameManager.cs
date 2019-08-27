@@ -4,31 +4,39 @@ using UnityEngine;
 
 public class gameManager : MonoBehaviour
 
+// game manager for turn logic
+
 
     
 {
+    Player player;
 
-
+    public int playerWhoseTurnActive;
     public static gameManager Instance { get; set; }
-    // Start is called before the first frame update
+
+
     void Awake()
-    {
-    if (Instance == null)
+
 
     {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+
+        player = GetComponent<Player>();
+
+
+        if (Instance == null)
+
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-
-
-    else
-    {
-        Destroy(gameObject);
-    }
-
-    
-
-}
+   
 
     void Start()
     {
@@ -37,5 +45,12 @@ public class gameManager : MonoBehaviour
         
     }
 
+
+    void PlayerTurnFunction()
+    {
+        player.Blind();
+        player.Fold();
+        player.Indexchange();
+    }
 
 }
