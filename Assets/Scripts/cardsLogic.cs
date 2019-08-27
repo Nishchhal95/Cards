@@ -43,9 +43,41 @@ public class cardsLogic : MonoBehaviour
 
     }
 
+
+
+
+
+    // singleton instance for card Logic
+
+    public static cardsLogic Instance{ get; set; }
+
+        void Awake()
+
+
+    {
+        if(Instance==null)
+
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
+
+
+
+
+
     void Start()
     {
-        MakeDatabase();
+       MakeDatabase();
     }
 
     public void MakeDatabase()
