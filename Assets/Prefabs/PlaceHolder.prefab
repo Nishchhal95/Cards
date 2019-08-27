@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1422155556389145385}
   - component: {fileID: 1422155556389145386}
   - component: {fileID: 1062142714}
-  - component: {fileID: 1108776001}
   m_Layer: 0
   m_Name: PlaceHolder
   m_TagString: Untagged
@@ -70,16 +69,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   photo: {fileID: 0}
   name: {fileID: 0}
---- !u!114 &1108776001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1422155556389145387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65d9a407fcefcea40b007e3e352e69fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1062142714}

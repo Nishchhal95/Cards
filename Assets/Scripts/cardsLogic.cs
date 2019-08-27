@@ -62,16 +62,14 @@ public class cardsLogic : MonoBehaviour
 
         // These Layer and Sub-Layer are Relative Ranking among Diffrent Player.
 
-        public int DeckLayer; // 1-6 MAIN LAYER.  
+        public int DeckLayer; // 1-6 MAIN LAYER.
         public int DeckSubLayer; // THOUSANDS OF DIFFRENT POSSIBLITIES.
 
     }
 
- 
-
     void Start()
     {
-        MakeDatabase();
+       MakeDatabase();
     }
 
     public void MakeDatabase()
@@ -126,7 +124,7 @@ public class cardsLogic : MonoBehaviour
 
             PlayersList[playerno - 1].CardsList.Add(new Card(CardDeck[k].Suit, CardDeck[k].Rank, CardDeck[k].Color));  //Add Card to respective Player.
 
-            CardDeck.RemoveAt(k);  // Avoid repeattion of aassignment of cards. 
+            CardDeck.RemoveAt(k);  // Avoid repeattion of aassignment of cards.
 
         }
 
@@ -162,7 +160,7 @@ public class cardsLogic : MonoBehaviour
         {
             PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 3;
         }
-        else 
+        else
         if(PlayersList[ForWhichPlayer - 1].CardsList[0].Suit == PlayersList[ForWhichPlayer - 1].CardsList[1].Suit ||
            PlayersList[ForWhichPlayer - 1].CardsList[1].Suit == PlayersList[ForWhichPlayer - 1].CardsList[2].Suit ||
            PlayersList[ForWhichPlayer - 1].CardsList[2].Suit == PlayersList[ForWhichPlayer - 1].CardsList[0].Suit)
@@ -219,7 +217,7 @@ public class cardsLogic : MonoBehaviour
 
     public int AssignDeckLayer(int ForWhichPlayer)  //Gives integer of Layer it belongs. From 1 to 6.
     {
-        
+
 
         if (PlayersList[ForWhichPlayer - 1].NoOfSameRank==3) //Layer 1 //Three Cards Of Same Rank.
         {
@@ -254,7 +252,7 @@ public class cardsLogic : MonoBehaviour
     {
         switch(LayerNumber)
         {
-            case 1: 
+            case 1:
                 if(PlayersList[ForWhichPlayer-1].CardsList[0].Rank == 1)
                 {
                     return 1;  //AAA as 1.
@@ -264,8 +262,8 @@ public class cardsLogic : MonoBehaviour
                     return (15 - PlayersList[ForWhichPlayer - 1].CardsList[0].Rank); //KKK(13) as 2, QQQ(12) as 3 , .... 222(2) as 13.
                 }
             case 2:
-                if(PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == 13 && 
-                          PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 12 && 
+                if(PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == 13 &&
+                          PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 12 &&
                                   PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
                 {
                     return 1;  // KQA
@@ -302,7 +300,7 @@ public class cardsLogic : MonoBehaviour
         }
     }
 
-    public void RankPlayers(int ForWhichPlayer)  //RANKING ALGORITHM.  
+    public void RankPlayers(int ForWhichPlayer)  //RANKING ALGORITHM.
     {
         int CurrentPosition = 0;
         TopRankers.Insert(0, PlayersList[ForWhichPlayer - 1]);
@@ -315,7 +313,7 @@ public class cardsLogic : MonoBehaviour
             CurrentPosition += 1;
         }
 
-        for(int i= CurrentPosition; i<(TopRankers.Count-1); i++) 
+        for(int i= CurrentPosition; i<(TopRankers.Count-1); i++)
         {
             if(TopRankers[CurrentPosition].DeckLayer > TopRankers[CurrentPosition + 1].DeckLayer)   //SORT WITH HELP OF LAYERS INT.
             {
@@ -324,12 +322,12 @@ public class cardsLogic : MonoBehaviour
             else
             {
                 break;
-            }     
+            }
         }
 
         for (int i = CurrentPosition; i < (TopRankers.Count - 1); i++)
         {
-            if (TopRankers[CurrentPosition].DeckLayer == TopRankers[CurrentPosition + 1].DeckLayer)  
+            if (TopRankers[CurrentPosition].DeckLayer == TopRankers[CurrentPosition + 1].DeckLayer)
             {
                 if (TopRankers[CurrentPosition].DeckLayer <= 3)
                 {

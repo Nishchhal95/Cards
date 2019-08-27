@@ -15,9 +15,30 @@ public class Player : MonoBehaviour
         name.text = FB_Handler.instance.FB_UserName.text;
     }
 
-    public void Blind()
+    private void Update()
     {
-        Debug.Log("Player " + PlayerCreater.indexInPlay + " Plays Blind");
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Blind();
+            Indexchange();
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Show();
+            Indexchange();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Fold();
+            Indexchange();
+        }
+    }
+
+   public  void Blind()
+    {
+        print("Player " + PlayerCreater.indexInPlay + " Plays Blind");
     }
 
     public void Show()
@@ -27,11 +48,10 @@ public class Player : MonoBehaviour
 
     public void Fold()
     {
-        Debug.Log("Player " + PlayerCreater.indexInPlay + " Plays Fold");
+        Debug.Log("Player " + PlayerCreater.indexInPlay + " Plays Fold s");
     }
 
-
-    public void Indexchange()
+   public  void Indexchange()
     {
         if (PlayerCreater.indexInPlay ==PlayerCreater.playercount)
         {
