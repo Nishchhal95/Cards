@@ -4,13 +4,32 @@ using UnityEngine;
 
 public class cardsLogic : MonoBehaviour
 {
+
+    public static cardsLogic Instance { get; set; }
+
+    void Awake()   //FOR SINGELTON. DONT WORRY ABOUT THIS.
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     //---------------------------------------------------------------------------------
     // WARNING : DONT CHANGE THE ORDER IN WHICH SCRIPT LINES ARE WRITTEN. THEY MATTERS.
     //---------------------------------------------------------------------------------
+
     public enum SuitEnum { Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
     public enum ColorEnum { Red = 1, Black = 2 }
 
     public List<Card> CardDeck = new List<Card>();  // List of Ordered 52 Cards.
+
+    public List<CardList> TopRankers = new List<CardList>();  // List of Top Player after Comparision.
 
     public int NumberOfPlayers;     // No of people to assign 3 cards to them.
     int k;  // That will randomly fetch cards from database
@@ -41,7 +60,14 @@ public class cardsLogic : MonoBehaviour
         public int NoOfSameSuit;
         public int NoOfSameRank;
 
+        // These Layer and Sub-Layer are Relative Ranking among Diffrent Player.
+
+        public int DeckLayer; // 1-6 MAIN LAYER.  
+        public int DeckSubLayer; // THOUSANDS OF DIFFRENT POSSIBLITIES.
+
     }
+
+ 
 
     void Start()
     {
@@ -71,7 +97,7 @@ public class cardsLogic : MonoBehaviour
         AssignCardToXpeople();
     }
 
-    public void AssignCardToXpeople()
+    public void AssignCardToXpeople()  //MAIN FUNCTION
     {
         Debug.Log("Assigning three random cards to " + NumberOfPlayers + " number of players : ");
 
@@ -83,6 +109,9 @@ public class cardsLogic : MonoBehaviour
             CheckSequence(i);
             CheckSuit(i);
             CheckRank(i);
+            PlayersList[i-1].DeckLayer = AssignDeckLayer(i);  //RETURNED VALUE OF DECK LAYER.
+            PlayersList[i - 1].DeckSubLayer = AssignDeckSubLayer(i, PlayersList[i - 1].DeckLayer);  //RETURNED VALUE OF DECK SUB-LAYER.
+            RankPlayers(i);  //RANKING HAPPENS HERE.
         }
     }
     public void AssignCards(int playerno)
@@ -108,62 +137,42 @@ public class cardsLogic : MonoBehaviour
 
     public void CheckRank(int ForWhichPlayer)  //Tells Behaviour of Deck with respect to "RANK".
     {
-        if (PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == PlayersList[ForWhichPlayer - 1].CardsList[1].Rank)
+        if(PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == PlayersList[ForWhichPlayer - 1].CardsList[1].Rank &&
+            PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == PlayersList[ForWhichPlayer - 1].CardsList[2].Rank)
         {
-            if (PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == PlayersList[ForWhichPlayer - 1].CardsList[2].Rank)
-            {
-                //All have Same Rank.  // ALL 3 ARE SAME.
-                PlayersList[ForWhichPlayer - 1].NoOfSameRank = 3;
-            }
-            else
-            {
-                //Two Cards have Same Rank.  // FIRST 2 ARE SAME.  
-                PlayersList[ForWhichPlayer - 1].NoOfSameRank = 2;
-            }
+            PlayersList[ForWhichPlayer - 1].NoOfSameRank = 3;
+        }
+        else
+        if (PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == PlayersList[ForWhichPlayer - 1].CardsList[1].Rank ||
+           PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == PlayersList[ForWhichPlayer - 1].CardsList[2].Rank ||
+           PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == PlayersList[ForWhichPlayer - 1].CardsList[0].Rank)
+        {
+            PlayersList[ForWhichPlayer - 1].NoOfSameRank = 2;
         }
         else
         {
-            if (PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == PlayersList[ForWhichPlayer - 1].CardsList[2].Rank)
-            {
-                //Two Cards have Same Rank.   // LAST 2 ARE SAME.
-                PlayersList[ForWhichPlayer - 1].NoOfSameRank = 2;
-            }
-            else
-            {
-                //No Card have Same Rank.   // NONE ARE SAME.
-                PlayersList[ForWhichPlayer - 1].NoOfSameRank = 0;
-            }
+            PlayersList[ForWhichPlayer - 1].NoOfSameRank = 0;
         }
     }
 
     public void CheckSuit(int ForWhichPlayer)  //Tells Behaviour of Deck with respect to "Suit".
     {
-        if (PlayersList[ForWhichPlayer - 1].CardsList[0].Suit == PlayersList[ForWhichPlayer - 1].CardsList[1].Suit)
+        if (PlayersList[ForWhichPlayer - 1].CardsList[0].Suit == PlayersList[ForWhichPlayer - 1].CardsList[1].Suit &&
+            PlayersList[ForWhichPlayer - 1].CardsList[1].Suit == PlayersList[ForWhichPlayer - 1].CardsList[2].Suit)
         {
-            if (PlayersList[ForWhichPlayer - 1].CardsList[1].Suit == PlayersList[ForWhichPlayer - 1].CardsList[2].Suit)
-            {
-                //All have Same Suit.  // ALL 3 ARE SAME.
-                PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 3;
-            }
-            else
-            {
-                //Two Cards have Same Suit.  // FIRST 2 ARE SAME.  
-                PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 2;
-            }
+            PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 3;
         }
-        else
-        {
-            if (PlayersList[ForWhichPlayer - 1].CardsList[1].Suit == PlayersList[ForWhichPlayer - 1].CardsList[2].Suit)
-            {
-                //Two Cards have Same Suit.   // LAST 2 ARE SAME.
-                PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 2;
-            }
-            else
-            {
-                //No Card have Same Suit.   // NONE ARE SAME.
-                PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 0;
-            }
-        }
+        else 
+        if(PlayersList[ForWhichPlayer - 1].CardsList[0].Suit == PlayersList[ForWhichPlayer - 1].CardsList[1].Suit ||
+           PlayersList[ForWhichPlayer - 1].CardsList[1].Suit == PlayersList[ForWhichPlayer - 1].CardsList[2].Suit ||
+           PlayersList[ForWhichPlayer - 1].CardsList[2].Suit == PlayersList[ForWhichPlayer - 1].CardsList[0].Suit)
+         {
+              PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 2;
+         }
+         else
+         {
+              PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 0;
+         }
     }
 
     public void SortInDesending(int ForWhichPlayer)
@@ -208,43 +217,166 @@ public class cardsLogic : MonoBehaviour
 
     }
 
-    //---------------------------------
-
-    // method to compare 3 ranks of the cards
-
-    public void compareHighestofThree(int a, int b, int c)
+    public int AssignDeckLayer(int ForWhichPlayer)  //Gives integer of Layer it belongs. From 1 to 6.
     {
+        
 
-        int higheshPriority = a;
-        if (b >= a && b >= c)
+        if (PlayersList[ForWhichPlayer - 1].NoOfSameRank==3) //Layer 1 //Three Cards Of Same Rank.
         {
-            higheshPriority = b;
+            return 1;
+        }
+        else if(PlayersList[ForWhichPlayer - 1].Ordered==true && PlayersList[ForWhichPlayer - 1].NoOfSameSuit == 3) //Layer 2 // Consecutive Cards && Same Suit.
+        {
+            return 2;
+        }
+        else if (PlayersList[ForWhichPlayer - 1].Ordered == true && PlayersList[ForWhichPlayer - 1].NoOfSameSuit != 3) //Layer 3 // Consecutive Cards && Diffrent Suit.
+        {
+            return 3;
+        }
+        else if (PlayersList[ForWhichPlayer - 1].Ordered == false && PlayersList[ForWhichPlayer - 1].NoOfSameSuit == 3) //Layer 4 // Non-Consecutive Cards && Same Suit.
+        {
+            return 4;
+        }
+        else if (PlayersList[ForWhichPlayer - 1].NoOfSameRank == 2) //Layer 5 // Two Cards of Same Rank.
+        {
+            return 5;
+        }
+        else //Layer 6 //
+        {
+            return 6;
         }
 
-        else if (c >= a && c >= b)
-        {
-            higheshPriority = c;
-        }
-        else
-        {
-            higheshPriority = a;
-        }
-
-        // Debug.Log("card with highest priority is " + higheshPriority);
+        //return 0; // Never going to happen.
     }
 
 
-
-
-
-
-    //to check rank of 3 cards index consecutively 
-
-    void printHighestCardRank()
+    public int AssignDeckSubLayer(int ForWhichPlayer, int LayerNumber)  //
     {
-
-        compareHighestofThree(CardDeck[k].Rank, CardDeck[k + 1].Rank, CardDeck[k + 2].Rank);
+        switch(LayerNumber)
+        {
+            case 1: 
+                if(PlayersList[ForWhichPlayer-1].CardsList[0].Rank == 1)
+                {
+                    return 1;  //AAA as 1.
+                }
+                else
+                {
+                    return (15 - PlayersList[ForWhichPlayer - 1].CardsList[0].Rank); //KKK(13) as 2, QQQ(12) as 3 , .... 222(2) as 13.
+                }
+            case 2:
+                if(PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == 13 && 
+                          PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 12 && 
+                                  PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
+                {
+                    return 1;  // KQA
+                }
+                else if(PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == 3 &&
+                             PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 2 &&
+                                    PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
+                {
+                    return 2;  //32A
+                }
+                else
+                {
+                    return (16 - PlayersList[ForWhichPlayer - 1].CardsList[0].Rank); //13,12,11 -  12,11,10 - 10,9,8
+                }
+            case 3:
+                if (PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == 13 &&
+                         PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 12 &&
+                                 PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
+                {
+                    return 1;  // KQA
+                }
+                else if (PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == 3 &&
+                             PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 2 &&
+                                    PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
+                {
+                    return 2;  //32A
+                }
+                else
+                {
+                    return (16 - PlayersList[ForWhichPlayer - 1].CardsList[0].Rank); //13,12,11 -  12,11,10 - 10,9,8
+                }
+            default:  //FOR 4,5,6 //THIS WILL BE CHECKED WHILE RANKING.
+                 return 0;
+        }
     }
 
+    public void RankPlayers(int ForWhichPlayer)  //RANKING ALGORITHM.  
+    {
+        int CurrentPosition = 0;
+        TopRankers.Insert(0, PlayersList[ForWhichPlayer - 1]);
+
+        void Swap()
+        {
+            CardList temp = TopRankers[CurrentPosition+1];
+            TopRankers.RemoveAt(CurrentPosition + 1);
+            TopRankers.Insert(CurrentPosition, temp);
+            CurrentPosition += 1;
+        }
+
+        for(int i= CurrentPosition; i<(TopRankers.Count-1); i++) 
+        {
+            if(TopRankers[CurrentPosition].DeckLayer > TopRankers[CurrentPosition + 1].DeckLayer)   //SORT WITH HELP OF LAYERS INT.
+            {
+                Swap();
+            }
+            else
+            {
+                break;
+            }     
+        }
+
+        for (int i = CurrentPosition; i < (TopRankers.Count - 1); i++)
+        {
+            if (TopRankers[CurrentPosition].DeckLayer == TopRankers[CurrentPosition + 1].DeckLayer)  
+            {
+                if (TopRankers[CurrentPosition].DeckLayer <= 3)
+                {
+                    //THEY ARE 1, 2, 3
+                    if (TopRankers[CurrentPosition].DeckLayer > TopRankers[CurrentPosition + 1].DeckLayer)  //If Smaller , Insert Above
+                    {
+                        CardList temp = TopRankers[CurrentPosition];
+                        TopRankers.Insert(CurrentPosition, TopRankers[CurrentPosition + 1]);
+                        TopRankers.Insert(CurrentPosition + 1, temp);
+                        CurrentPosition += 1;
+                    }
+                }
+                else //THEY ARE 4,5,6
+                {
+                    if (TopRankers[CurrentPosition].CardsList[0].Rank > TopRankers[CurrentPosition + 1].CardsList[0].Rank) //IF GREATER
+                    {
+                        //swap
+                        Swap();
+                    }
+                    else if (TopRankers[CurrentPosition].CardsList[0].Rank == TopRankers[CurrentPosition + 1].CardsList[0].Rank) //IF EQUAL
+                    {
+                        //check 2nd card
+                        if (TopRankers[CurrentPosition].CardsList[1].Rank > TopRankers[CurrentPosition + 1].CardsList[1].Rank) //IF GREATER
+                        {
+                            //swap
+                            Swap();
+                        }
+                        else if (TopRankers[CurrentPosition].CardsList[1].Rank == TopRankers[CurrentPosition + 1].CardsList[1].Rank) //IF EQUAL
+                        {
+                            //check 3nd card
+                            if (TopRankers[CurrentPosition].CardsList[2].Rank > TopRankers[CurrentPosition + 1].CardsList[2].Rank) //IF GREATER
+                            {
+                                //swap
+                                Swap();
+                            }
+                        }
+                        else {/*DO NOTHING*/  break; }
+                    }
+                    else {/*DO NOTHING*/  break; }
+                }
+
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
 
 }
