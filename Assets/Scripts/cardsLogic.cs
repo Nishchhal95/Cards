@@ -24,6 +24,7 @@ public class cardsLogic : MonoBehaviour
     // WARNING : DONT CHANGE THE ORDER IN WHICH SCRIPT LINES ARE WRITTEN. THEY MATTERS.
     //---------------------------------------------------------------------------------
 
+    
     public enum SuitEnum { Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
     public enum ColorEnum { Red = 1, Black = 2 }
 
@@ -31,7 +32,7 @@ public class cardsLogic : MonoBehaviour
 
     public List<CardList> TopRankers = new List<CardList>();  // List of Top Player after Comparision.
 
-     int NumberOfPlayers;     // No of people to assign 3 cards to them.
+    int NumberOfPlayers;     // No of people to assign 3 cards to them.
     int k;  // That will randomly fetch cards from database
 
     [System.Serializable]
@@ -40,11 +41,13 @@ public class cardsLogic : MonoBehaviour
         public SuitEnum Suit;
         public ColorEnum Color;
         public int Rank;
-        public Card(SuitEnum newSuit, int newRank, ColorEnum newColor)
+        public Sprite CardSprite;
+        public Card(SuitEnum newSuit, int newRank, ColorEnum newColor, Sprite newSprite)
         {
             Suit = newSuit;
             Rank = newRank;
             Color = newColor;
+            CardSprite = newSprite;
         }
     }
 
@@ -81,14 +84,16 @@ public class cardsLogic : MonoBehaviour
         {
             for (int j = 1; j <= 13; j++)  //Loop for Number.
             {
+                string temp = "Sprites/Cards/" + (SuitEnum)i + "/" + j; //Create Temporary String Dont Change Path. In code as well as Files Directory.
+
                 if (i == 1 || i == 3)  //For Color
                 {
-                    Card CardToAdd = new Card((SuitEnum)i, j, (ColorEnum)1);      // "A" of Hearts.
+                    Card CardToAdd = new Card((SuitEnum)i, j, (ColorEnum)1, Resources.Load<Sprite>(temp));      // "A" of Hearts.
                     CardDeck.Insert(0, CardToAdd); //Add it.
                 }
                 else
                 {
-                    Card CardToAdd = new Card((SuitEnum)i, j, (ColorEnum)2);      // "A" of Hearts.
+                    Card CardToAdd = new Card((SuitEnum)i, j, (ColorEnum)2, Resources.Load<Sprite>(temp));      // "A" of Hearts.
                     CardDeck.Insert(0, CardToAdd); //Add it.
                 }
             }
@@ -121,10 +126,12 @@ public class cardsLogic : MonoBehaviour
         {
             k = Random.Range(0, CardDeck.Count);  // Get random index from cards list.
 
-          //  Debug.Log(CardDeck[k].Rank + "of" + CardDeck[k].Suit);    // Fetching value from cards database.
+            //  Debug.Log(CardDeck[k].Rank + "of" + CardDeck[k].Suit);    // Fetching value from cards database.
 
-            PlayersList[playerno - 1].CardsList.Add(new Card(CardDeck[k].Suit, CardDeck[k].Rank, CardDeck[k].Color));  //Add Card to respective Player.
+            string temp = "Sprites/Cards/" + CardDeck[k].Suit + "/" + CardDeck[k].Rank; //Create Temporary String Dont Change Path. In code as well as Files Directory.
 
+            PlayersList[playerno - 1].CardsList.Add(new Card(CardDeck[k].Suit, CardDeck[k].Rank, CardDeck[k].Color, Resources.Load<Sprite>(temp) ));  //Add Card to respective Player.
+            Debug.Log("Sprites/Cards/" + CardDeck[k].Suit + "/" + CardDeck[k].Rank);
             CardDeck.RemoveAt(k);  // Avoid repeattion of aassignment of cards.
 
         }
