@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Facebook.Unity;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ public class FB_Handler : MonoBehaviour
 {
     public Text FB_UserName;
     public Image FB_Profile;
+    public GameObject Mainmenuscreen;
+    public Button Button;
 
     /* While using this prefab, You will need Username Text, Profile Image, and Login Button to Call FBLogin() Function inside Canvas. */
     public static FB_Handler instance = null;
@@ -17,6 +20,7 @@ public class FB_Handler : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -28,11 +32,13 @@ public class FB_Handler : MonoBehaviour
     {
         FB.Init(SetInit, onHidenUnity);  //Trigger on Game start.
     }
+
     void SetInit()
     {
         if (FB.IsLoggedIn)
         {
             Debug.Log("Facebook is Login!");
+            
         }
         else
         {
@@ -70,7 +76,8 @@ public class FB_Handler : MonoBehaviour
             if (FB.IsLoggedIn)
             {
                 Debug.Log("Facebook is Login!");
-                // Panel_Add.SetActive(true);
+                Mainmenuscreen.SetActive(true);
+                Button.gameObject.SetActive(false); 
             }
             else
             {

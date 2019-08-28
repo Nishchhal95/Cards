@@ -1,29 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InputManager : MonoBehaviour
 {
-     public Player player;
+     public PlayerCreater playercreater;
+    public  TextMeshProUGUI textturn;
 
-    void Update()
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-           player.Blind();
-            player.Indexchange();
-        }
+        playercreater = GetComponent<PlayerCreater>();    
+    }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            player.Show();
-            player.Indexchange();
-        }
+    public void BetButton()
+    {
+        playercreater.playerInfo[PlayerCreater.indexInPlay].Blind();
+        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays Blind";
+        Indexchange();
+    }
 
-        if (Input.GetKeyDown(KeyCode.F))
+    public void FoldButton()
+    {
+        playercreater.playerInfo[PlayerCreater.indexInPlay].Fold();
+        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays Blind";
+        Indexchange();
+    }
+
+    public void ShowButton()
+    {
+        playercreater.playerInfo[PlayerCreater.indexInPlay].Show();
+        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays Blind";
+        Indexchange();
+    }
+
+    public void Indexchange()
+    {
+        print("playercount "+gameManager.playercount);
+        if (PlayerCreater.indexInPlay == gameManager.playercount)
         {
-            player.Fold();
-            player.Indexchange();
+            PlayerCreater.indexInPlay = 0;
+            print(PlayerCreater.indexInPlay);
+        }
+        else
+        {
+            PlayerCreater.indexInPlay++;
+            print("IndexPlay " + PlayerCreater.indexInPlay);
         }
     }
 }

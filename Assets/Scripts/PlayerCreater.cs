@@ -3,17 +3,20 @@ using UnityEngine;
 
 public class PlayerCreater : MonoBehaviour
 {
-    public List<RectTransform> placeholder;
-    public List<RectTransform> place;
-    public List<GameObject> players;
+    public List<RectTransform> placeholder; //PlaceHolder for player at Canvas
+    public List<RectTransform> place; //Temp List for holding pos
+    public List<GameObject> players;// List Of Gameobject of player UI
+   
+    public List<Player> playerInfo; //List of Player Class Which Having Info
 
-   public static int playercount;
-    public static int indexInPlay;                                                                                               
+   
+    public static int indexInPlay; //  index of plyaer from list whose turn is in active                                                                                           
+    
 
     private void Awake()
     {
         indexInPlay = 0;
-        playercount = 0;
+      
     }
 
 
@@ -21,20 +24,40 @@ public class PlayerCreater : MonoBehaviour
     {
         place = placeholder;
         Placeplayer();
+        CreatePlayer();
+        print(playerInfo.Count);
+        AssingCards();
     }
 
 
-    private void Placeplayer()
+    private void Placeplayer() // Randomly place the plyaer at the table or Placeholder
     {
-        playercount = Random.Range(1,5);
-        print(playercount);
+      
         int index = 4;
-        for(int i =0; i<playercount;i++)
+        for(int i =0; i<gameManager.playercount;i++)
         {
             int posindex = Random.Range(0, index--);
             players[index].SetActive(true);
             players[index].transform.position = placeholder[posindex].position;
             place.RemoveAt(posindex);
+        }
+    }
+
+    public void CreatePlayer() // Creating the object of the Player Class with info and adding to list  
+    {
+       for(int i =0; i<=gameManager.playercount; i++)
+        {
+            Player player = new Player();
+            playerInfo.Add(player); 
+        }
+    }
+
+    public void AssingCards()
+    {
+        print(cardsLogic.Instance.PlayersList.Count);
+        for(int i =0;i< gameManager.playercount; i++)
+        {
+            playerInfo[i].cards = cardsLogic.Instance.PlayersList[i].CardsList;
         }
     }
 

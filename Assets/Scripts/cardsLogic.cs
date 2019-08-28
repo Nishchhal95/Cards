@@ -31,7 +31,7 @@ public class cardsLogic : MonoBehaviour
 
     public List<CardList> TopRankers = new List<CardList>();  // List of Top Player after Comparision.
 
-    public int NumberOfPlayers;     // No of people to assign 3 cards to them.
+     int NumberOfPlayers;     // No of people to assign 3 cards to them.
     int k;  // That will randomly fetch cards from database
 
     [System.Serializable]
@@ -48,7 +48,7 @@ public class cardsLogic : MonoBehaviour
         }
     }
 
-    public List<CardList> PlayersList = new List<CardList>();  //List of Card of specific player.
+    public  List<CardList> PlayersList = new List<CardList>();  //List of Card of specific player.
 
     [System.Serializable]
     public class CardList
@@ -69,6 +69,7 @@ public class cardsLogic : MonoBehaviour
 
     void Start()
     {
+       NumberOfPlayers =  gameManager.playercount;
        MakeDatabase();
     }
 
@@ -92,7 +93,7 @@ public class cardsLogic : MonoBehaviour
                 }
             }
         }
-        AssignCardToXpeople();
+      //  AssignCardToXpeople();
     }
 
     public void AssignCardToXpeople()  //MAIN FUNCTION
@@ -101,7 +102,7 @@ public class cardsLogic : MonoBehaviour
 
         for (int i = 1; i <= NumberOfPlayers; i++)
         {
-            Debug.Log("Assigning 3 cards to Player Number " + i); // so that its known which card assigned to which player
+            //Debug.Log("Assigning 3 cards to Player Number " + i); // so that its known which card assigned to which player
             PlayersList.Add(new CardList() { PlayerNo = i });  //Add Player which Contains Cards and Player Number.
             AssignCards(i);
             CheckSequence(i);
@@ -120,7 +121,7 @@ public class cardsLogic : MonoBehaviour
         {
             k = Random.Range(0, CardDeck.Count);  // Get random index from cards list.
 
-            Debug.Log(CardDeck[k].Rank + "of" + CardDeck[k].Suit);    // Fetching value from cards database.
+          //  Debug.Log(CardDeck[k].Rank + "of" + CardDeck[k].Suit);    // Fetching value from cards database.
 
             PlayersList[playerno - 1].CardsList.Add(new Card(CardDeck[k].Suit, CardDeck[k].Rank, CardDeck[k].Color));  //Add Card to respective Player.
 

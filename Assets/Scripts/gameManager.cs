@@ -3,34 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class gameManager : MonoBehaviour
-
-// game manager for turn logic
-
-
-    
 {
-    Player player;
-
-    public int playerWhoseTurnActive;
+    // game manager for turn logic
     public static gameManager Instance { get; set; }
-
+    public static int playercount; // Count of active player
 
     void Awake()
-
-
     {
-
-        player = GetComponent<Player>();
-
-
         if (Instance == null)
 
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-
-
         else
         {
             Destroy(gameObject);
@@ -40,17 +25,8 @@ public class gameManager : MonoBehaviour
 
     void Start()
     {
-       
-
-        
+        playercount = Random.Range(1, 5);
     }
 
-
-    void PlayerTurnFunction()
-    {
-        player.Blind();
-        player.Fold();
-        player.Indexchange();
-    }
-
+   
 }

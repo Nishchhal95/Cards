@@ -5,18 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject ShopPanel;
+    public GameObject SettingPanel;
+
+
    public void PlayGame()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Player");
+        cardsLogic.Instance.AssignCardToXpeople();
     }
 
     public void Shop()
     {
-        SceneManager.LoadScene("Shop");
+        ShopPanel.SetActive(true);
     }
 
-    public void Back()
+    public void SettingPanelshow()
     {
-        SceneManager.LoadScene("MainPage");
+        SettingPanel.SetActive(true);
     }
+
+
 }
