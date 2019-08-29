@@ -16,28 +16,28 @@ public class InputManager : MonoBehaviour
     public void BetButton() // Bet Ui Button
     {
         playercreater.playerInfo[PlayerCreater.indexInPlay].Blind();
-        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays Blind";
+        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays BET";
         Indexchange();
     }
 
     public void FoldButton() // Fold UI Button
     {
         playercreater.playerInfo[PlayerCreater.indexInPlay].Fold();
-        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays Blind";
+        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays FOLD";
         Indexchange();
     }
 
     public void ShowButton() // Show UI Button
     {
         playercreater.playerInfo[PlayerCreater.indexInPlay].Show();
-        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays Blind";
+        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays SHOW";
         Indexchange();
     }
 
     public void Indexchange()
     {
         print("playercount "+gameManager.playercount);
-        if (PlayerCreater.indexInPlay == gameManager.playercount)
+        if (PlayerCreater.indexInPlay == gameManager.playercount-1)
         {
             PlayerCreater.indexInPlay = 0;
             print(PlayerCreater.indexInPlay);
