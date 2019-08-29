@@ -25,7 +25,7 @@ public class gameManager : MonoBehaviour
 
     void Start()
     {
-        playercount = Random.Range(1, 5);
+        playercount = Random.Range(2, 5);
     }
 
    

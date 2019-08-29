@@ -50,13 +50,28 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  place: []
   players:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   playerInfo: []
+  Playersprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1062142714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,3 +100,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playercreater: {fileID: 0}
+  textturn: {fileID: 0}

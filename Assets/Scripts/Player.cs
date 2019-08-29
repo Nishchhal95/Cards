@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
      public Image photo;
     public TextMeshProUGUI name;
     public List<cardsLogic.Card> cards;
+
   
     private void Start()
     {
