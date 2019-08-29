@@ -13,21 +13,21 @@ public class InputManager : MonoBehaviour
         playercreater = GetComponent<PlayerCreater>();    
     }
 
-    public void BetButton()
+    public void BetButton() // Bet Ui Button
     {
         playercreater.playerInfo[PlayerCreater.indexInPlay].Blind();
         textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays Blind";
         Indexchange();
     }
 
-    public void FoldButton()
+    public void FoldButton() // Fold UI Button
     {
         playercreater.playerInfo[PlayerCreater.indexInPlay].Fold();
         textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays Blind";
         Indexchange();
     }
 
-    public void ShowButton()
+    public void ShowButton() // Show UI Button
     {
         playercreater.playerInfo[PlayerCreater.indexInPlay].Show();
         textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays Blind";
