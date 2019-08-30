@@ -6,15 +6,15 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-     public Image photo;
-    public TextMeshProUGUI name;
-    public List<cardsLogic.Card> cards;
+    public Image PlayerProfile;
+    public TextMeshProUGUI PlayerName;
+    public List<CardsManager.Card> cards;
 
   
     private void Start()
     {
-        photo.sprite = FB_Handler.instance.FB_Profile.sprite;
-        name.text = FB_Handler.instance.FB_UserName.text;
+        PlayerProfile.sprite = FB_Handler.instance.FB_Profile.sprite;
+        PlayerName.text = FB_Handler.instance.FB_UserName.text;
     }
 
    public  void Blind()

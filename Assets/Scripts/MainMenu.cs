@@ -7,17 +7,24 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject ShopPanel;
     public GameObject SettingPanel;
+    public GameObject mainmenu;
 
 
    public void PlayGame()
     {
         SceneManager.LoadScene("Player");
-        cardsLogic.Instance.AssignCardToXpeople();
     }
 
     public void Shop()
     {
         ShopPanel.SetActive(true);
+        mainmenu.SetActive(false);
+    }
+
+    public void Shophide()
+    {
+        ShopPanel.SetActive(false);
+        mainmenu.SetActive(true);
     }
 
     public void SettingPanelshow()

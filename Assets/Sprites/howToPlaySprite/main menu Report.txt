@@ -1,8 +1,0 @@
-
-
-Fonts:
-Clarendon Blk BT Black (OTF)
-Clarendon BT Roman (OTF)
-Clarendon Lt BT Light (OTF)
-
-

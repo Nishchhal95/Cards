@@ -8,16 +8,6 @@ public class sceneLOader : MonoBehaviour
 
 
 
-    public int currentSceneIndex;
-
-    void Start()
-    {
-
-        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-    }
-
-
-
     [SerializeField]
     private string nextSceneName = null;
 
@@ -30,11 +20,5 @@ public class sceneLOader : MonoBehaviour
     }
 
 
-
-
-    public void reloadSCene()
-    {
-        SceneManager.LoadScene(currentSceneIndex);
-    }
 
 }
