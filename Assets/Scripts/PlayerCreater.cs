@@ -14,12 +14,13 @@ public class PlayerCreater : MonoBehaviour
     public List<Image> Playersprites;
    
     public static int indexInPlay; //  index of plyaer from list whose turn is in active                                                                                           
-    
+
+    public CardsManager CardsManager;
 
     private void Awake()
     {
         indexInPlay = 0;
-      
+        CardsManager = GetComponent<CardsManager>();
     }
 
 
@@ -37,7 +38,7 @@ public class PlayerCreater : MonoBehaviour
     {
       
        // int index = 4;
-        for(int i =0; i<gameManager.playercount;i++)
+        for(int i =0; i<GameManager.PlayerCount; i++)
         {
            // int posindex = Random.Range(0, index--);
             players[i].SetActive(true);
@@ -48,7 +49,7 @@ public class PlayerCreater : MonoBehaviour
 
     public void CreatePlayer() // Creating the object of the Player Class with info and adding to list  
     {
-       for(int i =0; i<gameManager.playercount; i++)
+       for(int i =0; i< GameManager.PlayerCount; i++)
         {
             Player player = new Player();
             playerInfo.Add(player); 
@@ -57,23 +58,23 @@ public class PlayerCreater : MonoBehaviour
 
     public void AssingCards()  // Assigning Cards to specific Players
     {
-        print(cardsLogic.Instance.PlayersList.Count);
-        for(int i =0; i<gameManager.playercount; i++)
+        print(CardsManager.PlayersList.Count);
+        for(int i =0; i< GameManager.PlayerCount; i++)
         {
-            playerInfo[i].cards = cardsLogic.Instance.PlayersList[i].CardsList;
+            playerInfo[i].cards = CardsManager.PlayersList[i].CardsList;
         }
         cardSpritestoplayer();
     }
 
     public void cardSpritestoplayer()
     {
-        for(int player = 0, sprites =0 ; player<gameManager.playercount;player++)
+        for(int player = 0, sprites =0 ; player< GameManager.PlayerCount;player++)
         {
             for(int card =0; card<3; card++)
             {
                 print(sprites.ToString() + player.ToString() + card.ToString());
-                print("Countlist" + cardsLogic.Instance.PlayersList.Count);
-                Playersprites[sprites].sprite = cardsLogic.Instance.PlayersList[player].CardsList[card].CardSprite;
+                print("Countlist" + CardsManager.PlayersList.Count);
+                Playersprites[sprites].sprite = CardsManager.PlayersList[player].CardsList[card].CardSprite;
                 sprites++;
             }
         }

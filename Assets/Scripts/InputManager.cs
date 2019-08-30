@@ -5,8 +5,8 @@ using TMPro;
 
 public class InputManager : MonoBehaviour
 {
-     public PlayerCreater playercreater;
-    public  TextMeshProUGUI textturn;
+    public PlayerCreater playercreater;
+    public  TextMeshProUGUI textturn; 
 
     private void Awake()
     {
@@ -36,8 +36,8 @@ public class InputManager : MonoBehaviour
 
     public void Indexchange()
     {
-        print("playercount "+gameManager.playercount);
-        if (PlayerCreater.indexInPlay == gameManager.playercount-1)
+        print("playercount "+ GameManager.PlayerCount);
+        if (PlayerCreater.indexInPlay == GameManager.PlayerCount-1)
         {
             PlayerCreater.indexInPlay = 0;
             print(PlayerCreater.indexInPlay);

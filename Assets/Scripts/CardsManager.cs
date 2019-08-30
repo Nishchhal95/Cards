@@ -2,29 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cardsLogic : MonoBehaviour
+public class CardsManager : MonoBehaviour
 {
-
-    public static cardsLogic Instance { get; set; }
-
-    void Awake()   //FOR SINGELTON. DONT WORRY ABOUT THIS.
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    //---------------------------------------------------------------------------------
-    // WARNING : DONT CHANGE THE ORDER IN WHICH SCRIPT LINES ARE WRITTEN. THEY MATTERS.
-    //---------------------------------------------------------------------------------
-
-    
     public enum SuitEnum { Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
     public enum ColorEnum { Red = 1, Black = 2 }
 
@@ -51,7 +30,7 @@ public class cardsLogic : MonoBehaviour
         }
     }
 
-    public  List<CardList> PlayersList = new List<CardList>();  //List of Card of specific player.
+    public List<CardList> PlayersList = new List<CardList>();  //List of Card of specific player.
 
     [System.Serializable]
     public class CardList
@@ -70,10 +49,23 @@ public class cardsLogic : MonoBehaviour
 
     }
 
+    public  List<Card> ThreeCardsList = new List<Card>();  // List of Random 3 Cards.
+
     void Start()
     {
-       NumberOfPlayers =  gameManager.playercount;
-       MakeDatabase();
+        NumberOfPlayers = GameManager.PlayerCount;
+        MakeDatabase();
+    }
+
+    public void Get3Cards()
+    {
+        for(int i=0; i<3; i++)
+        {
+            k = Random.Range(0, CardDeck.Count);  // Get random index from cards list.
+            string temp = "Sprites/Cards/" + CardDeck[k].Suit + "/" + CardDeck[k].Rank; //Create Temporary String Dont Change Path. In code as well as Files Directory.
+            ThreeCardsList.Add(new Card(CardDeck[k].Suit, CardDeck[k].Rank, CardDeck[k].Color, Resources.Load<Sprite>(temp)));
+            CardDeck.RemoveAt(k);  // Avoid repeattion of aassignment of cards.
+        }   
     }
 
     public void MakeDatabase()
@@ -98,7 +90,7 @@ public class cardsLogic : MonoBehaviour
                 }
             }
         }
-      //  AssignCardToXpeople();
+        AssignCardToXpeople();
     }
 
     public void AssignCardToXpeople()  //MAIN FUNCTION
@@ -150,8 +142,8 @@ public class cardsLogic : MonoBehaviour
         }
         else
         if (PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == PlayersList[ForWhichPlayer - 1].CardsList[1].Rank ||
-           PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == PlayersList[ForWhichPlayer - 1].CardsList[2].Rank ||
-           PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == PlayersList[ForWhichPlayer - 1].CardsList[0].Rank)
+            PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == PlayersList[ForWhichPlayer - 1].CardsList[2].Rank ||
+            PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == PlayersList[ForWhichPlayer - 1].CardsList[0].Rank)
         {
             PlayersList[ForWhichPlayer - 1].NoOfSameRank = 2;
         }
@@ -170,15 +162,15 @@ public class cardsLogic : MonoBehaviour
         }
         else
         if(PlayersList[ForWhichPlayer - 1].CardsList[0].Suit == PlayersList[ForWhichPlayer - 1].CardsList[1].Suit ||
-           PlayersList[ForWhichPlayer - 1].CardsList[1].Suit == PlayersList[ForWhichPlayer - 1].CardsList[2].Suit ||
-           PlayersList[ForWhichPlayer - 1].CardsList[2].Suit == PlayersList[ForWhichPlayer - 1].CardsList[0].Suit)
-         {
-              PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 2;
-         }
-         else
-         {
-              PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 0;
-         }
+            PlayersList[ForWhichPlayer - 1].CardsList[1].Suit == PlayersList[ForWhichPlayer - 1].CardsList[2].Suit ||
+            PlayersList[ForWhichPlayer - 1].CardsList[2].Suit == PlayersList[ForWhichPlayer - 1].CardsList[0].Suit)
+            {
+                PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 2;
+            }
+            else
+            {
+                PlayersList[ForWhichPlayer - 1].NoOfSameSuit = 0;
+            }
     }
 
     public void SortInDesending(int ForWhichPlayer)
@@ -271,13 +263,13 @@ public class cardsLogic : MonoBehaviour
                 }
             case 2:
                 if(PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == 13 &&
-                          PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 12 &&
-                                  PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
+                            PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 12 &&
+                                    PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
                 {
                     return 1;  // KQA
                 }
                 else if(PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == 3 &&
-                             PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 2 &&
+                                PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 2 &&
                                     PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
                 {
                     return 2;  //32A
@@ -288,13 +280,13 @@ public class cardsLogic : MonoBehaviour
                 }
             case 3:
                 if (PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == 13 &&
-                         PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 12 &&
-                                 PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
+                            PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 12 &&
+                                    PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
                 {
                     return 1;  // KQA
                 }
                 else if (PlayersList[ForWhichPlayer - 1].CardsList[0].Rank == 3 &&
-                             PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 2 &&
+                                PlayersList[ForWhichPlayer - 1].CardsList[1].Rank == 2 &&
                                     PlayersList[ForWhichPlayer - 1].CardsList[2].Rank == 1)
                 {
                     return 2;  //32A
@@ -304,7 +296,7 @@ public class cardsLogic : MonoBehaviour
                     return (16 - PlayersList[ForWhichPlayer - 1].CardsList[0].Rank); //13,12,11 -  12,11,10 - 10,9,8
                 }
             default:  //FOR 4,5,6 //THIS WILL BE CHECKED WHILE RANKING.
-                 return 0;
+                    return 0;
         }
     }
 

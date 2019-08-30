@@ -9,10 +9,11 @@ public class FB_Handler : MonoBehaviour
 {
     public Text FB_UserName;
     public Image FB_Profile;
-    public GameObject Mainmenuscreen;
-    public Button Button;
+    public GameObject MainMenuScreen;
+    public Button LoginButton;
 
     /* While using this prefab, You will need Username Text, Profile Image, and Login Button to Call FBLogin() Function inside Canvas. */
+
     public static FB_Handler instance = null;
     
     private void Awake()
@@ -35,15 +36,6 @@ public class FB_Handler : MonoBehaviour
 
     void SetInit()
     {
-        if (FB.IsLoggedIn)
-        {
-            Debug.Log("Facebook is Login!");
-            
-        }
-        else
-        {
-            Debug.Log("Facebook is not Logged in!");
-        }
         CheckLoginState(FB.IsLoggedIn);
     }
 
@@ -73,16 +65,6 @@ public class FB_Handler : MonoBehaviour
         }
         else
         {
-            if (FB.IsLoggedIn)
-            {
-                Debug.Log("Facebook is Login!");
-                Mainmenuscreen.SetActive(true);
-                Button.gameObject.SetActive(false); 
-            }
-            else
-            {
-                Debug.Log("Facebook is not Logged in!");
-            }
             CheckLoginState(FB.IsLoggedIn);
         }
     }
@@ -92,12 +74,20 @@ public class FB_Handler : MonoBehaviour
         if (isLoggedIn)
         {
             //Things to do if FB login completed.
+
             FB.API("/me?fields=first_name", HttpMethod.GET, DisplayUsername);
             FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic);
+
+            MainMenuScreen.SetActive(true);
+            LoginButton.gameObject.SetActive(false);
         }
         else
         {
             //Things to do if FB login failed.
+
+            MainMenuScreen.SetActive(false);
+            LoginButton.gameObject.SetActive(true);
+
         }
     }
 

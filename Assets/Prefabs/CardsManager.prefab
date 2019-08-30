@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8746102294289492559}
   - component: {fileID: 8746102294289492556}
   m_Layer: 0
-  m_Name: cardsDistribution
+  m_Name: CardsManagerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,4 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ebfbcf2ff775e344b69adc4e598564e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNo: 2
+  CardDeck: []
+  TopRankers: []
+  PlayersList: []

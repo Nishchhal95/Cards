@@ -13,7 +13,6 @@ public class MainMenu : MonoBehaviour
    public void PlayGame()
     {
         SceneManager.LoadScene("Player");
-        cardsLogic.Instance.AssignCardToXpeople();
     }
 
     public void Shop()

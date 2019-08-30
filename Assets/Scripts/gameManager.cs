@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class gameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     // game manager for turn logic
-    public static gameManager Instance { get; set; }
-    public static int playercount; // Count of active player
+    public static GameManager Instance { get; set; }
+    public static int PlayerCount; // Count of active player
 
     void Awake()
     {
         if (Instance == null)
-
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -25,7 +24,7 @@ public class gameManager : MonoBehaviour
 
     void Start()
     {
-        playercount = Random.Range(2, 5);
+        PlayerCount = Random.Range(2, 5);
     }
 
    
