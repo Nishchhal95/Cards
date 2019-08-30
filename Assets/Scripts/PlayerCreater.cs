@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class PlayerCreater : MonoBehaviour
 {
+
     public List<RectTransform> placeholder; //PlaceHolder for player at Canvas
    // public List<RectTransform> place; //Temp List for holding pos
     public List<GameObject> players;// List Of Gameobject of player UI

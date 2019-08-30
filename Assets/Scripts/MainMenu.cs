@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject ShopPanel;
     public GameObject SettingPanel;
+    public GameObject mainmenu;
 
 
    public void PlayGame()
@@ -18,6 +19,13 @@ public class MainMenu : MonoBehaviour
     public void Shop()
     {
         ShopPanel.SetActive(true);
+        mainmenu.SetActive(false);
+    }
+
+    public void Shophide()
+    {
+        ShopPanel.SetActive(false);
+        mainmenu.SetActive(true);
     }
 
     public void SettingPanelshow()
