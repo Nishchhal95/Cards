@@ -5549,6 +5549,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8746102294289492556, guid: feafeeaca2dbc1a4b9394dd8fbd9d136,
+        type: 3}
+      propertyPath: PlayersList.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746102294289492556, guid: feafeeaca2dbc1a4b9394dd8fbd9d136,
+        type: 3}
+      propertyPath: CardDeck.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: feafeeaca2dbc1a4b9394dd8fbd9d136, type: 3}
 --- !u!1 &1675983913
