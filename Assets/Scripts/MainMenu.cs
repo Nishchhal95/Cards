@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     public GameObject ShopPanel;
     public GameObject SettingPanel;
     public GameObject mainmenu;
+    public GameObject howtoplaypanel;
 
 
    public void PlayGame()
@@ -32,5 +33,16 @@ public class MainMenu : MonoBehaviour
         SettingPanel.SetActive(true);
     }
 
+    public void howtoplayshow()
+    {
+        howtoplaypanel.SetActive(true);
+        mainmenu.SetActive(false);
+    }
+
+    public void howtoplayhide()
+    {
+        howtoplaypanel.SetActive(false);
+        mainmenu.SetActive(true);
+    }
 
 }
