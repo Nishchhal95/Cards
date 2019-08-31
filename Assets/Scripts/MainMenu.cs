@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -13,12 +15,17 @@ public class MainMenu : MonoBehaviour
      public GameObject buychippanel;
      public GameObject buychipblack;
      public GameObject redeemblue;
+    public Image mainphoto;
+    public TextMeshProUGUI playername;
 
 
+    private void Update()
+    {
+        mainphoto.sprite = FB_Handler.instance.FB_Profile.sprite;
+        playername.text = FB_Handler.instance.FB_UserName.text;
+    }
 
-
-
-   public void PlayGame()
+    public void PlayGame()
     {
         SceneManager.LoadScene("Player");
     }
