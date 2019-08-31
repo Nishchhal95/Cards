@@ -8,8 +8,10 @@ using UnityEngine.UI;
 public class FB_Handler : MonoBehaviour
 {
     public Text FB_UserName;
+    public Text FB_UserName2;
     public Text FB_Email;
     public Image FB_Profile;
+    public Image FB_Profile2;
     public GameObject MainMenuScreen;
     public GameObject welcomescreen;
     public Button LoginButton;
@@ -79,17 +81,20 @@ public class FB_Handler : MonoBehaviour
         {
             //Things to do if FB login completed.
 
-            FB.API("/me?fields=first_name", HttpMethod.GET, DisplayUsername);
-            FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic);
-            FB.API("/me?fields=email", HttpMethod.GET, DisplayEmail);
-            if(PlayerPrefs.GetInt("login",0) == 0)
+            if (PlayerPrefs.GetInt("login", 0) == 0)
             {
                 welcomescreen.SetActive(true);
                 PlayerPrefs.SetInt("login", 1);
             }
-         
+
             MainMenuScreen.SetActive(true);
             LoginButton.gameObject.SetActive(false);
+
+            FB.API("/me?fields=first_name", HttpMethod.GET, DisplayUsername);
+            FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic);
+            FB.API("/me?fields=email", HttpMethod.GET, DisplayEmail);
+         
+          
         }
         else
         {
@@ -107,6 +112,7 @@ public class FB_Handler : MonoBehaviour
         {
             string name = "" + result.ResultDictionary["first_name"];
             FB_UserName.text = name;
+            FB_UserName2.text = name;
             Debug.Log("" + name);
         }
         else
@@ -121,6 +127,7 @@ public class FB_Handler : MonoBehaviour
         {
             Debug.Log("Profile Pic");
             FB_Profile.sprite = Sprite.Create(result.Texture,new Rect(0,0,128,128),new Vector2());
+            FB_Profile2.sprite = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2());
         }
         else
         {

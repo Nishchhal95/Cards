@@ -15,16 +15,7 @@ public class MainMenu : MonoBehaviour
      public GameObject buychippanel;
      public GameObject buychipblack;
      public GameObject redeemblue;
-    public Image mainphoto;
-    public TextMeshProUGUI playername;
-    public Text email;
 
-    private void Update()
-    {
-        mainphoto.sprite = FB_Handler.instance.FB_Profile.sprite;
-        playername.text = FB_Handler.instance.FB_UserName.text;
-       // email.text = FB_Handler.instance.FB_Email.text;
-    }
 
     public void PlayGame()
     {
@@ -51,8 +42,7 @@ public class MainMenu : MonoBehaviour
 
     public void howtoplayshow()
     {
-        howtoplaypanel.SetActive(true);
-        mainmenu.SetActive(false);
+        SceneManager.LoadScene("howToPlay");
     }
 
     public void howtoplayhide()
