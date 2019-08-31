@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GameNameSpace;
 
 public class PlayerCreater : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class PlayerCreater : MonoBehaviour
    // public List<RectTransform> place; //Temp List for holding pos
     public List<GameObject> players;// List Of Gameobject of player UI
    
-    public List<Player> playerInfo; //List of Player Class Which Having Info
+    public  List<Player> playerInfo; //List of Player Class Which Having Info
 
     public List<Image> Playersprites;
    
@@ -38,7 +39,7 @@ public class PlayerCreater : MonoBehaviour
     {
       
        // int index = 4;
-        for(int i =0; i<GameManager.PlayerCount; i++)
+        for(int i =0; i<_GameManager.numberOfPlayer;i++)
         {
            // int posindex = Random.Range(0, index--);
             players[i].SetActive(true);
@@ -49,7 +50,7 @@ public class PlayerCreater : MonoBehaviour
 
     public void CreatePlayer() // Creating the object of the Player Class with info and adding to list  
     {
-       for(int i =0; i< GameManager.PlayerCount; i++)
+       for(int i =0; i< _GameManager.numberOfPlayer; i++)
         {
             Player player = new Player();
             playerInfo.Add(player); 
@@ -58,8 +59,8 @@ public class PlayerCreater : MonoBehaviour
 
     public void AssingCards()  // Assigning Cards to specific Players
     {
-        print(CardsManager.PlayersList.Count);
-        for(int i =0; i< GameManager.PlayerCount; i++)
+        //print(CardsManager.PlayersList.Count);
+        for(int i =0; i< _GameManager.numberOfPlayer; i++)
         {
             playerInfo[i].cards = CardsManager.PlayersList[i].CardsList;
         }
@@ -68,7 +69,7 @@ public class PlayerCreater : MonoBehaviour
 
     public void cardSpritestoplayer()
     {
-        for(int player = 0, sprites =0 ; player< GameManager.PlayerCount;player++)
+        for(int player = 0, sprites =0 ; player< _GameManager.numberOfPlayer; player++)
         {
             for(int card =0; card<3; card++)
             {

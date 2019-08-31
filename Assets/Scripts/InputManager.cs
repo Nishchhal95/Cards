@@ -2,21 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using GameNameSpace;
 
 public class InputManager : MonoBehaviour
 {
     public PlayerCreater playercreater;
-    public  TextMeshProUGUI textturn; 
+    public  TextMeshProUGUI textturn;
+    Player player;
 
-    private void Awake()
+    private void Start()
     {
-        playercreater = GetComponent<PlayerCreater>();    
+      // playercreater = GetComponent<PlayerCreater>();
+        player = GetComponent<Player>();
     }
 
-    public void BetButton() // Bet Ui Button
+    private void Update()
+    {
+        if (player.blind)
+            BetButton();
+        else if (player.show)
+            ShowButton();
+        else if (player.fold)
+            FoldButton();
+    }
+
+    public void BetButton() // Blind Ui Button
     {
         playercreater.playerInfo[PlayerCreater.indexInPlay].Blind();
-        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays BET";
+        textturn.text = "Player " + PlayerCreater.indexInPlay.ToString() + " Plays BLIND";
         Indexchange();
     }
 
@@ -36,8 +49,8 @@ public class InputManager : MonoBehaviour
 
     public void Indexchange()
     {
-        print("playercount "+ GameManager.PlayerCount);
-        if (PlayerCreater.indexInPlay == GameManager.PlayerCount-1)
+        print("playercount "+ _GameManager.numberOfPlayer);
+        if (PlayerCreater.indexInPlay == _GameManager.numberOfPlayer - 1)
         {
             PlayerCreater.indexInPlay = 0;
             print(PlayerCreater.indexInPlay);

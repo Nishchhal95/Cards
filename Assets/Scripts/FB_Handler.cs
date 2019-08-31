@@ -8,8 +8,10 @@ using UnityEngine.UI;
 public class FB_Handler : MonoBehaviour
 {
     public Text FB_UserName;
+    public Text FB_Email;
     public Image FB_Profile;
     public GameObject MainMenuScreen;
+    public GameObject welcomescreen;
     public Button LoginButton;
 
     /* While using this prefab, You will need Username Text, Profile Image, and Login Button to Call FBLogin() Function inside Canvas. */
@@ -18,6 +20,7 @@ public class FB_Handler : MonoBehaviour
     
     private void Awake()
     {
+
         if (instance == null)
         {
             instance = this;
@@ -54,6 +57,7 @@ public class FB_Handler : MonoBehaviour
     {
         List<string> permissions = new List<string>();
         permissions.Add("public_profile");
+        permissions.Add("email");
         FB.LogInWithReadPermissions(permissions, AuthCallBack);
     }
  
@@ -77,14 +81,20 @@ public class FB_Handler : MonoBehaviour
 
             FB.API("/me?fields=first_name", HttpMethod.GET, DisplayUsername);
             FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic);
-
+            FB.API("/me?fields=email", HttpMethod.GET, DisplayEmail);
+            if(PlayerPrefs.GetInt("login",0) == 0)
+            {
+                welcomescreen.SetActive(true);
+                PlayerPrefs.SetInt("login", 1);
+            }
+         
             MainMenuScreen.SetActive(true);
             LoginButton.gameObject.SetActive(false);
         }
         else
         {
             //Things to do if FB login failed.
-
+            welcomescreen.SetActive(false);
             MainMenuScreen.SetActive(false);
             LoginButton.gameObject.SetActive(true);
 
@@ -111,6 +121,21 @@ public class FB_Handler : MonoBehaviour
         {
             Debug.Log("Profile Pic");
             FB_Profile.sprite = Sprite.Create(result.Texture,new Rect(0,0,128,128),new Vector2());
+        }
+        else
+        {
+            Debug.Log(result.Error);
+        }
+    }
+
+    
+    void DisplayEmail(IResult result)    //Displays Email
+    {
+        if (result.Error == null)
+        {
+            string email = "" + result.ResultDictionary["email"];
+            FB_Email.text = email;
+            Debug.Log("" + email);
         }
         else
         {

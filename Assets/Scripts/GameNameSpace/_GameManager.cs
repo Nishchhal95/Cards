@@ -6,10 +6,12 @@ namespace GameNameSpace
     public class _GameManager : MonoBehaviour
     {
         public GameObject playerPrefab;
-        public int numberOfPlayer = 3;
+        public Transform[] InstantiatePosition;
+        public static int numberOfPlayer = 5;
 
         private void Start()
         {
+            CardsManager.instance.MakeDatabase();
             CreatePlayers(numberOfPlayer);
         }
 
@@ -17,13 +19,21 @@ namespace GameNameSpace
         {
             for (int i = 0; i < playerNumbers; i++)
             {
-                CreatePlayer("Player " + i, 100, 1000, null);
+                if(i==0)
+                {
+                    CreatePlayer(FB_Handler.instance.FB_UserName.text.ToString() + i, 100, 1000, FB_Handler.instance.FB_Profile.sprite, i);
+                }
+                else
+                {
+                    CreatePlayer("Player " + i, 100, 1000, null, i);
+                }
+               
             }
         }
 
-        private void CreatePlayer(string playerName, int chips, float XP, Sprite sprite)
+        private void CreatePlayer(string playerName, int chips, float XP, Sprite sprite, int playernumber)
         {
-            GameObject player = Instantiate(playerPrefab, transform);
+            GameObject player = Instantiate(playerPrefab, InstantiatePosition[playernumber]);
 
             Player playerScript = player.GetComponent<Player>();
 
@@ -35,7 +45,9 @@ namespace GameNameSpace
                 playerScript.XP = XP;
                 playerScript.playerSprite = sprite;
 
+                playerScript.cardList = CardsManager.instance.Get3Cards();
                 playerScript.PopulateData();
+                playerScript.PopulateCards();
             }
         }
     }
