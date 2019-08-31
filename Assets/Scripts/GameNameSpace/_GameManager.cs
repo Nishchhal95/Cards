@@ -6,7 +6,7 @@ namespace GameNameSpace
     public class _GameManager : MonoBehaviour
     {
         public GameObject playerPrefab;
-        public int numberOfPlayer = 3;
+        public static int numberOfPlayer = 3;
 
         private void Start()
         {

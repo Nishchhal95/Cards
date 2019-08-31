@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameNameSpace;
 
 public class CardsManager : MonoBehaviour
 {
@@ -53,7 +54,7 @@ public class CardsManager : MonoBehaviour
 
     void Start()
     {
-        NumberOfPlayers = GameManager.PlayerCount;
+        NumberOfPlayers = _GameManager.numberOfPlayer;
         MakeDatabase();
     }
 
