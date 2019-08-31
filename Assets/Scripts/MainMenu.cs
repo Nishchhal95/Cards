@@ -8,7 +8,14 @@ public class MainMenu : MonoBehaviour
     public GameObject ShopPanel;
     public GameObject SettingPanel;
     public GameObject mainmenu;
-    public GameObject howtoplaypanel;
+     public GameObject howtoplaypanel;
+     public GameObject redeempanel;
+     public GameObject buychippanel;
+     public GameObject buychipblack;
+     public GameObject redeemblue;
+
+
+
 
 
    public void PlayGame()
@@ -18,6 +25,7 @@ public class MainMenu : MonoBehaviour
 
     public void Shop()
     {
+       
         ShopPanel.SetActive(true);
         mainmenu.SetActive(false);
     }
@@ -43,6 +51,21 @@ public class MainMenu : MonoBehaviour
     {
         howtoplaypanel.SetActive(false);
         mainmenu.SetActive(true);
+    }
+
+    public void showredeem()
+    {
+        buychipblack.SetActive(true);
+        redeempanel.SetActive(true);
+        buychippanel.SetActive(false);
+        redeemblue.SetActive(true);
+    }
+    public void showbuychip()
+    {
+        buychipblack.SetActive(false);
+        redeempanel.SetActive(false);
+        buychippanel.SetActive(true);
+        redeemblue.SetActive(false);
     }
 
 }
