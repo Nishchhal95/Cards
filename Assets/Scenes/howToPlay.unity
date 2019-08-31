@@ -2164,7 +2164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1312907164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4700,6 +4700,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: tabswitcher
       objectReference: {fileID: 0}
+    - target: {fileID: 6759942803450911236, guid: 27e248e3e0e32234f93f277341de8d5d,
+        type: 3}
+      propertyPath: Basic
+      value: 
+      objectReference: {fileID: 1312907163}
+    - target: {fileID: 6759942803450911236, guid: 27e248e3e0e32234f93f277341de8d5d,
+        type: 3}
+      propertyPath: RAnking
+      value: 
+      objectReference: {fileID: 871439957}
     - target: {fileID: 6759942803450911237, guid: 27e248e3e0e32234f93f277341de8d5d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4755,15 +4765,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6759942803450911236, guid: 27e248e3e0e32234f93f277341de8d5d,
-        type: 3}
-      propertyPath: Basic
-      value: 
-      objectReference: {fileID: 1312907163}
-    - target: {fileID: 6759942803450911236, guid: 27e248e3e0e32234f93f277341de8d5d,
-        type: 3}
-      propertyPath: RAnking
-      value: 
-      objectReference: {fileID: 871439957}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27e248e3e0e32234f93f277341de8d5d, type: 3}

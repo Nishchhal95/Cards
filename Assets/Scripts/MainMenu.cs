@@ -51,8 +51,7 @@ public class MainMenu : MonoBehaviour
 
     public void howtoplayshow()
     {
-        howtoplaypanel.SetActive(true);
-        mainmenu.SetActive(false);
+        SceneManager.LoadScene("howToPlay");
     }
 
     public void howtoplayhide()
