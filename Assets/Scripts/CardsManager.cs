@@ -5,6 +5,21 @@ using GameNameSpace;
 
 public class CardsManager : MonoBehaviour
 {
+    public static CardsManager instance = null;
+    private void Awake()
+    {
+        if(instance==null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
+    }
+
+
     public enum SuitEnum { Hearts = 1, Clubs = 2, Diamonds = 3, Spades = 4 }
     public enum ColorEnum { Red = 1, Black = 2 }
 
@@ -50,23 +65,24 @@ public class CardsManager : MonoBehaviour
 
     }
 
-    public  List<Card> ThreeCardsList = new List<Card>();  // List of Random 3 Cards.
-
     void Start()
     {
         NumberOfPlayers = _GameManager.numberOfPlayer;
-        MakeDatabase();
     }
 
-    public void Get3Cards()
+    public List<Card> Get3Cards()
     {
+        List<Card> ThreeCards = new List<Card>();
+
         for(int i=0; i<3; i++)
         {
             k = Random.Range(0, CardDeck.Count);  // Get random index from cards list.
             string temp = "Sprites/Cards/" + CardDeck[k].Suit + "/" + CardDeck[k].Rank; //Create Temporary String Dont Change Path. In code as well as Files Directory.
-            ThreeCardsList.Add(new Card(CardDeck[k].Suit, CardDeck[k].Rank, CardDeck[k].Color, Resources.Load<Sprite>(temp)));
+            ThreeCards.Add(new Card(CardDeck[k].Suit, CardDeck[k].Rank, CardDeck[k].Color, Resources.Load<Sprite>(temp)));
             CardDeck.RemoveAt(k);  // Avoid repeattion of aassignment of cards.
-        }   
+        }
+
+        return ThreeCards;
     }
 
     public void MakeDatabase()
@@ -91,7 +107,7 @@ public class CardsManager : MonoBehaviour
                 }
             }
         }
-        AssignCardToXpeople();
+        //AssignCardToXpeople();
     }
 
     public void AssignCardToXpeople()  //MAIN FUNCTION
