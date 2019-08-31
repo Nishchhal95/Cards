@@ -11,6 +11,14 @@ public class sceneLOader : MonoBehaviour
     [SerializeField]
     private string nextSceneName = null;
 
+
+   int currentSceneIndex;
+
+    private void Start()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+    }
+
     /// <summary>
     /// Ons the click transition button.
     /// </summary>
@@ -19,6 +27,10 @@ public class sceneLOader : MonoBehaviour
         SceneManager.LoadScene(nextSceneName);
     }
 
+    public void reloadSameScene()
+    {
+        SceneManager.LoadScene(currentSceneIndex );
+    }
 
 
 }
