@@ -38,6 +38,13 @@ public class MainMenu : MonoBehaviour
     public void SettingPanelshow()
     {
         SettingPanel.SetActive(true);
+        mainmenu.SetActive(false);
+    }
+
+    public void SettingPanelhide()
+    {
+        SettingPanel.SetActive(false);
+        mainmenu.SetActive(true);
     }
 
     public void howtoplayshow()
