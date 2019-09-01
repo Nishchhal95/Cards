@@ -21685,41 +21685,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: transitionmanager
       objectReference: {fileID: 0}
-    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
-        type: 3}
-      propertyPath: ShopPanel
-      value: 
-      objectReference: {fileID: 1839314577}
-    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
-        type: 3}
-      propertyPath: SettingPanel
-      value: 
-      objectReference: {fileID: 1971006521739462367}
-    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
-        type: 3}
-      propertyPath: mainmenu
-      value: 
-      objectReference: {fileID: 1971006522369520488}
-    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
-        type: 3}
-      propertyPath: redeempanel
-      value: 
-      objectReference: {fileID: 1078413429}
-    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
-        type: 3}
-      propertyPath: buychippanel
-      value: 
-      objectReference: {fileID: 214825646}
-    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
-        type: 3}
-      propertyPath: buychipblack
-      value: 
-      objectReference: {fileID: 1397452308}
-    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
-        type: 3}
-      propertyPath: redeemblue
-      value: 
-      objectReference: {fileID: 927348505}
     - target: {fileID: 9203215786014412432, guid: 419e09c7952d88746a8b34922a120956,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -21775,6 +21740,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: ShopPanel
+      value: 
+      objectReference: {fileID: 1839314577}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: SettingPanel
+      value: 
+      objectReference: {fileID: 1971006521739462367}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: mainmenu
+      value: 
+      objectReference: {fileID: 1971006522369520488}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: redeempanel
+      value: 
+      objectReference: {fileID: 1078413429}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: buychippanel
+      value: 
+      objectReference: {fileID: 214825646}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: buychipblack
+      value: 
+      objectReference: {fileID: 1397452308}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: redeemblue
+      value: 
+      objectReference: {fileID: 927348505}
     - target: {fileID: 1805363018674036575, guid: 419e09c7952d88746a8b34922a120956,
         type: 3}
       propertyPath: soundonbutton
