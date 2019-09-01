@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class FB_Handler : MonoBehaviour
 {
+    public string SavedUsername;
+    public Sprite SavedProfile;
+
     public Text FB_UserName;
     public Text FB_UserName2;
     public Text FB_Email;
@@ -110,10 +113,10 @@ public class FB_Handler : MonoBehaviour
     {
         if (result.Error == null)
         {
-            string name = "" + result.ResultDictionary["first_name"];
-            FB_UserName.text = name;
-            FB_UserName2.text = name;
-            Debug.Log("" + name);
+            SavedUsername = "" + result.ResultDictionary["first_name"];
+            FB_UserName.text = SavedUsername;
+            FB_UserName2.text = SavedUsername;
+            Debug.Log("" + SavedUsername);
         }
         else
         {
@@ -126,8 +129,9 @@ public class FB_Handler : MonoBehaviour
         if (result.Texture != null)
         {
             Debug.Log("Profile Pic");
-            FB_Profile.sprite = Sprite.Create(result.Texture,new Rect(0,0,128,128),new Vector2());
-            FB_Profile2.sprite = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2());
+            SavedProfile = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2());
+            FB_Profile.sprite = SavedProfile;
+            FB_Profile2.sprite = SavedProfile;
         }
         else
         {

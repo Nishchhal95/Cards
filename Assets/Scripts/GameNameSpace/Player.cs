@@ -17,6 +17,7 @@ namespace GameNameSpace {
         public Text chipsText;
         public Text xpText;
         public Image profileImage;
+        public Image SelectionUI;
         public Image[] cardsImage;
 
         public void PopulateData()
