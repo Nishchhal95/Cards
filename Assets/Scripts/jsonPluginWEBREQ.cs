@@ -39,13 +39,18 @@ public class jsonPluginWEBREQ : MonoBehaviour
             jsonstring = www.downloadHandler.text;
 
 
-
-        
-
             List<playerData> playerList = JsonConvert.DeserializeObject<List<playerData>>(jsonstring);
 
 
-            Debug.Log(playerList);
+           // Debug.Log(playerList);
+           
+
+            for (int i=0;i<playerList.Count;i++)
+            {
+                Debug.Log(playerList[i].name);
+                Debug.Log(playerList[i].coin);
+                Debug.Log(playerList[i].email);
+            }
 
         }
 
