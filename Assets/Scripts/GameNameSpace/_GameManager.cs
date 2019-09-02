@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
+using TMPro;
+
 namespace GameNameSpace
 {
     public class _GameManager : MonoBehaviour
@@ -12,23 +13,33 @@ namespace GameNameSpace
         public Transform[] InstantiatePosition;
         public static int numberOfPlayer = 5;
 
-        //-----
-        public Button[] ControlButtons;
-        //------
-
+        public List<GameObject> ObjectsToDisable;
+        
         public List<GameObject> PlayersList;
-        private int PlayerIndex;
-
+       
         public Text TurnIndicator;
         public Text Debugger;
-        //-----
-        private bool PrimaryPlayerDead = false;
 
+        public TMP_Text TotalPotText;
+        public int TotalPot = 0;
+
+        public Sprite DummySprite;  //Sprite for Other Palyers.
+
+        //-----For Main Player---------
+        public Image MainPlayerImage;  
+        public TMP_Text MainPlayerName;
+        public TMP_Text MainPlayerChips;
+        public TMP_Text BettingValueText;
         public Slider BettingSlider;
-        public Text BettingValue;
 
-        public Sprite DummySprite;
+        //---Private Variables-----------
 
+        private bool PrimaryPlayerDead = false;
+        private int PlayerIndex;
+        private GameObject MainPlayer;
+
+        //-----
+        public int MinimumBettingValue = 40;
         private void Start()
         {
             PlayerIndex = Random.Range(1, numberOfPlayer + 1);
@@ -40,8 +51,11 @@ namespace GameNameSpace
             ChangeButtonState();
             Utils.DoActionAfterSecondsAsync(StartGame, 3f);
 
-            BettingSlider.minValue = 40;
-            BettingSlider.maxValue = 100;
+            //Will be in set slider.
+           
+            RefreshSlider();
+            RefreshPotText();
+
         }
 
 
@@ -57,7 +71,11 @@ namespace GameNameSpace
             {
                 if (i == 1)
                 {
-                    CreatePlayer(FB_Handler.instance.SavedUsername + i, 100, 1000, FB_Handler.instance.SavedProfile, i);
+                    if (FB_Handler.instance.SavedProfile!=null)
+                    {
+                        CreatePlayer(FB_Handler.instance.SavedUsername, 100, 1000, FB_Handler.instance.SavedProfile, i);
+                    }
+                   
                 }
                 else
                 {
@@ -73,17 +91,37 @@ namespace GameNameSpace
             PlayersList.Add(player);
             Player playerScript = player.GetComponent<Player>();
 
-            if (playerScript != null)
-            {
-                //We Assign Data to it
-                playerScript.playerName = playerName;
-                playerScript.chips = chips;
-                playerScript.XP = XP;
-                playerScript.playerSprite = sprite;
+            playerScript.name = playerName;
+            playerScript.coin = chips;
+            playerScript.XP = XP;
+            playerScript.playerSprite = sprite;
 
-                playerScript.cardList = CardsManager.instance.Get3Cards();
-                playerScript.PopulateData();
-                playerScript.PopulateCards();
+            playerScript.cardList = CardsManager.instance.Get3Cards();
+
+
+            if (playernumber==1)   //For Main Player
+            {
+                MainPlayer = player;  //Set Main Player.
+                if (playerScript != null)
+                {
+                    //We Assign Data to it
+                    MainPlayerName.text = playerScript.name;
+                    MainPlayerChips.text = playerScript.coin.ToString();
+                    MainPlayerImage.sprite = playerScript.playerSprite;
+                    player.transform.GetChild(0).transform.Find("Name").gameObject.SetActive(false);
+                    player.transform.GetChild(0).transform.Find("Chips").gameObject.SetActive(false);
+                    player.transform.GetChild(0).transform.Find("XP").gameObject.SetActive(false);
+                    player.transform.GetChild(0).transform.Find("MaskProfile").gameObject.SetActive(false);
+                    playerScript.PopulateCards();
+                }
+            }
+            else   //For Other Players
+            {
+                if (playerScript != null)
+                {
+                    playerScript.PopulateData();
+                    playerScript.PopulateCards();
+                }
             }
         }
 
@@ -99,7 +137,6 @@ namespace GameNameSpace
             {
                 PlayerIndex = 1;
             }
-
             TurnIndicator.text = "Player " + PlayerIndex + " is playing...";
             StartGame();
         }
@@ -109,6 +146,14 @@ namespace GameNameSpace
             if(IsPlayer==true)
             {
                 Debugger.text = "Player " + PlayerIndex + " Betted " + BettingSlider.value + " Chips";
+
+                MainPlayer.GetComponent<Player>().coin -= (int)BettingSlider.value;
+                TotalPot += (int)BettingSlider.value;
+                //Refresh Data after some Maths..
+                MainPlayer.GetComponent<Player>().RefreshData();
+                RefreshSlider();
+                RefreshChipsText();
+                RefreshPotText();
             }
             else
             {
@@ -158,23 +203,29 @@ namespace GameNameSpace
             ChangeButtonState();
             ChangeSelectionUI();
 
-            if (PrimaryPlayerDead == true)  //We are dead, Go On.
+            if(PlayersList.Count!=1) //Game move forward, only if there are more than one player.
             {
-              
-                Utils.DoActionAfterSecondsAsync(StartPlayersTurn, 3f);
-            }
-            else  //We are not dead.
-            {
-                if (PlayerIndex != 1)  //If index is not 1 , Go On.
+                if (PrimaryPlayerDead == true)  //We are dead, Go On in Loop.
                 {
-                  
+              
                     Utils.DoActionAfterSecondsAsync(StartPlayersTurn, 3f);
                 }
+                else  //We are not dead.
+                {
+                    if (PlayerIndex != 1)  //If index is not 1 , Go On.
+                    {
+                  
+                        Utils.DoActionAfterSecondsAsync(StartPlayersTurn, 3f);
+                    } 
+                    //else wait for player 1 to play
+                }
+            }
+            else  // Some Player Won...
+            {
+                Debugger.text = "Yeah !! Player " + PlayerIndex + " won !";
             }
 
         }
-
-      
 
         private void StartPlayersTurn()
         {
@@ -199,7 +250,18 @@ namespace GameNameSpace
             {
                 if((i+1)== PlayerIndex)
                 {
-                    PlayersList[i].GetComponent<Player>().SelectionUI.gameObject.SetActive(true);
+                    if(PrimaryPlayerDead==true)
+                    {
+                        PlayersList[i].GetComponent<Player>().SelectionUI.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        if(PlayerIndex!=1)
+                        {
+                            PlayersList[i].GetComponent<Player>().SelectionUI.gameObject.SetActive(true);
+                        }
+                    }
+                    
                 }
                 else
                 {
@@ -229,15 +291,55 @@ namespace GameNameSpace
                 }
             }
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < ObjectsToDisable.Count ; i++)
             {
-                ControlButtons[i].interactable = Interactable;
+                if(ObjectsToDisable[i].GetComponent<Button>()==true)
+                {
+                    ObjectsToDisable[i].GetComponent<Button>().interactable = Interactable;
+                }
+                else
+                {
+                    ObjectsToDisable[i].GetComponent<Slider>().interactable = Interactable;
+                }
             }
         }
 
+        
         public void BetUpdate()
         {
-            BettingValue.text = BettingSlider.value.ToString();
+            BettingValueText.text = BettingSlider.value.ToString();
+        }
+
+        public void AddBetButton()
+        {
+            BettingSlider.value += 2;
+            BettingValueText.text = BettingSlider.value.ToString();
+        }
+        public void SubstractBetButton()
+        {
+            BettingSlider.value -= 2;
+            BettingValueText.text = BettingSlider.value.ToString();
+        }
+
+        public void RefreshSlider()
+        {
+            BettingSlider.minValue = MinimumBettingValue;
+            BettingSlider.maxValue = MainPlayer.GetComponent<Player>().coin;
+        }
+
+        public void RefreshPotText()
+        {
+            TotalPotText.text = "Total Pot : " + TotalPot.ToString();
+        }
+
+        public void RefreshChipsText()
+        {
+            MainPlayerChips.text = MainPlayer.GetComponent<Player>().coin.ToString();
+        }
+
+        public void ChangeScene(string Scene)
+        {
+            SceneManager.LoadScene(Scene);
         }
     }
 }

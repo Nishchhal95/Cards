@@ -6,9 +6,10 @@ using UnityEngine.UI;
 namespace GameNameSpace {
     public class Player : MonoBehaviour
     {
-        public string playerName;
+        public string name;
+        public string email;
         public Sprite playerSprite;
-        public int chips;
+        public int coin;
         public float XP;
         public List<CardsManager.Card> cardList = new List<CardsManager.Card>();
 
@@ -22,8 +23,8 @@ namespace GameNameSpace {
 
         public void PopulateData()
         {
-            nameText.text = playerName;
-            chipsText.text = "Chips : " + chips.ToString();
+            nameText.text = name;
+            chipsText.text = "Chips : " + coin.ToString();
             xpText.text = "XP : " + XP.ToString();
             profileImage.sprite = playerSprite;
         }
@@ -34,6 +35,12 @@ namespace GameNameSpace {
             {
                 cardsImage[i].sprite = cardList[i].CardSprite;
             }
+        }
+
+        public void RefreshData()
+        {
+            chipsText.text = "Chips : " + coin.ToString();
+            xpText.text = "XP : " + XP.ToString();
         }
     }
 }

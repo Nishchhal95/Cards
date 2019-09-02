@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 920682129204864320}
   - component: {fileID: 3783420813730103378}
   m_Layer: 5
-  m_Name: MarkProfile
+  m_Name: MaskProfile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
