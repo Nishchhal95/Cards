@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Newtonsoft.Json;
 
 namespace GameNameSpace
 {
@@ -11,7 +12,7 @@ namespace GameNameSpace
     {
         public GameObject playerPrefab;
         public Transform[] InstantiatePosition;
-        public static int numberOfPlayer = 5;
+        public static int numberOfPlayer;
 
         public List<GameObject> ObjectsToDisable;
         
@@ -42,22 +43,32 @@ namespace GameNameSpace
         public int MinimumBettingValue = 40;
         private void Start()
         {
+            WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
+            {
+                numberOfPlayer = NewPlayerList.Count + 1;
+                SecondStart();
+            });
+
+        }
+
+        private void SecondStart()
+        {
             PlayerIndex = Random.Range(1, numberOfPlayer + 1);
             CardsManager.instance.MakeDatabase();
             CreatePlayers(numberOfPlayer);
+        }
+
+        private void ThirdStart()
+        {
 
             TurnIndicator.text = "Player " + PlayerIndex + " is playing...";
             ChangeSelectionUI();
             ChangeButtonState();
-            Utils.DoActionAfterSecondsAsync(StartGame, 3f);
-
-            //Will be in set slider.
-           
             RefreshSlider();
             RefreshPotText();
 
+            Utils.DoActionAfterSecondsAsync(StartGame, 3f);
         }
-
 
         public void RestartGame()
         {
@@ -66,23 +77,31 @@ namespace GameNameSpace
 
         private void CreatePlayers(int playerNumbers)
         {
-
-            for (int i = 1; i <= playerNumbers; i++)
+            WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
             {
-                if (i == 1)
+                //Call Your Create Player Method From Here and Pass playerList there and loop through that playerList
+
+                for (int i = 1; i <= playerNumbers; i++)
                 {
-                    if (FB_Handler.instance.SavedProfile!=null)
+                    if (i == 1)
                     {
-                        CreatePlayer(FB_Handler.instance.SavedUsername, 100, 1000, FB_Handler.instance.SavedProfile, i);
+                        if (FB_Handler.instance.SavedProfile != null)
+                        {
+                            CreatePlayer(FB_Handler.instance.SavedUsername,100, 1000, FB_Handler.instance.SavedProfile, i);
+                        }
+
                     }
-                   
-                }
-                else
-                {
-                    CreatePlayer("Player " + i, 100, 1000, DummySprite, i);
+                    else
+                    {
+                        //Here i starts from 2.
+                        CreatePlayer( NewPlayerList[i-2].name , NewPlayerList[i-2].coin , 100, DummySprite, i);
+                    }
+
                 }
 
-            }
+                ThirdStart();
+            });
+
         }
 
         private void CreatePlayer(string playerName, int chips, float XP, Sprite sprite, int playernumber)
@@ -91,13 +110,14 @@ namespace GameNameSpace
             PlayersList.Add(player);
             Player playerScript = player.GetComponent<Player>();
 
+
+
             playerScript.name = playerName;
             playerScript.coin = chips;
             playerScript.XP = XP;
             playerScript.playerSprite = sprite;
 
             playerScript.cardList = CardsManager.instance.Get3Cards();
-
 
             if (playernumber==1)   //For Main Player
             {

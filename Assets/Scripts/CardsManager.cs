@@ -65,11 +65,6 @@ public class CardsManager : MonoBehaviour
 
     }
 
-    void Start()
-    {
-        NumberOfPlayers = _GameManager.numberOfPlayer;
-    }
-
     public List<Card> Get3Cards()
     {
         List<Card> ThreeCards = new List<Card>();
@@ -87,6 +82,8 @@ public class CardsManager : MonoBehaviour
 
     public void MakeDatabase()
     {
+        NumberOfPlayers = _GameManager.numberOfPlayer;
+
         //Create Ordered List of Cards.
 
         for (int i = 1; i <= 4; i++)  //Loop for Suits

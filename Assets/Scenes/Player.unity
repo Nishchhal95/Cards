@@ -275,6 +275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 574372546}
   - component: {fileID: 574372547}
+  - component: {fileID: 574372548}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: Untagged
@@ -335,6 +336,18 @@ MonoBehaviour:
   BettingValueText: {fileID: 1051308822}
   BettingSlider: {fileID: 1051308821}
   MinimumBettingValue: 40
+--- !u!114 &574372548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574372545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3765e63a2ee8b3745a4f86386b7f1bfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &614999128
 GameObject:
   m_ObjectHideFlags: 0
