@@ -11,11 +11,19 @@ public class jsonPluginWEBREQ : MonoBehaviour
 
 
     void Start()
-
-
     {
 
-        StartCoroutine(GetText());
+        WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> playerList) => 
+        {
+            //for (int i = 0; i < playerList.Count; i++)
+            //{
+            //    Debug.Log("PLAYER NAME " + playerList[i].name);
+            //}
+
+            //Call Your Create Player Method From Here and Pass playerList there and loop through that playerList
+            
+        });
+        //StartCoroutine(GetText());
 
 
     }

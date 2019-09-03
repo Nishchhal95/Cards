@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace GameNameSpace {
     public class Player : MonoBehaviour
     {
-        public string name;
+        public new string name;
         public string email;
         public Sprite playerSprite;
         public int coin;

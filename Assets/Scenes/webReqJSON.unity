@@ -213,6 +213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 865071289}
   - component: {fileID: 865071290}
+  - component: {fileID: 865071291}
   m_Layer: 0
   m_Name: jsonReq
   m_TagString: Untagged
@@ -244,5 +245,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7241724a4418d1649b29f0fc6a2cf462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &865071291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865071288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3765e63a2ee8b3745a4f86386b7f1bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
