@@ -18,8 +18,8 @@ namespace GameNameSpace
         
         public List<GameObject> PlayersList;
        
-        public Text TurnIndicator;
-        public Text Debugger;
+        public TMP_Text TurnIndicator;
+        public TMP_Text Debugger;
 
         public TMP_Text TotalPotText;
         public int TotalPot = 0;
@@ -41,6 +41,7 @@ namespace GameNameSpace
 
         //-----
         public int MinimumBettingValue = 40;
+        public float WaitingTime = 5f;
         private void Start()
         {
             WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
@@ -67,7 +68,7 @@ namespace GameNameSpace
             RefreshSlider();
             RefreshPotText();
 
-            Utils.DoActionAfterSecondsAsync(StartGame, 3f);
+            Utils.DoActionAfterSecondsAsync(StartGame, WaitingTime);
         }
 
         public void RestartGame()
@@ -228,16 +229,34 @@ namespace GameNameSpace
                 if (PrimaryPlayerDead == true)  //We are dead, Go On in Loop.
                 {
               
-                    Utils.DoActionAfterSecondsAsync(StartPlayersTurn, 3f);
+                    Utils.DoActionAfterSecondsAsync(StartPlayersTurn, WaitingTime);
                 }
                 else  //We are not dead.
                 {
                     if (PlayerIndex != 1)  //If index is not 1 , Go On.
                     {
                   
-                        Utils.DoActionAfterSecondsAsync(StartPlayersTurn, 3f);
-                    } 
-                    //else wait for player 1 to play
+                        Utils.DoActionAfterSecondsAsync(StartPlayersTurn, WaitingTime);
+                    }
+                    else //else wait for Main Player to do action.
+                    {
+                        //Check if Chips are less than Minimum Bid.
+
+                        if(MainPlayer.GetComponent<Player>().coin < MinimumBettingValue)  //Auto Show Cards.
+                        {
+                            ChangeButtonState();
+                            Utils.DoActionAfterSecondsAsync(Show, WaitingTime); // Auto SHOW.
+                        }
+                        else   
+                        {
+                            //Let Player Play.
+
+                            //Wait for 45 seconds, If Player not played, Auto Fold.
+                            StartCoroutine(Wait45Seconds());
+                          
+                        }
+                    }
+                    
                 }
             }
             else  // Some Player Won...
@@ -245,6 +264,15 @@ namespace GameNameSpace
                 Debugger.text = "Yeah !! Player " + PlayerIndex + " won !";
             }
 
+        }
+
+        IEnumerator Wait45Seconds()
+        {
+            yield return new WaitForSeconds(45f);
+            if(PlayerIndex==1)
+            {
+                Fold(true);  //Fold is exceed, 45 seconds.
+            }
         }
 
         private void StartPlayersTurn()
@@ -307,7 +335,15 @@ namespace GameNameSpace
                 }
                 else  //If index is 1, Wait Player to play. 
                 {
-                    Interactable = true;
+                    if(MainPlayer.GetComponent<Player>().coin > MinimumBettingValue)    //If Coins greter than beeting value
+                    {
+                        Interactable = true;
+                    }
+                    else
+                    {
+                        Interactable = false;
+                    }
+                    
                 }
             }
 
