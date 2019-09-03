@@ -129,10 +129,14 @@ namespace GameNameSpace
                     MainPlayerName.text = playerScript.name;
                     MainPlayerChips.text = playerScript.coin.ToString();
                     MainPlayerImage.sprite = playerScript.playerSprite;
-                    player.transform.GetChild(0).transform.Find("Name").gameObject.SetActive(false);
-                    player.transform.GetChild(0).transform.Find("Chips").gameObject.SetActive(false);
-                    player.transform.GetChild(0).transform.Find("XP").gameObject.SetActive(false);
-                    player.transform.GetChild(0).transform.Find("MaskProfile").gameObject.SetActive(false);
+
+
+                    //Main Player will get its own UI.
+                    playerScript.nameText.gameObject.SetActive(false);
+                    playerScript.chipsText.gameObject.transform.parent.gameObject.SetActive(false);
+                    playerScript.xpText.gameObject.SetActive(false);
+                    playerScript.profileImage.gameObject.transform.parent.gameObject.SetActive(false);
+
                     playerScript.PopulateCards();
                 }
             }
