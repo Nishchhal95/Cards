@@ -8,11 +8,11 @@ public class sceneLOader : MonoBehaviour
 
 
 
-    [SerializeField]
+  [SerializeField]
     private string nextSceneName = null;
 
 
-   int currentSceneIndex;
+  int currentSceneIndex;
 
     private void Start()
     {
@@ -32,5 +32,9 @@ public class sceneLOader : MonoBehaviour
         SceneManager.LoadScene(currentSceneIndex );
     }
 
+    public void onbackclick()
+    {
+        SceneManager.LoadScene("MainPage");
+    }
 
 }

@@ -576,7 +576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3230694561155207844
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2067,8 +2067,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -54.59, y: 59.275005}
-  m_SizeDelta: {x: 91.34, y: 38.85}
+  m_AnchoredPosition: {x: -37.1, y: 59.275005}
+  m_SizeDelta: {x: 128, y: 38.85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3230694562385172894
 CanvasRenderer:
@@ -2098,7 +2098,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 8e2638b5434066b45b4ad8dde1753601, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 385a932c6b28d044c839b0fe56fe1178, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2283,7 +2283,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: OnClickTransitionButton
+        m_MethodName: onbackclick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
