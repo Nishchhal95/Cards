@@ -7,14 +7,27 @@ using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject ShopPanel;
-    public GameObject SettingPanel;
-    public GameObject mainmenu;
+     public GameObject ShopPanel;
+     public GameObject SettingPanel;
+     public GameObject mainmenu;
      public GameObject howtoplaypanel;
      public GameObject redeempanel;
      public GameObject buychippanel;
      public GameObject buychipblack;
      public GameObject redeemblue;
+
+    private void Awake()
+    {
+        Utils.DoActionAfterSecondsAsync(CheckFB, 0.1f);
+       
+    }
+    void CheckFB()
+    {
+        if (FB_Handler.instance.CheckIfLoggedIn() == true)
+        {
+            mainmenu.SetActive(true);
+        }
+    }
 
 
     public void PlayGame()

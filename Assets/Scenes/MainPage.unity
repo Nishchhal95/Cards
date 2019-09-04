@@ -19785,6 +19785,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1971006522369520491}
+  - component: {fileID: 1971006522369520489}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -19792,6 +19793,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1971006522369520489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971006522369520488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea5a5b00006e134c8ad015c037ee230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FB_UserName: {fileID: 283444703}
+  FB_UserName2: {fileID: 1971006521502707212}
+  FB_Email: {fileID: 171483224}
+  FB_Profile: {fileID: 16244658}
+  FB_Profile2: {fileID: 1971006523412467644}
 --- !u!224 &1971006522369520491
 RectTransform:
   m_ObjectHideFlags: 0

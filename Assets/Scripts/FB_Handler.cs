@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class FB_Handler : MonoBehaviour
 {
     public string SavedUsername;
+    public string SavedEmail;
     public Sprite SavedProfile;
 
     public Text FB_UserName;
@@ -23,6 +24,19 @@ public class FB_Handler : MonoBehaviour
 
     public static FB_Handler instance = null;
     
+
+    public bool CheckIfLoggedIn()
+    {
+        if (FB.IsLoggedIn)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private void Awake()
     {
 
@@ -144,9 +158,9 @@ public class FB_Handler : MonoBehaviour
     {
         if (result.Error == null)
         {
-            string email = "" + result.ResultDictionary["email"];
-            FB_Email.text = email;
-            Debug.Log("" + email);
+            SavedEmail = "" + result.ResultDictionary["email"];
+            FB_Email.text = SavedEmail;
+            Debug.Log("" + SavedEmail);
         }
         else
         {

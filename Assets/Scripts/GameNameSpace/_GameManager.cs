@@ -42,6 +42,11 @@ namespace GameNameSpace
         //-----
         public int MinimumBettingValue = 40;
         public float WaitingTime = 5f;   //Waiting Time for all the actions.
+        public Image TimerUI;
+
+        //--
+        public TMP_Text Greeting;
+        //--
 
         private int MainPlayerTimeoutIndex = 0;  // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
 
@@ -53,6 +58,20 @@ namespace GameNameSpace
                 SecondStart();
             });
 
+        }
+
+        private float TimeTakeToComplete = 45f;
+        private float CurrentTime = 0f;
+        private bool TimerOn = false;
+
+        private void Update()
+        {
+            if(TimerOn==true)
+            {
+                CurrentTime += Time.deltaTime;
+                TimerUI.fillAmount = (CurrentTime / TimeTakeToComplete);
+            }
+            
         }
 
         private void SecondStart()
@@ -72,7 +91,7 @@ namespace GameNameSpace
             RefreshSlider();
             RefreshPotText();
 
-            Utils.DoActionAfterSecondsAsync(StartGame, WaitingTime);
+            Utils.DoActionAfterSecondsAsync(StartGame, 1f);
         }
 
         public void RestartGame()
@@ -93,6 +112,7 @@ namespace GameNameSpace
                         if (FB_Handler.instance.SavedProfile != null)
                         {
                             CreatePlayer(FB_Handler.instance.SavedUsername,100, 1000, FB_Handler.instance.SavedProfile, i);
+                            Greeting.text = "Welcome Back, " + FB_Handler.instance.SavedUsername;
                         }
 
                     }
@@ -191,7 +211,12 @@ namespace GameNameSpace
             {
                 //Debugger.text = "Player " + PlayerIndex + " clicked : BET";
                  Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " clicked : BET";
-
+                 int temp = Random.Range(10, 40);
+                 
+                 PlayersList[PlayerIndex - 1].GetComponent<Player>().coin -= temp;
+                 PlayersList[PlayerIndex - 1].GetComponent<Player>().chipsText.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().coin.ToString();
+                 TotalPot += temp;
+                 RefreshPotText();
             }
 
             if (PlayerIndex < PlayersList.Count)
@@ -237,6 +262,10 @@ namespace GameNameSpace
 
         private void StartGame()
         {
+            CurrentTime = 0f;
+            TimerUI.fillAmount = 0f;
+            TimerOn = false;
+
             ChangeButtonState();
             ChangeSelectionUI();
 
@@ -268,8 +297,11 @@ namespace GameNameSpace
                             //Let Player Play.
 
                             //Wait for 45 seconds, If Player not played, Auto Fold.
-                            
-                            StartCoroutine(Wait45Seconds( (MainPlayerTimeoutIndex++) ));
+                            CurrentTime = 0f;
+                            TimerUI.fillAmount = 0f;
+                            TimerOn = true;
+                            MainPlayerTimeoutIndex++;
+                            StartCoroutine(Wait45Seconds(MainPlayerTimeoutIndex));
                           
                         }
                     }
@@ -286,10 +318,15 @@ namespace GameNameSpace
 
         IEnumerator Wait45Seconds(int Index)
         {
+            Debug.Log(Index);
             int TempIndex = Index;   // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
             yield return new WaitForSeconds(45f);
-            if(PlayerIndex==1 && TempIndex==MainPlayerTimeoutIndex)
+            Debug.Log(PlayerIndex);
+            Debug.Log(TempIndex);
+            Debug.Log(MainPlayerTimeoutIndex);
+            if (PlayerIndex==1 && TempIndex==MainPlayerTimeoutIndex && PrimaryPlayerDead==false)
             {
+                Debug.Log("Working");
                 Fold(true);  //Fold is exceed, 45 seconds.
             }
         }
