@@ -207,12 +207,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb815a490f889d841878ae4f1ae413e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PLayerDefaultNumber: 0
   name: 
   email: 
   playerSprite: {fileID: 0}
   coin: 0
   XP: 0
   cardList: []
+  Ordered: 0
+  NoOfSameSuit: 0
+  NoOfSameRank: 0
+  DeckLayer: 0
+  DeckSubLayer: 0
   nameText: {fileID: 9056814178854192533}
   chipsText: {fileID: 5969451875671771154}
   xpText: {fileID: 3815679265720028077}
@@ -949,7 +955,7 @@ GameObject:
   - component: {fileID: 4807726211895695468}
   m_Layer: 5
   m_Name: Cards
-  m_TagString: Untagged
+  m_TagString: card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

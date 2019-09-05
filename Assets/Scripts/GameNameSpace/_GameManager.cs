@@ -53,6 +53,9 @@ namespace GameNameSpace
         private int MainPlayerTimeoutIndex = 0;  // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
         private int LastTwoPlayersTurnIndex = 0;
 
+
+        public Animator[] cardanim;
+
         private void Start()
         {
             WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
@@ -168,7 +171,7 @@ namespace GameNameSpace
                     playerScript.xpText.gameObject.SetActive(false);
                     playerScript.profileImage.gameObject.transform.parent.gameObject.SetActive(false);
 
-                    playerScript.PopulateCards();
+                  //  playerScript.PopulateCards();
                 }
             }
             else   //For Other Players
@@ -176,10 +179,19 @@ namespace GameNameSpace
                 if (playerScript != null)
                 {
                     playerScript.PopulateData();
-                    playerScript.PopulateCards();
+                   //playerScript.PopulateCards();
                 }
             }
         }
+
+        public void cardspopulate()
+        {
+            Player playerScript = PlayersList[0].GetComponent<Player>();
+            cardanim =playerScript.GetComponentsInChildren<Animator>();
+            playerScript.PopulateCards();
+            cardanim[0].Play("CardFlipAnim");
+        }
+
 
         public void Show()
         {
@@ -198,6 +210,7 @@ namespace GameNameSpace
             TurnIndicator.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " is playing...";
             StartGame();
         }
+
 
         public void Bet(bool IsPlayer)
         {
