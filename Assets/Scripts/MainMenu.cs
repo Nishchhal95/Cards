@@ -15,12 +15,20 @@ public class MainMenu : MonoBehaviour
      public GameObject buychippanel;
      public GameObject buychipblack;
      public GameObject redeemblue;
+     public GameObject TableAmount;
+
+    public TextMeshProUGUI amounttext;
+
+    long amounttable;
 
     private void Awake()
     {
         Utils.DoActionAfterSecondsAsync(CheckFB, 0.1f);
-       
+        amounttable = 10;
+        amounttext.text = amounttable.ToString();
+
     }
+
     void CheckFB()
     {
         if (FB_Handler.instance.CheckIfLoggedIn() == true)
@@ -30,8 +38,32 @@ public class MainMenu : MonoBehaviour
     }
 
 
+    public void tableamountpanel()
+    {
+        TableAmount.SetActive(true);
+    }
+
+    public void plusamount()
+    {
+        amounttable = amounttable*10;
+        amounttext.text = amounttable.ToString();
+    }
+
+
+    public void minusamount()
+    {
+        if(amounttable>10)
+        {
+            amounttable = amounttable / 10;
+            amounttext.text = amounttable.ToString();
+        }
+      
+    }
+
+
     public void PlayGame()
     {
+        TableAmount.SetActive(false);
         SceneManager.LoadScene("Player");
     }
 
