@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+
 public class MainMenu : MonoBehaviour
 {
      public GameObject ShopPanel;
@@ -26,8 +27,8 @@ public class MainMenu : MonoBehaviour
         Utils.DoActionAfterSecondsAsync(CheckFB, 0.1f);
         amounttable = 10;
         amounttext.text = amounttable.ToString();
-
     }
+
 
     void CheckFB()
     {
@@ -45,8 +46,11 @@ public class MainMenu : MonoBehaviour
 
     public void plusamount()
     {
-        amounttable = amounttable*10;
-        amounttext.text = amounttable.ToString();
+        if (amounttable < 200)
+        {
+            amounttable = amounttable + 10;
+            amounttext.text = amounttable.ToString();
+        }
     }
 
 
@@ -54,10 +58,9 @@ public class MainMenu : MonoBehaviour
     {
         if(amounttable>10)
         {
-            amounttable = amounttable / 10;
+            amounttable = amounttable - 10;
             amounttext.text = amounttable.ToString();
         }
-      
     }
 
 
