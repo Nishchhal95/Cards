@@ -41,7 +41,7 @@ namespace GameNameSpace
         private GameObject MainPlayer;
 
         //-----
-        public int MinimumBettingValue = 10;
+        public int MinimumBettingValue;
         public float WaitingTime = 5f;   //Waiting Time for all the actions.
         public Image TimerUI;
 
@@ -89,9 +89,11 @@ namespace GameNameSpace
 
         private void ThirdStart()
         {
-
-            //TurnIndicator.text = "Player " + PlayerIndex + " is playing...";
             TurnIndicator.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " is playing...";
+
+            MinimumBettingValue = GameInstance.new_instance.MinimumBettingValue;
+
+
             ChangeSelectionUI();
             ChangeButtonState();
             RefreshSlider();
@@ -357,58 +359,63 @@ namespace GameNameSpace
 
         private void StartPlayersTurn() //AI ALL DOWN.
         {
-            if(PlayersList.Count==2 && PrimaryPlayerDead==false)   //Do AI
+            if(PlayersList.Count==2)   //Do AI
             {
-                if(TopRankers[0].GetComponent<Player>().PLayerDefaultNumber==1)  //Main Player is going to be Winner
+                if(TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == 1 || TopRankers[1].GetComponent<Player>().PLayerDefaultNumber == 1)
                 {
-                    // Other player do fold
-                    LastTwoPlayersTurnIndex++;
-                    if(LastTwoPlayersTurnIndex>=2)    //Play Two chances.
-                    {
 
-                        if(PlayerIndex!=1)  //Check Is current turn playing by Bot ?
-                        {
-                            Fold(false);
-                        }
-                    }
-                    else   
+                    if(TopRankers[0].GetComponent<Player>().PLayerDefaultNumber==1)  //Main Player is going to be Winner
                     {
-                        if (PlayerIndex != 1)  //Check Is current turn playing by Bot ?
+                        // Other player do fold
+                        LastTwoPlayersTurnIndex++;
+                        if(LastTwoPlayersTurnIndex>=2)    //Play Two chances.
                         {
-                            int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
-                            switch (R)
+
+                            if(PlayerIndex!=1)  //Check Is current turn playing by Bot ?
                             {
-                                case 1:
-                                    Show();
-                                    break;
-                                case 2:
-                                    Bet(false);
-                                    break;
-                                case 3:
-                                    Fold(false);
-                                    break;
+                                Fold(false);
                             }
                         }
+                        else   
+                        {
+                            if (PlayerIndex != 1)  //Check Is current turn playing by Bot ?
+                            {
+                                int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
+                                switch (R)
+                                {
+                                    case 1:
+                                        Show();
+                                        break;
+                                    case 2:
+                                        Bet(false);
+                                        break;
+                                    case 3:
+                                        Fold(false);
+                                        break;
+                                }
+                            }
+                        }
+
                     }
-
-                }
-                else  //Another Player is going to be Winner.
-                {
-                    // Keep playing.
-
-                    int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
-                    switch (R)
+                    else  //Another Player is going to be Winner.
                     {
-                        case 1:
-                            Show();
-                            break;
-                        case 2:
-                            Bet(false);
-                            break;
-                        case 3:
-                            Fold(false);
-                            break;
+                        // Keep playing.
+
+                        int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
+                        switch (R)
+                        {
+                            case 1:
+                                Show();
+                                break;
+                            case 2:
+                                Bet(false);
+                                break;
+                            case 3:
+                                Fold(false);
+                                break;
+                        }
                     }
+
                 }
             }
             else
@@ -511,6 +518,7 @@ namespace GameNameSpace
             if(SliderFloorFunction<BettingSlider.maxValue)
             {
                 SliderFloorFunction += 10;
+                BettingSlider.value = SliderFloorFunction;
                 BettingValueText.text = SliderFloorFunction.ToString();
             }
 
@@ -520,6 +528,7 @@ namespace GameNameSpace
             if (SliderFloorFunction > BettingSlider.minValue)
             {
                 SliderFloorFunction -= 10;
+                BettingSlider.value = SliderFloorFunction;
                 BettingValueText.text = SliderFloorFunction.ToString();
             }
         }
@@ -527,6 +536,7 @@ namespace GameNameSpace
         public void RefreshSlider()
         {
             BettingSlider.minValue = MinimumBettingValue;
+            BettingSlider.value = SliderFloorFunction;
             BettingSlider.maxValue = MainPlayer.GetComponent<Player>().coin;
         }
 

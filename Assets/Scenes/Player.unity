@@ -571,7 +571,7 @@ MonoBehaviour:
   MainPlayerChips: {fileID: 1051308823}
   BettingValueText: {fileID: 1051308822}
   BettingSlider: {fileID: 1051308821}
-  MinimumBettingValue: 40
+  MinimumBettingValue: 10
   WaitingTime: 5
   TimerUI: {fileID: 1051308834}
   Greeting: {fileID: 1051308833}

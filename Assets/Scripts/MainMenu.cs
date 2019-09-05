@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
 
     public TextMeshProUGUI amounttext;
 
-    long amounttable;
+    int amounttable;
 
     private void Awake()
     {
@@ -63,6 +63,10 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void SetAmount()
+    {
+        GameInstance.new_instance.MinimumBettingValue = amounttable;
+    }
 
     public void PlayGame()
     {
