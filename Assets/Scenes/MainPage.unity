@@ -15038,7 +15038,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: SELECT TABLE AMOUNT
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: db79bbb8b2dbffa48984493a9068d72c, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -8619956318803531446, guid: db79bbb8b2dbffa48984493a9068d72c,
     type: 2}
   m_fontSharedMaterials: []
