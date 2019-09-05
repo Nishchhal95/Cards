@@ -23,10 +23,10 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-        Utils.DoActionAfterSecondsAsync(CheckFB, 0.1f);
+        
         amounttable = 10;
         amounttext.text = amounttable.ToString();
-
+        Utils.DoActionAfterSecondsAsync(CheckFB, 0.1f);
     }
 
     void CheckFB()

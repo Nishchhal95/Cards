@@ -6,6 +6,7 @@ using UnityEngine.UI;
 namespace GameNameSpace {
     public class Player : MonoBehaviour
     {
+        public int PLayerDefaultNumber;
         public new string name;
         public string email;
         public Sprite playerSprite;
@@ -13,7 +14,20 @@ namespace GameNameSpace {
         public float XP;
         public List<CardsManager.Card> cardList = new List<CardsManager.Card>();
 
- 
+        //------------------------------------------------
+
+        public bool Ordered;
+        public int NoOfSameSuit;
+        public int NoOfSameRank;
+
+        // These Layer and Sub-Layer are Relative Ranking among Diffrent Player.
+
+        public int DeckLayer; // 1-6 MAIN LAYER.
+        public int DeckSubLayer; // THOUSANDS OF DIFFRENT POSSIBLITIES. */
+
+        //------------------------------------------------------------------
+        // GUI
+
         public Text nameText;
         public Text chipsText;
         public Text xpText;

@@ -13280,7 +13280,7 @@ PrefabInstance:
     - target: {fileID: 1977221758327497815, guid: 8d0bc0b8640c84f43bef5f713abbcccd,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7247469192744027148, guid: 8d0bc0b8640c84f43bef5f713abbcccd,
         type: 3}
@@ -16425,7 +16425,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: SELECT TABLE AMOUNT
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: db79bbb8b2dbffa48984493a9068d72c, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -8619956318803531446, guid: db79bbb8b2dbffa48984493a9068d72c,
     type: 2}
   m_fontSharedMaterials: []

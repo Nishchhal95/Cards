@@ -17,7 +17,8 @@ namespace GameNameSpace
         public List<GameObject> ObjectsToDisable;
         
         public List<GameObject> PlayersList;
-       
+        public List<GameObject> TopRankers;
+
         public TMP_Text TurnIndicator;
         public TMP_Text Debugger;
 
@@ -40,15 +41,17 @@ namespace GameNameSpace
         private GameObject MainPlayer;
 
         //-----
-        public int MinimumBettingValue = 40;
+        public int MinimumBettingValue = 10;
         public float WaitingTime = 5f;   //Waiting Time for all the actions.
         public Image TimerUI;
 
         //--
         public TMP_Text Greeting;
+        public TMP_Text WinnerText;
         //--
 
         private int MainPlayerTimeoutIndex = 0;  // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
+        private int LastTwoPlayersTurnIndex = 0;
 
         private void Start()
         {
@@ -90,6 +93,10 @@ namespace GameNameSpace
             ChangeButtonState();
             RefreshSlider();
             RefreshPotText();
+
+            //Ranking Happens Here.
+            ReviewCards();
+            WinnerText.text = "Winner is : " + TopRankers[0].GetComponent<Player>().name;
 
             Utils.DoActionAfterSecondsAsync(StartGame, 1f);
         }
@@ -136,7 +143,7 @@ namespace GameNameSpace
             Player playerScript = player.GetComponent<Player>();
 
 
-
+            playerScript.PLayerDefaultNumber = playernumber;
             playerScript.name = playerName;
             playerScript.coin = chips;
             playerScript.XP = XP;
@@ -242,13 +249,17 @@ namespace GameNameSpace
             //Debugger.text = "Player " + PlayerIndex + " clicked : FOLD";
             Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " clicked : FOLD";
 
+
+            for (int i = 0; i < TopRankers.Count; i++)
+            {
+                if (TopRankers[i].GetComponent<Player>().PLayerDefaultNumber == PlayerIndex)
+                {
+                    TopRankers.RemoveAt(i);
+                }
+            }
+
             Destroy(PlayersList[PlayerIndex - 1].gameObject);
             PlayersList.RemoveAt(PlayerIndex - 1);
-
-            //for (int i = (PlayerIndex - 1); i < PlayersList.Count; i++)
-           // {
-               // PlayersList[i].transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = "Player " + (i + 1);
-           // }
 
             if (PlayerIndex == PlayersList.Count + 1)
             {
@@ -331,21 +342,79 @@ namespace GameNameSpace
             }
         }
 
-        private void StartPlayersTurn()
+        private void StartPlayersTurn() //AI ALL DOWN.
         {
-            int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
-            switch (R)
+            if(PlayersList.Count==2 && PrimaryPlayerDead==false)   //Do AI
             {
-                case 1:
-                    Show();
-                    break;
-                case 2:
-                    Bet(false);
-                    break;
-                case 3:
-                    Fold(false);
-                    break;
+                if(TopRankers[0].GetComponent<Player>().PLayerDefaultNumber==1)  //Main Player is going to be Winner
+                {
+                    // Other player do fold
+                    LastTwoPlayersTurnIndex++;
+                    if(LastTwoPlayersTurnIndex>=2)    //Play Two chances.
+                    {
+
+                        if(PlayerIndex!=1)  //Check Is current turn playing by Bot ?
+                        {
+                            Fold(false);
+                        }
+                    }
+                    else   
+                    {
+                        if (PlayerIndex != 1)  //Check Is current turn playing by Bot ?
+                        {
+                            int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
+                            switch (R)
+                            {
+                                case 1:
+                                    Show();
+                                    break;
+                                case 2:
+                                    Bet(false);
+                                    break;
+                                case 3:
+                                    Fold(false);
+                                    break;
+                            }
+                        }
+                    }
+
+                }
+                else  //Another Player is going to be Winner.
+                {
+                    // Keep playing.
+
+                    int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
+                    switch (R)
+                    {
+                        case 1:
+                            Show();
+                            break;
+                        case 2:
+                            Bet(false);
+                            break;
+                        case 3:
+                            Fold(false);
+                            break;
+                    }
+                }
             }
+            else
+            {
+                int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
+                switch (R)
+                {
+                    case 1:
+                        Show();
+                        break;
+                    case 2:
+                        Bet(false);
+                        break;
+                    case 3:
+                        Fold(false);
+                        break;
+                }
+            }
+            
         }
 
         private void ChangeSelectionUI()
@@ -419,17 +488,24 @@ namespace GameNameSpace
         
         public void BetUpdate()
         {
-            BettingValueText.text = BettingSlider.value.ToString();
+            float value = BettingSlider.value / 10;
+            BettingValueText.text = (Mathf.Floor(value)*10).ToString();
         }
 
         public void AddBetButton()
         {
-            BettingSlider.value += 2;
+            float TempValue = BettingSlider.value / 10;
+            float BettingValue = Mathf.Floor(TempValue) * 10;
+            BettingValue += 10;
+            BettingSlider.value = BettingValue;
             BettingValueText.text = BettingSlider.value.ToString();
         }
         public void SubstractBetButton()
         {
-            BettingSlider.value -= 2;
+            float TempValue = BettingSlider.value / 10;
+            float BettingValue =  Mathf.Floor(TempValue) * 10;
+            BettingValue -= 10;
+            BettingSlider.value = BettingValue;
             BettingValueText.text = BettingSlider.value.ToString();
         }
 
@@ -453,5 +529,305 @@ namespace GameNameSpace
         {
             SceneManager.LoadScene(Scene);
         }
+
+
+        #region  Card_Algorithm
+
+        public void ReviewCards()  //MAIN FUNCTION
+        {
+            for (int i = 1; i <= numberOfPlayer; i++)
+            {
+                CheckSequence(i);
+                CheckSuit(i);
+                CheckRank(i);
+                PlayersList[i - 1].GetComponent<Player>().DeckLayer = AssignDeckLayer(i);  //RETURNED VALUE OF DECK LAYER.
+                PlayersList[i - 1].GetComponent<Player>().DeckSubLayer = AssignDeckSubLayer(i, PlayersList[i - 1].GetComponent<Player>().DeckLayer);  //RETURNED VALUE OF DECK SUB-LAYER.
+                RankPlayers(i);  //RANKING HAPPENS HERE.
+            }
+        }
+
+        public void CheckSequence(int ForWhichPlayer) //Check Sequence of Cards in a Deck. Will return "True" if in sequence, else "False".
+        {
+            SortInDesending(ForWhichPlayer);  // NEED TO BE SORTED IN DESENDING ORDER.
+
+            if ((PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank - 1)
+                && (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank - 1))
+            {
+                //IN CONSECUTIVE DESENDING SEQUENCE
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().Ordered = true;
+            }
+            else
+            {
+                //NOT IN SEQUENCE
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().Ordered = false;
+            }
+
+        }
+
+        public void SortInDesending(int ForWhichPlayer)
+        {
+            if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank <= PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank)
+            {
+                int temp = PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank;
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank = PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank;
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank = temp;
+            }
+
+            if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank <= PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank)
+            {
+                int temp = PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank;
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank = PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank;
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank = temp;
+            }
+
+            if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank <= PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank)
+            {
+                int temp = PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank;
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank = PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank;
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank = temp;
+            }
+        }
+
+        public void CheckRank(int ForWhichPlayer)  //Tells Behaviour of Deck with respect to "RANK".
+        {
+            if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank &&
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank)
+            {
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameRank = 3;
+            }
+            else
+            if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank ||
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank ||
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank)
+            {
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameRank = 2;
+            }
+            else
+            {
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameRank = 0;
+            }
+        }
+
+        public void CheckSuit(int ForWhichPlayer)  //Tells Behaviour of Deck with respect to "Suit".
+        {
+            if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Suit == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Suit &&
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Suit == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Suit)
+            {
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameSuit = 3;
+            }
+            else
+            if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Suit == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Suit ||
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Suit == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Suit ||
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Suit == PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Suit)
+            {
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameSuit = 2;
+            }
+            else
+            {
+                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameSuit = 0;
+            }
+        }
+
+
+
+
+
+        public int AssignDeckLayer(int ForWhichPlayer)  //Gives integer of Layer it belongs. From 1 to 6.
+        {
+
+
+            if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameRank == 3) //Layer 1 //Three Cards Of Same Rank.
+            {
+                return 1;
+            }
+            else if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().Ordered == true && PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameSuit == 3) //Layer 2 // Consecutive Cards && Same Suit.
+            {
+                return 2;
+            }
+            else if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().Ordered == true && PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameSuit != 3) //Layer 3 // Consecutive Cards && Diffrent Suit.
+            {
+                return 3;
+            }
+            else if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().Ordered == false && PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameSuit == 3) //Layer 4 // Non-Consecutive Cards && Same Suit.
+            {
+                return 4;
+            }
+            else if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().NoOfSameRank == 2) //Layer 5 // Two Cards of Same Rank.
+            {
+                return 5;
+            }
+            else //Layer 6 //
+            {
+                return 6;
+            }
+
+            //return 0; // Never going to happen.
+        }
+
+
+        public int AssignDeckSubLayer(int ForWhichPlayer, int LayerNumber)  //
+        {
+            switch (LayerNumber)
+            {
+                case 1:
+                    if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank == 1)
+                    {
+                        return 1;  //AAA as 1.
+                    }
+                    else
+                    {
+                        return (15 - PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank); //KKK(13) as 2, QQQ(12) as 3 , .... 222(2) as 13.
+                    }
+                case 2:
+                    if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank == 13 &&
+                                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank == 12 &&
+                                        PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank == 1)
+                    {
+                        return 1;  // KQA
+                    }
+                    else if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank == 3 &&
+                                    PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank == 2 &&
+                                        PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank == 1)
+                    {
+                        return 2;  //32A
+                    }
+                    else
+                    {
+                        return (16 - PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank); //13,12,11 -  12,11,10 - 10,9,8
+                    }
+                case 3:
+                    if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank == 13 &&
+                                PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank == 12 &&
+                                        PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank == 1)
+                    {
+                        return 1;  // KQA
+                    }
+                    else if (PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank == 3 &&
+                                    PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[1].Rank == 2 &&
+                                        PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[2].Rank == 1)
+                    {
+                        return 2;  //32A
+                    }
+                    else
+                    {
+                        return (16 - PlayersList[ForWhichPlayer - 1].GetComponent<Player>().cardList[0].Rank); //13,12,11 -  12,11,10 - 10,9,8
+                    }
+                default:  //FOR 4,5,6 //THIS WILL BE CHECKED WHILE RANKING.
+                    return 0;
+            }
+        }
+
+        public void RankPlayers(int ForWhichPlayer)  //RANKING ALGORITHM.
+        {
+            int CurrentPosition = 0;
+            TopRankers.Insert(0, PlayersList[ForWhichPlayer - 1]);
+
+            //------------------Change Every A card index to 14--------------------------
+            for(int i=0;i<3;i++)
+            {
+                if(TopRankers[0].GetComponent<Player>().cardList[i].Rank == 1)
+                {
+                    TopRankers[0].GetComponent<Player>().cardList[i].Rank = 14;
+                }
+            }
+           
+
+
+            void Swap()
+            {
+                GameObject temp = TopRankers[CurrentPosition+1];
+                TopRankers.RemoveAt(CurrentPosition + 1);
+                TopRankers.Insert(CurrentPosition, temp);
+                CurrentPosition += 1;
+            }
+
+            for (int i = CurrentPosition; i < (TopRankers.Count - 1); i++)
+            {
+                if (TopRankers[CurrentPosition].GetComponent<Player>().DeckLayer > TopRankers[CurrentPosition + 1].GetComponent<Player>().DeckLayer)   //SORT WITH HELP OF LAYERS INT.
+                {
+                    Swap();   //SWAP on basis of Deck_Layer
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            for (int i = CurrentPosition; i < (TopRankers.Count - 1); i++)
+            {
+                if (TopRankers[CurrentPosition].GetComponent<Player>().DeckLayer == TopRankers[CurrentPosition + 1].GetComponent<Player>().DeckLayer)
+                {
+                    if (TopRankers[CurrentPosition].GetComponent<Player>().DeckLayer <= 3)
+                    {
+                        //It is from Deck Layer 1, 2, 3
+                        if (TopRankers[CurrentPosition].GetComponent<Player>().DeckLayer > TopRankers[CurrentPosition + 1].GetComponent<Player>().DeckLayer)  //If Smaller , Insert Above
+                        {
+                            GameObject temp = TopRankers[CurrentPosition];
+                            TopRankers.Insert(CurrentPosition, TopRankers[CurrentPosition + 1]);
+                            TopRankers.Insert(CurrentPosition + 1, temp);
+                            CurrentPosition += 1;
+                        }
+                    }
+                    else if (TopRankers[CurrentPosition].GetComponent<Player>().DeckLayer == 5) //THEY ARE 5. First check highest Pair-Cards, 
+                    {
+                        if (TopRankers[CurrentPosition].GetComponent<Player>().cardList[0].Rank == TopRankers[CurrentPosition].GetComponent<Player>().cardList[1].Rank)
+                        {
+                            //First 2 Cards are same.
+                            if (TopRankers[CurrentPosition].GetComponent<Player>().cardList[0].Rank < TopRankers[CurrentPosition + 1].GetComponent<Player>().cardList[0].Rank) //IF GREATER
+                            {
+                                //swap
+                                Swap();
+                            }
+                        }
+                        else
+                        {
+                            //Last 2 Cards are same.
+                            if (TopRankers[CurrentPosition].GetComponent<Player>().cardList[1].Rank < TopRankers[CurrentPosition + 1].GetComponent<Player>().cardList[1].Rank) //IF GREATER
+                            {
+                                //swap
+                                Swap();
+                            }
+                        }
+                    }
+                    else //THEY ARE 4,6
+                    {
+                        if (TopRankers[CurrentPosition].GetComponent<Player>().cardList[0].Rank < TopRankers[CurrentPosition + 1].GetComponent<Player>().cardList[0].Rank) //IF GREATER
+                        {
+                            //swap
+                            Swap();
+                        }
+                        else if (TopRankers[CurrentPosition].GetComponent<Player>().cardList[0].Rank == TopRankers[CurrentPosition + 1].GetComponent<Player>().cardList[0].Rank) //IF EQUAL
+                        {
+                            //check 2nd card
+                            if (TopRankers[CurrentPosition].GetComponent<Player>().cardList[1].Rank < TopRankers[CurrentPosition + 1].GetComponent<Player>().cardList[1].Rank) //IF GREATER
+                            {
+                                //swap
+                                Swap();
+                            }
+                            else if (TopRankers[CurrentPosition].GetComponent<Player>().cardList[1].Rank == TopRankers[CurrentPosition + 1].GetComponent<Player>().cardList[1].Rank) //IF EQUAL
+                            {
+                                //check 3nd card
+                                if (TopRankers[CurrentPosition].GetComponent<Player>().cardList[2].Rank < TopRankers[CurrentPosition + 1].GetComponent<Player>().cardList[2].Rank) //IF GREATER
+                                {
+                                    //swap
+                                    Swap();
+                                }
+                            }
+                            else {/*DO NOTHING*/  break; }
+                        }
+                        else {/*DO NOTHING*/  break; }
+                    }
+
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        #endregion  
+
+
     }
 }
