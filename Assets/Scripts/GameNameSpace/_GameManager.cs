@@ -52,7 +52,7 @@ namespace GameNameSpace
 
         private int MainPlayerTimeoutIndex = 0;  // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
         private int LastTwoPlayersTurnIndex = 0;
-
+        private float SliderFloorFunction;
 
         public Animator[] cardanim;
 
@@ -217,10 +217,10 @@ namespace GameNameSpace
             if(IsPlayer==true)
             {
                 //Debugger.text = "Player " + PlayerIndex + " Betted " + BettingSlider.value + " Chips";
-                Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + BettingSlider.value + " Chips";
+                Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + SliderFloorFunction + " Chips";
 
-                MainPlayer.GetComponent<Player>().coin -= (int)BettingSlider.value;
-                TotalPot += (int)BettingSlider.value;
+                MainPlayer.GetComponent<Player>().coin -= (int)SliderFloorFunction;
+                TotalPot += (int)SliderFloorFunction;
                 //Refresh Data after some Maths..
                 MainPlayer.GetComponent<Player>().RefreshData();
                 RefreshSlider();
@@ -502,24 +502,26 @@ namespace GameNameSpace
         public void BetUpdate()
         {
             float value = BettingSlider.value / 10;
-            BettingValueText.text = (Mathf.Floor(value)*10).ToString();
+            SliderFloorFunction = Mathf.Floor(value) * 10;
+            BettingValueText.text = SliderFloorFunction.ToString();
         }
 
         public void AddBetButton()
         {
-            float TempValue = BettingSlider.value / 10;
-            float BettingValue = Mathf.Floor(TempValue) * 10;
-            BettingValue += 10;
-            BettingSlider.value = BettingValue;
-            BettingValueText.text = BettingSlider.value.ToString();
+            if(SliderFloorFunction<BettingSlider.maxValue)
+            {
+                SliderFloorFunction += 10;
+                BettingValueText.text = SliderFloorFunction.ToString();
+            }
+
         }
         public void SubstractBetButton()
         {
-            float TempValue = BettingSlider.value / 10;
-            float BettingValue =  Mathf.Floor(TempValue) * 10;
-            BettingValue -= 10;
-            BettingSlider.value = BettingValue;
-            BettingValueText.text = BettingSlider.value.ToString();
+            if (SliderFloorFunction > BettingSlider.minValue)
+            {
+                SliderFloorFunction -= 10;
+                BettingValueText.text = SliderFloorFunction.ToString();
+            }
         }
 
         public void RefreshSlider()
