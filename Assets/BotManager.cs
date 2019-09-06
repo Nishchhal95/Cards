@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BotManager : MonoBehaviour
 {
@@ -8,17 +6,25 @@ public class BotManager : MonoBehaviour
     {
         if (playernumber <= 2 && priority == 1)
         {
-            return 1;
+            return 3;
         }
         else
         {
-            if(playernumber>2 && priority == 1)
+            if(playernumber>2 && priority == 2)
             {
-                return 1;
+                return 2;
             }
             else
             {
-                return Random.Range(3, 6);
+                if(playernumber == 2)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 1;
+                }
+
             }
         }
     }
