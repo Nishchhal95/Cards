@@ -43,4 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3498beedeb228bc4cb34ce753e09a809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: MainPage
+  nextSceneName: howToPlay

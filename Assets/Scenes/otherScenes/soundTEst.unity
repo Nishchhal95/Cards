@@ -379,11 +379,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: sceneLoader
       objectReference: {fileID: 0}
-    - target: {fileID: 6015793255919643747, guid: 47485de51f58b684bb80c9cde24f9fa2,
-        type: 3}
-      propertyPath: nextSceneName
-      value: howToPlay
-      objectReference: {fileID: 0}
     - target: {fileID: 6015793255919643744, guid: 47485de51f58b684bb80c9cde24f9fa2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -856,44 +851,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 768ede1415af9a8478049694368991f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  panels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  buttons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  currentPanelIndex: 0
-  nextPanelAnimator: {fileID: 0}
 --- !u!1 &2034912051
 GameObject:
   m_ObjectHideFlags: 0
