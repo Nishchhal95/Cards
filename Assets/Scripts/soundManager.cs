@@ -26,6 +26,7 @@ public class soundManager : MonoBehaviour
     }
 
 
+    //toggling system
    public void SoundControll()
     {
         if(AudioListener.pause==true)
