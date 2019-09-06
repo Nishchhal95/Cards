@@ -11,6 +11,7 @@ namespace GameNameSpace
     public class _GameManager : MonoBehaviour
     {
         public GameObject playerPrefab;
+        public GameObject playerPrefab2;
         public Transform[] InstantiatePosition;
         public static int numberOfPlayer;
 
@@ -143,8 +144,18 @@ namespace GameNameSpace
 
         private void CreatePlayer(string playerName, int chips, float XP, Sprite sprite, int playernumber)
         {
-            GameObject player = Instantiate(playerPrefab, InstantiatePosition[playernumber - 1]);
-            PlayersList.Add(player);
+            GameObject player;
+
+            if (playernumber ==2 || playernumber ==3)
+            {
+                 player = Instantiate(playerPrefab2, InstantiatePosition[playernumber - 1]);
+            }
+            else
+            {
+                 player = Instantiate(playerPrefab, InstantiatePosition[playernumber - 1]);
+            }
+
+             PlayersList.Add(player);
             Player playerScript = player.GetComponent<Player>();
 
 

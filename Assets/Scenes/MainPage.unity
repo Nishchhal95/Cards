@@ -3541,10 +3541,10 @@ RectTransform:
   m_Father: {fileID: 1971006522369520491}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 142.6, y: 164.00002}
-  m_SizeDelta: {x: 20.83, y: 20.83}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -220.3, y: -40.1}
+  m_SizeDelta: {x: 20.829987, y: 20.830002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &323990910
 MonoBehaviour:
@@ -6880,7 +6880,7 @@ GameObject:
   - component: {fileID: 803787005}
   - component: {fileID: 803787004}
   m_Layer: 5
-  m_Name: Text (TMP) (5)
+  m_Name: date
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19502,10 +19502,10 @@ RectTransform:
   m_Father: {fileID: 1971006522369520491}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 285.80002, y: 164}
-  m_SizeDelta: {x: 72.8, y: 33.6}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -95.485016, y: -38.085007}
+  m_SizeDelta: {x: 72.79999, y: 33.600006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1971006521348319785
 GameObject:
@@ -22137,6 +22137,11 @@ PrefabInstance:
       propertyPath: amounttext
       value: 
       objectReference: {fileID: 906554196}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: date
+      value: 
+      objectReference: {fileID: 803787004}
     - target: {fileID: 1805363018674036575, guid: 419e09c7952d88746a8b34922a120956,
         type: 3}
       propertyPath: soundonbutton
