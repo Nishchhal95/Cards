@@ -6777,7 +6777,7 @@ GameObject:
   - component: {fileID: 803787005}
   - component: {fileID: 803787004}
   m_Layer: 5
-  m_Name: Text (TMP) (5)
+  m_Name: date
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21825,6 +21825,11 @@ PrefabInstance:
       propertyPath: amounttext
       value: 
       objectReference: {fileID: 906554196}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: date
+      value: 
+      objectReference: {fileID: 803787004}
     - target: {fileID: 1805363018674036575, guid: 419e09c7952d88746a8b34922a120956,
         type: 3}
       propertyPath: soundonbutton

@@ -19,6 +19,7 @@ public class MainMenu : MonoBehaviour
      public GameObject TableAmount;
 
     public TextMeshProUGUI amounttext;
+    public TextMeshProUGUI date;
 
     int amounttable;
 
@@ -29,6 +30,15 @@ public class MainMenu : MonoBehaviour
         amounttext.text = amounttable.ToString();
     }
 
+    private void Start()
+    {
+        if(PlayerPrefs.GetString("date","0") == "0")
+        {
+            PlayerPrefs.SetString("date", System.DateTime.Now.ToString("MM/dd/yyyy"));
+        }
+        date.text = PlayerPrefs.GetString("date");
+        
+    }
 
     void CheckFB()
     {
