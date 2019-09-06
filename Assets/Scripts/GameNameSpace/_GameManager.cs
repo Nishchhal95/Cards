@@ -52,8 +52,10 @@ namespace GameNameSpace
         //--
 
         private int MainPlayerTimeoutIndex = 0;  // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
-        private int LastTwoPlayersTurnIndex = 0;
         private float SliderFloorFunction;
+
+        private int RoundsCompleted = 0;
+        private int RoundsCompletedWithTwoPlayers = 0;
 
         public Animator[] cardanim;
 
@@ -357,141 +359,200 @@ namespace GameNameSpace
 
         IEnumerator Wait45Seconds(int Index)
         {
-            Debug.Log(Index);
             int TempIndex = Index;   // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
             yield return new WaitForSeconds(45f);
-            Debug.Log(PlayerIndex);
-            Debug.Log(TempIndex);
-            Debug.Log(MainPlayerTimeoutIndex);
             if (PlayerIndex==1 && TempIndex==MainPlayerTimeoutIndex && PrimaryPlayerDead==false)
             {
-                Debug.Log("Working");
                 Fold(true);  //Fold is exceed, 45 seconds.
             }
         }
 
         private void StartPlayersTurn() //AI ALL DOWN.
         {
-            if(PlayersList.Count==2)   //Do AI
+            if(PlayerIndex==PlayersList.Count)  //Counts Round Completed.
             {
-                if(TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == 1 || TopRankers[1].GetComponent<Player>().PLayerDefaultNumber == 1)
+                RoundsCompleted++;
+                Debug.Log(RoundsCompleted + "Round Completed");
+                if(PlayersList.Count==2)
                 {
+                    RoundsCompletedWithTwoPlayers++;
+                }
+            }
 
-                    if(TopRankers[0].GetComponent<Player>().PLayerDefaultNumber==1)  //Main Player is going to be Winner
+            //If MainPLayer is Winner.
+            if (TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == 1)
+            {
+                if (PlayersList.Count == 2) //Only Two Players are there
+                {
+                    //If MainPlayer is Playing...
+                    if(PlayerIndex==1)
                     {
-                        // Other player do fold
-                        LastTwoPlayersTurnIndex++;
-                        if(LastTwoPlayersTurnIndex>=2)    //Play Two chances.
+                        //He can do anything.
+                    }
+                    else  //If BOT is Playing...
+                    {
+                        //CAN "FOLD" AFTER 2 ROUNDS.
+                        //CAN "SHOW" AFTER 2 ROUNDS.
+                       
+                        if(RoundsCompletedWithTwoPlayers>=2)
                         {
-
-                            if(PlayerIndex!=1)  //Check Is current turn playing by Bot ?
+                            int k = Random.Range(1, 4);
+                            switch(k)
                             {
-                                Fold(false);
+                                case 1: Bet(false);
+                                    break;
+
+                                case 2:  Show();
+                                    break;
+
+                                case 3: Fold(false);
+                                    break;
                             }
                         }
-                        else   
+                        else
                         {
-                            if (PlayerIndex != 1)  //Check Is current turn playing by Bot ?
+                            Bet(false);
+                        }
+
+                    }
+                }
+                else  //More than two Players are there.
+                {
+                    //If MainPlayer is Playing...
+                    if (PlayerIndex == 1)
+                    {
+                        //He can do anything.
+                    }
+                    else  //If BOT is Playing...
+                    {
+                        //CAN "SHOW" AFTER 2 ROUNDS.
+                        //WILL NOT FOLD EVER.
+                        if (RoundsCompleted >= 2)
+                        {
+                            int k = Random.Range(1, 3);
+                            switch (k)
                             {
-                                int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
-                                switch (R)
-                                {
-                                    case 1:
-                                        Show();
-                                        break;
-                                    case 2:
-                                        Bet(false);
-                                        break;
-                                    case 3:
-                                        Fold(false);
-                                        break;
-                                }
+                                case 1: Bet(false);
+                                    break;
+
+                                case 2: Show();
+                                    break;
                             }
                         }
-
-                    }
-                    else  //Another Player is going to be Winner.
-                    {
-                        // Keep playing.
-
-                        int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
-                        switch (R)
+                        else
                         {
-                            case 1:
-                                Show();
-                                break;
-                            case 2:
-                                Bet(false);
-                                break;
-                            case 3:
-                                Fold(false);
-                                break;
+                            Bet(false);
                         }
-                    }
-
-                }
-                else if (TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == PlayerIndex)  // If This Bot Player is in Top 1 Priority.  //Do not Fold.
-                {
-                    int R = Random.Range(1, 3);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
-                    switch (R)
-                    {
-                        case 1:
-                            Show();
-                            break;
-                        case 2:
-                            Bet(false);
-                            break;
-                    }
-                }
-                else // If This Bot Player is in NOT in Top 1 Priority.
-                {
-                    int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
-                    switch (R)
-                    {
-                        case 1:
-                            Show();
-                            break;
-                        case 2:
-                            Bet(false);
-                            break;
-                        case 3:
-                            Fold(false);
-                            break;
                     }
                 }
             }
-            else 
-            if (TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == PlayerIndex || 
-                       TopRankers[1].GetComponent<Player>().PLayerDefaultNumber == PlayerIndex)  //If This Bot is at Top 2 Position.
+            //If MainPLayer is 2nd Winner.
+            else if (TopRankers[1].GetComponent<Player>().PLayerDefaultNumber == 1)
             {
-                int R = Random.Range(1, 3);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
-                switch (R)
+                if (PlayersList.Count == 2) 
                 {
-                    case 1:
-                        Show();
-                        break;
-                    case 2:
-                        Bet(false);
-                        break;
+                    //If MainPlayer is Playing...
+                    if (PlayerIndex == 1)
+                    {
+                        //He can do anything.
+                    }
+                    else  //If BOT is Playing...
+                    {
+                        //CAN "SHOW" AFTER 2 ROUNDS.
+                        //WILL NOT FOLD EVER.
+                        if (RoundsCompletedWithTwoPlayers >= 2)
+                        {
+                            int k = Random.Range(1, 3);
+                            switch (k)
+                            {
+                                case 1:
+                                    Bet(false);
+                                    break;
+
+                                case 2:
+                                    Show();
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Bet(false);
+                        }
+                    }
+                }
+                else
+                {
+                    //If MainPlayer is Playing...
+                    if (PlayerIndex == 1)
+                    {
+                        //He can do anything.
+                    }
+                    else  //If BOT is Playing...
+                    {
+                        //CAN "SHOW" AFTER 2 ROUNDS.
+                        //WILL NOT FOLD EVER.
+                        if (RoundsCompleted >= 2)
+                        {
+                            int k = Random.Range(1, 3);
+                            switch (k)
+                            {
+                                case 1:
+                                    Bet(false);
+                                    break;
+
+                                case 2:
+                                    Show();
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Bet(false);
+                        }
+                    }
                 }
             }
+            //If only Bots are at Top two positions.
             else
             {
-                int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
-                switch (R)
+                if (PlayersList.Count == 2) //Only Two Players are there
                 {
-                    case 1:
+                    //CAN DO WHATEVER THEY WANT. BET / FOLD.
+                    //CAN SHOW AFTER TWO ROUNDS.
+                    if (RoundsCompletedWithTwoPlayers >= 2)
+                    {
                         Show();
-                        break;
-                    case 2:
+                    }
+                    else
+                    {
+                        int k = Random.Range(1, 3);
+                        switch (k)
+                        {
+                            case 1:
+                                Bet(false);
+                                break;
+
+                            case 2:
+                                Fold(false);
+                                break;
+                        }
+                    }
+                }
+                else  //More than two Players are there.
+                {
+                    //CAN NOT FOLD.
+                    //CAN SHOW AFTER TWO ROUNDS.
+                    if (RoundsCompleted >= 2)
+                    {
+                        Show();
+                    }
+                    else
+                    {
                         Bet(false);
-                        break;
-                    case 3:
-                        Fold(false);
-                        break;
+                    }
                 }
             }
-            
+
         }
 
         private void ChangeSelectionUI()
