@@ -250,6 +250,7 @@ namespace GameNameSpace
                  int multiple = Random.Range(1, 4);
                  int temp = MinimumBettingValue * multiple;
 
+                 MinimumBettingValue = temp;
                  Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + temp + " Chips";
 
                  PlayersList[PlayerIndex - 1].GetComponent<Player>().coin -= temp;
