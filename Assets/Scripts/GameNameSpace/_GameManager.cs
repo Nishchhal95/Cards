@@ -56,6 +56,7 @@ namespace GameNameSpace
 
         private int RoundsCompleted = 0;
         private int RoundsCompletedWithTwoPlayers = 0;
+        private bool ShowClicked = false;
 
         public Animator[] cardanim;
 
@@ -126,7 +127,7 @@ namespace GameNameSpace
                     {
                         if (FB_Handler.instance.SavedProfile != null)
                         {
-                            CreatePlayer(FB_Handler.instance.SavedUsername,100, 1000, FB_Handler.instance.SavedProfile, i);
+                            CreatePlayer(FB_Handler.instance.SavedUsername,5000, 1000, FB_Handler.instance.SavedProfile, i);
                             Greeting.text = "Welcome Back, " + FB_Handler.instance.SavedUsername;
                         }
 
@@ -210,7 +211,8 @@ namespace GameNameSpace
 
         public void Show()
         {
-            //Debugger.text =  "Player " + PlayerIndex + " clicked : SHOW";
+            ShowClicked = true;
+
             Debugger.text =  PlayersList[PlayerIndex-1].GetComponent<Player>().name + " clicked : SHOW";
 
             if (PlayerIndex < PlayersList.Count)
@@ -245,11 +247,11 @@ namespace GameNameSpace
             }
             else
             {
-                //Debugger.text = "Player " + PlayerIndex + " clicked : BET";
-                 Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " clicked : BET";
                  int multiple = Random.Range(1, 4);
                  int temp = MinimumBettingValue * multiple;
-                 
+
+                 Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + temp + " Chips";
+
                  PlayersList[PlayerIndex - 1].GetComponent<Player>().coin -= temp;
                  PlayersList[PlayerIndex - 1].GetComponent<Player>().chipsText.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().coin.ToString();
                  TotalPot += temp;
@@ -378,6 +380,7 @@ namespace GameNameSpace
                     RoundsCompletedWithTwoPlayers++;
                 }
             }
+
 
             //If MainPLayer is Winner.
             if (TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == 1)
