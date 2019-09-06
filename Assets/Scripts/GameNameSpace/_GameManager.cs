@@ -223,6 +223,7 @@ namespace GameNameSpace
 
                 MainPlayer.GetComponent<Player>().coin -= (int)SliderFloorFunction;
                 TotalPot += (int)SliderFloorFunction;
+                MinimumBettingValue = (int)SliderFloorFunction;
                 //Refresh Data after some Maths..
                 MainPlayer.GetComponent<Player>().RefreshData();
                 RefreshSlider();
@@ -233,7 +234,8 @@ namespace GameNameSpace
             {
                 //Debugger.text = "Player " + PlayerIndex + " clicked : BET";
                  Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " clicked : BET";
-                 int temp = Random.Range(10, 40);
+                 int multiple = Random.Range(1, 4);
+                 int temp = MinimumBettingValue * multiple;
                  
                  PlayersList[PlayerIndex - 1].GetComponent<Player>().coin -= temp;
                  PlayersList[PlayerIndex - 1].GetComponent<Player>().chipsText.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().coin.ToString();
@@ -417,6 +419,50 @@ namespace GameNameSpace
                     }
 
                 }
+                else if (TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == PlayerIndex)  // If This Bot Player is in Top 1 Priority.  //Do not Fold.
+                {
+                    int R = Random.Range(1, 3);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
+                    switch (R)
+                    {
+                        case 1:
+                            Show();
+                            break;
+                        case 2:
+                            Bet(false);
+                            break;
+                    }
+                }
+                else // If This Bot Player is in NOT in Top 1 Priority.
+                {
+                    int R = Random.Range(1, 4);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
+                    switch (R)
+                    {
+                        case 1:
+                            Show();
+                            break;
+                        case 2:
+                            Bet(false);
+                            break;
+                        case 3:
+                            Fold(false);
+                            break;
+                    }
+                }
+            }
+            else 
+            if (TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == PlayerIndex || 
+                       TopRankers[1].GetComponent<Player>().PLayerDefaultNumber == PlayerIndex)  //If This Bot is at Top 2 Position.
+            {
+                int R = Random.Range(1, 3);  //Random function is exclusive function. So, Will return value from 1 to 3 only.
+                switch (R)
+                {
+                    case 1:
+                        Show();
+                        break;
+                    case 2:
+                        Bet(false);
+                        break;
+                }
             }
             else
             {
@@ -480,7 +526,7 @@ namespace GameNameSpace
                 }
                 else  //If index is 1, Wait Player to play. 
                 {
-                    if(MainPlayer.GetComponent<Player>().coin > MinimumBettingValue)    //If Coins greter than beeting value
+                    if(MainPlayer.GetComponent<Player>().coin >= MinimumBettingValue)    //If Coins greter than beeting value
                     {
                         Interactable = true;
                     }
@@ -508,8 +554,8 @@ namespace GameNameSpace
         
         public void BetUpdate()
         {
-            float value = BettingSlider.value / 10;
-            SliderFloorFunction = Mathf.Floor(value) * 10;
+            float value = BettingSlider.value / MinimumBettingValue;
+            SliderFloorFunction = Mathf.Floor(value) * MinimumBettingValue;
             BettingValueText.text = SliderFloorFunction.ToString();
         }
 
@@ -517,7 +563,7 @@ namespace GameNameSpace
         {
             if(SliderFloorFunction<BettingSlider.maxValue)
             {
-                SliderFloorFunction += 10;
+                SliderFloorFunction += MinimumBettingValue;
                 BettingSlider.value = SliderFloorFunction;
                 BettingValueText.text = SliderFloorFunction.ToString();
             }
@@ -527,7 +573,7 @@ namespace GameNameSpace
         {
             if (SliderFloorFunction > BettingSlider.minValue)
             {
-                SliderFloorFunction -= 10;
+                SliderFloorFunction -= MinimumBettingValue;
                 BettingSlider.value = SliderFloorFunction;
                 BettingValueText.text = SliderFloorFunction.ToString();
             }
