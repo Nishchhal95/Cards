@@ -57,6 +57,9 @@ namespace GameNameSpace
         private int RoundsCompleted = 0;
         private int RoundsCompletedWithTwoPlayers = 0;
         private bool ShowClicked = false;
+        private int NumberOfPlayerShowed = 0;
+
+        private int RandomPlayerStartAt = 0;
 
         public Animator[] cardanim;
 
@@ -87,6 +90,7 @@ namespace GameNameSpace
         private void SecondStart()
         {
             PlayerIndex = Random.Range(1, numberOfPlayer + 1);
+            RandomPlayerStartAt = PlayerIndex;
             CardsManager.instance.MakeDatabase();
             CreatePlayers(numberOfPlayer);
         }
@@ -317,14 +321,14 @@ namespace GameNameSpace
             {
                 if (PrimaryPlayerDead == true)  //We are dead, Go On in Loop.
                 {
-              
+                    Debug.Log("call by index ok " + PlayerIndex);
                     Utils.DoActionAfterSecondsAsync(StartPlayersTurn, WaitingTime);
                 }
                 else  //We are not dead.
                 {
                     if (PlayerIndex != 1)  //If index is not 1 , Go On.
                     {
-                  
+                        Debug.Log("call by index oh " + PlayerIndex);
                         Utils.DoActionAfterSecondsAsync(StartPlayersTurn, WaitingTime);
                     }
                     else //else wait for Main Player to do action.
@@ -339,14 +343,48 @@ namespace GameNameSpace
                         else   
                         {
                             //Let Player Play.
+                            BetUpdate();
 
-                            //Wait for 45 seconds, If Player not played, Auto Fold.
-                            CurrentTime = 0f;
-                            TimerUI.fillAmount = 0f;
-                            TimerOn = true;
-                            MainPlayerTimeoutIndex++;
-                            StartCoroutine(Wait45Seconds(MainPlayerTimeoutIndex));
+                            if (ShowClicked==true)
+                            {
+                                for (int i = 0; i < ObjectsToDisable.Count; i++)
+                                {
+                                    if (ObjectsToDisable[i].GetComponent<Button>() == true)
+                                    {
+                                        ObjectsToDisable[i].GetComponent<Button>().interactable = false;
+                                    }
+                                    else
+                                    {
+                                        ObjectsToDisable[i].GetComponent<Slider>().interactable = false;
+                                    }
+                                }
+                                NumberOfPlayerShowed++;
+                                Debug.Log((NumberOfPlayerShowed + 1) + "PlayerShowed CALLING FROM MAIN");
+                                if ((NumberOfPlayerShowed + 1) == PlayersList.Count)
+                                {
+                                    Debugger.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
+                                }
+                                else
+                                {
+                                    Utils.DoActionAfterSecondsAsync(Show, WaitingTime); // Auto SHOW.
+                                }
+                                Debug.Log("ABCDEFGH 1");
+                               
+                            }
+                            else
+                            {
+                                //Wait for 45 seconds, If Player not played, Auto Fold.
+                                CurrentTime = 0f;
+                                TimerUI.fillAmount = 0f;
+                                TimerOn = true;
+                                MainPlayerTimeoutIndex++;
+                                StartCoroutine(Wait45Seconds(MainPlayerTimeoutIndex));
+                            }
+                                
                           
+                            
+
+
                         }
                     }
                     
@@ -372,7 +410,15 @@ namespace GameNameSpace
 
         private void StartPlayersTurn() //AI ALL DOWN.
         {
-            if(PlayerIndex==PlayersList.Count)  //Counts Round Completed.
+
+            BetUpdate();
+
+            if(RandomPlayerStartAt>PlayersList.Count)
+            {
+                RandomPlayerStartAt = PlayersList.Count;
+            }
+
+            if (PlayerIndex==RandomPlayerStartAt)  //Counts Round Completed.
             {
                 RoundsCompleted++;
                 Debug.Log(RoundsCompleted + "Round Completed");
@@ -382,64 +428,196 @@ namespace GameNameSpace
                 }
             }
 
-
-            //If MainPLayer is Winner.
-            if (TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == 1)
+            if(ShowClicked==false)
             {
-                if (PlayersList.Count == 2) //Only Two Players are there
+                //If MainPLayer is Winner.
+                if (TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == 1)
                 {
-                    //If MainPlayer is Playing...
-                    if(PlayerIndex==1)
+                    if (PlayersList.Count == 2) //Only Two Players are there
                     {
-                        //He can do anything.
-                    }
-                    else  //If BOT is Playing...
-                    {
-                        //CAN "FOLD" AFTER 2 ROUNDS.
-                        //CAN "SHOW" AFTER 2 ROUNDS.
-                       
-                        if(RoundsCompletedWithTwoPlayers>=2)
+                        //If MainPlayer is Playing...
+                        if (PlayerIndex == 1)
                         {
-                            int k = Random.Range(1, 4);
-                            switch(k)
+                            //He can do anything.
+                        }
+                        else  //If BOT is Playing...
+                        {
+                            //CAN "FOLD" AFTER 2 ROUNDS.
+                            //CAN "SHOW" AFTER 2 ROUNDS.
+
+                            if (RoundsCompletedWithTwoPlayers >= 2)
                             {
-                                case 1: Bet(false);
-                                    break;
+                                int k = Random.Range(1, 4);
+                                switch (k)
+                                {
+                                    case 1:
+                                        Bet(false);
+                                        break;
 
-                                case 2:  Show();
-                                    break;
+                                    case 2:
+                                        Debug.Log("ABCDEFGH 2");
+                                        Show();
+                                      
+                                        break;
 
-                                case 3: Fold(false);
-                                    break;
+                                    case 3:
+                                        Fold(false);
+                                        break;
+                                }
                             }
+                            else
+                            {
+                                Bet(false);
+                            }
+
+                        }
+                    }
+                    else  //More than two Players are there.
+                    {
+                        //If MainPlayer is Playing...
+                        if (PlayerIndex == 1)
+                        {
+                            //He can do anything.
+                        }
+                        else  //If BOT is Playing...
+                        {
+                            //CAN "SHOW" AFTER 2 ROUNDS.
+                            //WILL NOT FOLD EVER.
+                            if (RoundsCompleted >= 2)
+                            {
+                                int k = Random.Range(1, 3);
+                                switch (k)
+                                {
+                                    case 1:
+                                        Bet(false);
+                                        break;
+
+                                    case 2:
+                                        Debug.Log("ABCDEFGH 3");
+                                        Show();
+                                      
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                Bet(false);
+                            }
+                        }
+                    }
+                }
+                //If MainPLayer is 2nd Winner.
+                else if (TopRankers[1].GetComponent<Player>().PLayerDefaultNumber == 1)
+                {
+                    if (PlayersList.Count == 2)
+                    {
+                        //If MainPlayer is Playing...
+                        if (PlayerIndex == 1)
+                        {
+                            //He can do anything.
+                        }
+                        else  //If BOT is Playing...
+                        {
+                            //CAN "SHOW" AFTER 2 ROUNDS.
+                            //WILL NOT FOLD EVER.
+                            if (RoundsCompletedWithTwoPlayers >= 2)
+                            {
+                                int k = Random.Range(1, 3);
+                                switch (k)
+                                {
+                                    case 1:
+                                        Bet(false);
+                                        break;
+
+                                    case 2:
+                                        Debug.Log("ABCDEFGH 4");
+                                        Show();
+                                       
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                Bet(false);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //If MainPlayer is Playing...
+                        if (PlayerIndex == 1)
+                        {
+                            //He can do anything.
+                        }
+                        else  //If BOT is Playing...
+                        {
+                            //CAN "SHOW" AFTER 2 ROUNDS.
+                            //WILL NOT FOLD EVER.
+                            if (RoundsCompleted >= 2)
+                            {
+                                int k = Random.Range(1, 3);
+                                switch (k)
+                                {
+                                    case 1:
+                                        Bet(false);
+                                        break;
+
+                                    case 2:
+                                        Debug.Log("ABCDEFGH 5");
+                                        Show();
+                                     
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                Bet(false);
+                            }
+                        }
+                    }
+                }
+                //If only Bots are at Top two positions.
+                else
+                {
+                    if (PlayersList.Count == 2) //Only Two Players are there
+                    {
+                        //CAN DO WHATEVER THEY WANT. BET / FOLD.
+                        //CAN SHOW AFTER TWO ROUNDS.
+                        if (RoundsCompletedWithTwoPlayers >= 2)
+                        {
+                            Show();
+                          
                         }
                         else
                         {
-                            Bet(false);
-                        }
+                            int k = Random.Range(1, 3);
+                            switch (k)
+                            {
+                                case 1:
+                                    Bet(false);
+                                    break;
 
+                                case 2:
+                                    Fold(false);
+                                    break;
+                            }
+                        }
                     }
-                }
-                else  //More than two Players are there.
-                {
-                    //If MainPlayer is Playing...
-                    if (PlayerIndex == 1)
+                    else  //More than two Players are there.
                     {
-                        //He can do anything.
-                    }
-                    else  //If BOT is Playing...
-                    {
-                        //CAN "SHOW" AFTER 2 ROUNDS.
-                        //WILL NOT FOLD EVER.
+                        //CAN NOT FOLD.
+                        //CAN SHOW AFTER TWO ROUNDS.
                         if (RoundsCompleted >= 2)
                         {
                             int k = Random.Range(1, 3);
                             switch (k)
                             {
-                                case 1: Bet(false);
+                                case 1:
+                                    Show();
                                     break;
 
-                                case 2: Show();
+                                case 2:
+                                    Bet(false);
                                     break;
                             }
                         }
@@ -450,112 +628,24 @@ namespace GameNameSpace
                     }
                 }
             }
-            //If MainPLayer is 2nd Winner.
-            else if (TopRankers[1].GetComponent<Player>().PLayerDefaultNumber == 1)
+            else //SomeOneShowed
             {
-                if (PlayersList.Count == 2) 
+                NumberOfPlayerShowed++;
+                Debug.Log((NumberOfPlayerShowed+1) + "PlayerShowed");
+                Debug.Log("ABCDEFGH 8");
+                if ((NumberOfPlayerShowed + 1) == PlayersList.Count)
                 {
-                    //If MainPlayer is Playing...
-                    if (PlayerIndex == 1)
-                    {
-                        //He can do anything.
-                    }
-                    else  //If BOT is Playing...
-                    {
-                        //CAN "SHOW" AFTER 2 ROUNDS.
-                        //WILL NOT FOLD EVER.
-                        if (RoundsCompletedWithTwoPlayers >= 2)
-                        {
-                            int k = Random.Range(1, 3);
-                            switch (k)
-                            {
-                                case 1:
-                                    Bet(false);
-                                    break;
+                    Debugger.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
 
-                                case 2:
-                                    Show();
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            Bet(false);
-                        }
-                    }
                 }
                 else
                 {
-                    //If MainPlayer is Playing...
-                    if (PlayerIndex == 1)
-                    {
-                        //He can do anything.
-                    }
-                    else  //If BOT is Playing...
-                    {
-                        //CAN "SHOW" AFTER 2 ROUNDS.
-                        //WILL NOT FOLD EVER.
-                        if (RoundsCompleted >= 2)
-                        {
-                            int k = Random.Range(1, 3);
-                            switch (k)
-                            {
-                                case 1:
-                                    Bet(false);
-                                    break;
-
-                                case 2:
-                                    Show();
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            Bet(false);
-                        }
-                    }
+                    Show();
                 }
+               
+               
             }
-            //If only Bots are at Top two positions.
-            else
-            {
-                if (PlayersList.Count == 2) //Only Two Players are there
-                {
-                    //CAN DO WHATEVER THEY WANT. BET / FOLD.
-                    //CAN SHOW AFTER TWO ROUNDS.
-                    if (RoundsCompletedWithTwoPlayers >= 2)
-                    {
-                        Show();
-                    }
-                    else
-                    {
-                        int k = Random.Range(1, 3);
-                        switch (k)
-                        {
-                            case 1:
-                                Bet(false);
-                                break;
-
-                            case 2:
-                                Fold(false);
-                                break;
-                        }
-                    }
-                }
-                else  //More than two Players are there.
-                {
-                    //CAN NOT FOLD.
-                    //CAN SHOW AFTER TWO ROUNDS.
-                    if (RoundsCompleted >= 2)
-                    {
-                        Show();
-                    }
-                    else
-                    {
-                        Bet(false);
-                    }
-                }
-            }
+            
 
         }
 
@@ -630,8 +720,16 @@ namespace GameNameSpace
         
         public void BetUpdate()
         {
+            BettingValueText.text = MinimumBettingValue.ToString();
+
+
             float value = BettingSlider.value / MinimumBettingValue;
             SliderFloorFunction = Mathf.Floor(value) * MinimumBettingValue;
+           
+            if (SliderFloorFunction==0)
+            {
+                SliderFloorFunction = MinimumBettingValue;
+            }
             BettingValueText.text = SliderFloorFunction.ToString();
         }
 
@@ -641,6 +739,10 @@ namespace GameNameSpace
             {
                 SliderFloorFunction += MinimumBettingValue;
                 BettingSlider.value = SliderFloorFunction;
+                if (SliderFloorFunction == 0)
+                {
+                    SliderFloorFunction = MinimumBettingValue;
+                }
                 BettingValueText.text = SliderFloorFunction.ToString();
             }
 
@@ -651,6 +753,10 @@ namespace GameNameSpace
             {
                 SliderFloorFunction -= MinimumBettingValue;
                 BettingSlider.value = SliderFloorFunction;
+                if (SliderFloorFunction == 0)
+                {
+                    SliderFloorFunction = MinimumBettingValue;
+                }
                 BettingValueText.text = SliderFloorFunction.ToString();
             }
         }
