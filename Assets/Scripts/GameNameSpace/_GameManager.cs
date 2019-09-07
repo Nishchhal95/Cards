@@ -251,8 +251,20 @@ namespace GameNameSpace
             }
             else
             {
-                 int multiple = Random.Range(1, 4);
-                 int temp = MinimumBettingValue * multiple;
+                 int multiple = Random.Range(2, 4);  // 2 OR 3
+                 int temp;
+
+                 if (PlayersList[PlayerIndex-1].GetComponent<Player>().StatusSeen==false)
+                 {
+                    //If Player playing Blind.
+                    temp = MinimumBettingValue;
+                 }
+                 else
+                 {
+                    //If Player playing Seen.
+                    temp = MinimumBettingValue * multiple;
+                 }
+               
 
                  MinimumBettingValue = temp;
                  Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + temp + " Chips";
@@ -317,19 +329,35 @@ namespace GameNameSpace
             ChangeButtonState();
             ChangeSelectionUI();
 
-            if(PlayersList.Count!=1) //Game move forward, only if there are more than one player.
+          
+
+            if (PlayersList.Count!=1) //Game move forward, only if there are more than one player.
             {
                 if (PrimaryPlayerDead == true)  //We are dead, Go On in Loop.
                 {
-                    Debug.Log("call by index ok " + PlayerIndex);
-                    Utils.DoActionAfterSecondsAsync(StartPlayersTurn, WaitingTime);
+                    if (PlayersList[PlayerIndex-1].GetComponent<Player>().coin < MinimumBettingValue)  //Auto Show Cards.
+                    {
+                        Utils.DoActionAfterSecondsAsync(Show, WaitingTime); // Auto SHOW.
+                    }
+                    else
+                    {
+                        RandomToSeen(PlayerIndex);
+                        Utils.DoActionAfterSecondsAsync(StartPlayersTurn, WaitingTime);
+                    }
                 }
                 else  //We are not dead.
                 {
                     if (PlayerIndex != 1)  //If index is not 1 , Go On.
                     {
-                        Debug.Log("call by index oh " + PlayerIndex);
-                        Utils.DoActionAfterSecondsAsync(StartPlayersTurn, WaitingTime);
+                        if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin < MinimumBettingValue)  //Auto Show Cards.
+                        {
+                            Utils.DoActionAfterSecondsAsync(Show, WaitingTime); // Auto SHOW.
+                        }
+                        else
+                        {
+                            RandomToSeen(PlayerIndex);
+                            Utils.DoActionAfterSecondsAsync(StartPlayersTurn, WaitingTime);
+                        }
                     }
                     else //else wait for Main Player to do action.
                     {
@@ -380,11 +408,6 @@ namespace GameNameSpace
                                 MainPlayerTimeoutIndex++;
                                 StartCoroutine(Wait45Seconds(MainPlayerTimeoutIndex));
                             }
-                                
-                          
-                            
-
-
                         }
                     }
                     
@@ -783,6 +806,19 @@ namespace GameNameSpace
             SceneManager.LoadScene(Scene);
         }
 
+
+        public void RandomToSeen(int PlayerNumber)
+        {
+            int k = Random.Range(1, 5);  //2, 3, 4, 5
+            switch(k)
+            {
+                case 2:  PlayersList[PlayerNumber-1].GetComponent<Player>().StatusSeen = true;
+                         PlayersList[PlayerNumber - 1].GetComponent<Player>().StatusText.text = "SEEN";
+                    break;
+                default: //Do nothing
+                    break;
+            }
+        }
 
         #region  Card_Algorithm
 

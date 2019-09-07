@@ -222,6 +222,7 @@ MonoBehaviour:
   nameText: {fileID: 9056814178854192533}
   chipsText: {fileID: 5969451875671771154}
   xpText: {fileID: 3815679265720028077}
+  StatusText: {fileID: 616877794506318138}
   profileImage: {fileID: 1035844745047304991}
   SelectionUI: {fileID: 376902403947691828}
   cardsImage:
@@ -460,7 +461,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SEEN
+  m_Text: BLIND
 --- !u!1 &3605351961907878548
 GameObject:
   m_ObjectHideFlags: 0

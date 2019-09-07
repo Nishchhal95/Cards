@@ -27,10 +27,12 @@ namespace GameNameSpace {
 
         //------------------------------------------------------------------
         // GUI
+        public bool StatusSeen = false;
 
         public Text nameText;
         public Text chipsText;
         public Text xpText;
+        public Text StatusText;
         public Image profileImage;
         public Image SelectionUI;
         public Image[] cardsImage;
