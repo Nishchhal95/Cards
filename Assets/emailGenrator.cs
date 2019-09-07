@@ -20,13 +20,17 @@ public class emailGenrator : MonoBehaviour
 
 
 
-    public string playerId;
-    public string deviceId;
 
 
-    public void sendEmail()
+
+    public void SendEmailBtn()
     {
-        Application.OpenURL("mailto:" + email + "?subject:" + subject + "&body:" + body);
+
+        Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
+    }
+    string MyEscapeURL(string URL)
+    {
+        return WWW.EscapeURL(URL).Replace("+", "%20");
     }
 
 }
