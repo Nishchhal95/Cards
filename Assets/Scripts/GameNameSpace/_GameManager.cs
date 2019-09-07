@@ -207,6 +207,8 @@ namespace GameNameSpace
         public void cardspopulate()
         {
             Player playerScript = PlayersList[0].GetComponent<Player>();
+            playerScript.StatusSeen = true;
+            playerScript.StatusText.text = "SEEN";
             cardanim =playerScript.GetComponentsInChildren<Animator>();
             playerScript.PopulateCards();
             cardanim[0].Play("CardFlipAnim");
