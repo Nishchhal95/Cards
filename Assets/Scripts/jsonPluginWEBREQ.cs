@@ -11,24 +11,25 @@ public class jsonPluginWEBREQ : MonoBehaviour
 
     void Start()
     {
-        //TO GET PLAYER LIST----------------------------------------------------------
-        WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> playerList) =>
-        {
+       // TO GET PLAYER LIST----------------------------------------------------------
+       WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> playerList) =>
+       {
 
 
         });
 
         //TO LOGIN---------------------------------------------------------------------------------------------------------------
-        //WebRequestManager.HttpGetPlayerLoginData("nishchhal", "nishchhal@xyz.com", "xyzIMAGE", "123456789", "10000","009", () =>
-        //{
-        //    Debug.Log("CREATED USER SUCCESFULLY");
-        //});
+      //  WebRequestManager.HttpGetPlayerLoginData("nishchhal", "nishchhal@xyz.com", "xyzIMAGE", "123456789", "10000","009", () =>
+       // {
+        //   Debug.Log("CREATED USER SUCCESFULLY");
+       // });
+
 
         //TO GET COINS-------------------------------------------------------------------
-        //WebRequestManager.HttpGetPlayerCoinsData("nishchhal@xyz.com", (string coins) =>
-        //{
-        //    Debug.Log("nishchhal@xyz.com coins " + coins);
-        //});
+       // WebRequestManager.HttpGetPlayerCoinsData("nishchhal@xyz.com", (string coins) =>
+       // {
+          //  Debug.Log("nishchhal@xyz.com coins " + coins);
+       // });
 
     }
 

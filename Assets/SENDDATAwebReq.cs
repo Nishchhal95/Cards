@@ -25,7 +25,6 @@ public class SENDDATAwebReq : MonoBehaviour
     {
         StartCoroutine(Upload());
 
-      //  dynamiCoinVal = j.dynamicCoinValue.ToString();
     }
 
 

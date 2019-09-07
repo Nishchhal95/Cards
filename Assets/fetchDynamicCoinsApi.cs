@@ -9,9 +9,19 @@ public class fetchDynamicCoinsApi : MonoBehaviour
     // Start is called before the first frame update
     string jsonstring;
 
+    string coinsFetched;
+
     void Start()
     {
 
+        //TO GET COINS-------------------------------------------------------------------
+        WebRequestManager.HttpGetPlayerCoinsData("nishchhal@xyz.com", (string coins) =>
+        {
+        Debug.Log("surbhishukla coins " + coins);
+
+
+            coinsFetched = coins;// storing in string
+         });
 
         StartCoroutine(GetText());
 
@@ -32,40 +42,15 @@ public class fetchDynamicCoinsApi : MonoBehaviour
         else
         {
 
-           Debug.Log(www.downloadHandler.text);  // prints data from the url
+            Debug.Log(www.downloadHandler.text);  // prints data from the url
 
             jsonstring = www.downloadHandler.text;
 
 
 
-
-            //JSONArray array = (JSONArray)jsonObject.get("result");
-
-             
-            
-
-
-
-          List<results> r = JsonConvert.DeserializeObject <List<results>>(jsonstring);
-
-
-
-
-
-
-            for (int i = 0; i < r.Count; i++)
-            {
-
-
-                Debug.Log("Dynamics coin fetched.........");
-               Debug.Log(r[i].coins +"coins fetched");
-              
-
-
-            }
+            Debug.Log("coins fetched from getcoin" + coinsFetched);
 
         }
-
     }
 
           public class results
