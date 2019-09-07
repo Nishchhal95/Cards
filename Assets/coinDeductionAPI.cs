@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class coinDeductionAPI : MonoBehaviour
 {
 
-    string userEmail= FB_Handler.instance.SavedEmail;
+    //string userEmail= FB_Handler.instance.SavedEmail;
 
     int coinsToBeDeducted=0;
 
@@ -33,7 +33,7 @@ public class coinDeductionAPI : MonoBehaviour
 
         
 
-        form.AddField("email of user ", userEmail);
+        //form.AddField("email of user ", userEmail);
         form.AddField("Coins deducted ", Deductedcoin);
 
 

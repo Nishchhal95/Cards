@@ -6,11 +6,11 @@ using UnityEngine.Networking;
 public class SENDDATAwebReq : MonoBehaviour
 {
 
-    string _name = FB_Handler.instance.SavedUsername;
+    //string _name = FB_Handler.instance.SavedUsername;
 
-    string _email = FB_Handler.instance.SavedEmail;
+    //string _email = FB_Handler.instance.SavedEmail;
 
-    Sprite _profile =FB_Handler.instance.SavedProfile;
+    //Sprite _profile =FB_Handler.instance.SavedProfile;
 
     string _number=  "" ;
 
@@ -39,11 +39,11 @@ public class SENDDATAwebReq : MonoBehaviour
 
 
 
-        form.AddField("NameField", _name  ) ;
+        //form.AddField("NameField", _name  ) ;
 
-      form.AddField("EmailField", _email);
+      //form.AddField("EmailField", _email);
 
-        form.AddField("ProfilePicture", _profile.ToString());
+        //form.AddField("ProfilePicture", _profile.ToString());
 
         form.AddField("Coins", dynamiCoinVal);   //sends dynamic fetched value from jsonpluginwebReq to server.
         form.AddField("numbersFeild", _number);
