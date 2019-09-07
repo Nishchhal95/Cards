@@ -251,27 +251,52 @@ namespace GameNameSpace
             }
             else
             {
-                 int multiple = Random.Range(2, 4);  // 2 OR 3
-                 int temp;
+                 int BetValue;
 
                  if (PlayersList[PlayerIndex-1].GetComponent<Player>().StatusSeen==false)
                  {
                     //If Player playing Blind.
-                    temp = MinimumBettingValue;
+                    if(PlayersList[PlayerIndex - 2].GetComponent<Player>().StatusSeen == false)
+                    {  //If Player playing Before is Blind.
+
+                        //Can Bet x2 OR Same of Minimum Bet
+                        int k = Random.Range(1, 3);  // 1 OR 2
+                        BetValue = (MinimumBettingValue) * k;
+                    }
+                    else
+                    {   //If Player playing Before is Seen.
+
+                        //Can Bet x1/2 OR Same of Minimum Bet
+                        int k = Random.Range(1, 3);  // 1 OR 2
+                        BetValue = (MinimumBettingValue/2) * k;
+                    }
                  }
                  else
                  {
                     //If Player playing Seen.
-                    temp = MinimumBettingValue * multiple;
-                 }
+                    if (PlayersList[PlayerIndex - 2].GetComponent<Player>().StatusSeen == false)
+                    {  //If Player playing Before is Blind.
+
+                        //Can Bet x2 OR x4 of Minimum Bet
+                        int k = Random.Range(1, 3);  // 1 OR 2
+                        BetValue = (MinimumBettingValue * 2) * k;
+                    }
+                    else
+                    {   //If Player playing Before is Seen.
+
+                        //Can Bet x2 OR Same of Minimum Bet
+                        int k = Random.Range(1, 3);  // 1 OR 2
+                        BetValue = (MinimumBettingValue) * k;
+                    }
+                }
                
 
-                 MinimumBettingValue = temp;
-                 Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + temp + " Chips";
+                 MinimumBettingValue = BetValue;
+                 Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + BetValue + " Chips";
 
-                 PlayersList[PlayerIndex - 1].GetComponent<Player>().coin -= temp;
+                 PlayersList[PlayerIndex - 1].GetComponent<Player>().coin -= BetValue;
                  PlayersList[PlayerIndex - 1].GetComponent<Player>().chipsText.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().coin.ToString();
-                 TotalPot += temp;
+                 TotalPot += BetValue;
                  RefreshPotText();
             }
 
