@@ -18,6 +18,7 @@ public class fetchDynamicCoinsApi : MonoBehaviour
     }
 
 
+
     IEnumerator GetText()
     {
         UnityWebRequest www = UnityWebRequest.Get("http://languagelive.xyz/casino/getcoin.php");   //dynamic coin fetch
@@ -31,23 +32,29 @@ public class fetchDynamicCoinsApi : MonoBehaviour
         else
         {
 
-            Debug.Log(www.downloadHandler.text);  // prints data from the url
+          //  Debug.Log(www.downloadHandler.text);  // prints data from the url
 
             jsonstring = www.downloadHandler.text;
 
 
-            List<getcoin> g= JsonConvert.DeserializeObject<List<getcoin>>(jsonstring);
 
 
-            // Debug.Log(playerList);
+            // JSONArray array = (JSONArray)jsonObject.get("result");
+
+       
+
+            List<results> r = JsonConvert.DeserializeObject <List<results>>(jsonstring);
+
+            
+            
 
 
-            for (int i = 0; i < g.Count; i++)
+            for (int i = 0; i < r.Count; i++)
             {
 
 
                 Debug.Log("Dynamics coin fetched.........");
-                Debug.Log(g[i].coins);
+                Debug.Log(r[i].coins +"coins fetched");
               
 
 
@@ -57,11 +64,11 @@ public class fetchDynamicCoinsApi : MonoBehaviour
 
     }
 
-          public class getcoin
+          public class results
 
 
     {
-        public int coins;
+        public string coins;
       
 
 

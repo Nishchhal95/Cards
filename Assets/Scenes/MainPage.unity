@@ -179,7 +179,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Name:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 346df5e367545a845a0453c8dd76a203, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 7891836327923116219, guid: 346df5e367545a845a0453c8dd76a203,
     type: 2}
   m_fontSharedMaterials: []
@@ -3158,7 +3158,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'REDEEM PANEL '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: db79bbb8b2dbffa48984493a9068d72c, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -8619956318803531446, guid: db79bbb8b2dbffa48984493a9068d72c,
     type: 2}
   m_fontSharedMaterials: []
@@ -10349,7 +10349,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Paytm Number :'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 346df5e367545a845a0453c8dd76a203, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 7891836327923116219, guid: 346df5e367545a845a0453c8dd76a203,
     type: 2}
   m_fontSharedMaterials: []
@@ -14975,7 +14975,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Redeem Amount:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 346df5e367545a845a0453c8dd76a203, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 7891836327923116219, guid: 346df5e367545a845a0453c8dd76a203,
     type: 2}
   m_fontSharedMaterials: []
@@ -19166,7 +19166,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1570521696
 MonoBehaviour:
@@ -22416,7 +22416,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Email:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 346df5e367545a845a0453c8dd76a203, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 7891836327923116219, guid: 346df5e367545a845a0453c8dd76a203,
     type: 2}
   m_fontSharedMaterials: []

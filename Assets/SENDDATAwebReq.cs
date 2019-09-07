@@ -12,7 +12,7 @@ public class SENDDATAwebReq : MonoBehaviour
 
     Sprite _profile =FB_Handler.instance.SavedProfile;
 
-    string _number=  "   '''  " ;
+    string _number=  "" ;
 
     string dynamiCoinVal="5000Bonus";
     string imei = "iemei";
@@ -39,9 +39,9 @@ public class SENDDATAwebReq : MonoBehaviour
 
 
 
-        form.AddField("NameField", _name);
+        form.AddField("NameField", _name  ) ;
 
-        form.AddField("EmailField", _email);
+      form.AddField("EmailField", _email);
 
         form.AddField("ProfilePicture", _profile.ToString());
 
@@ -49,7 +49,7 @@ public class SENDDATAwebReq : MonoBehaviour
         form.AddField("numbersFeild", _number);
         form.AddField("IMEI feild", imei);
 
-
+    
 
         using (UnityWebRequest www = UnityWebRequest.Post("Languagelive.xyz/casino/login.php", form))
         {
