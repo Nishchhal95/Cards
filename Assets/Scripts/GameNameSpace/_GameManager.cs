@@ -252,11 +252,24 @@ namespace GameNameSpace
             else
             {
                  int BetValue;
+                 bool CurrentPlayerStatus;
+                 bool PreviousPlayerStatus;
 
-                 if (PlayersList[PlayerIndex-1].GetComponent<Player>().StatusSeen==false)
+                 CurrentPlayerStatus = PlayersList[PlayerIndex - 1].GetComponent<Player>().StatusSeen;
+
+                 if (PlayerIndex==1)  //If bot is at player index 1.
+                 {
+                    PreviousPlayerStatus = PlayersList[PlayersList.Count-1].GetComponent<Player>().StatusSeen;
+                 }
+                 else
+                 {
+                    PreviousPlayerStatus = PlayersList[PlayerIndex - 2].GetComponent<Player>().StatusSeen;
+                 }
+
+                 if (CurrentPlayerStatus == false)
                  {
                     //If Player playing Blind.
-                    if(PlayersList[PlayerIndex - 2].GetComponent<Player>().StatusSeen == false)
+                    if(PreviousPlayerStatus == false)
                     {  //If Player playing Before is Blind.
 
                         //Can Bet x2 OR Same of Minimum Bet
@@ -274,7 +287,7 @@ namespace GameNameSpace
                  else
                  {
                     //If Player playing Seen.
-                    if (PlayersList[PlayerIndex - 2].GetComponent<Player>().StatusSeen == false)
+                    if (PreviousPlayerStatus == false)
                     {  //If Player playing Before is Blind.
 
                         //Can Bet x2 OR x4 of Minimum Bet
