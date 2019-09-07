@@ -40,7 +40,7 @@ namespace GameNameSpace {
         public void PopulateData()
         {
             nameText.text = name;
-            chipsText.text = "Chips : " + coin.ToString();
+            chipsText.text = "" + coin.ToString();
             xpText.text = "XP : " + XP.ToString();
             profileImage.sprite = playerSprite;
         }
@@ -55,7 +55,7 @@ namespace GameNameSpace {
 
         public void RefreshData()
         {
-            chipsText.text = "Chips : " + coin.ToString();
+            chipsText.text = "" + coin.ToString();
             xpText.text = "XP : " + XP.ToString();
         }
     }

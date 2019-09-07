@@ -216,6 +216,7 @@ namespace GameNameSpace
         public void Show()
         {
             ShowClicked = true;
+            NumberOfPlayerShowed++;
 
             Debugger.text =  PlayersList[PlayerIndex-1].GetComponent<Player>().name + " clicked : SHOW";
 
@@ -424,8 +425,8 @@ namespace GameNameSpace
                                         ObjectsToDisable[i].GetComponent<Slider>().interactable = false;
                                     }
                                 }
-                                NumberOfPlayerShowed++;
                                 Debug.Log((NumberOfPlayerShowed + 1) + "PlayerShowed CALLING FROM MAIN");
+
                                 if ((NumberOfPlayerShowed + 1) == PlayersList.Count)
                                 {
                                     Debugger.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
@@ -554,7 +555,6 @@ namespace GameNameSpace
                                         break;
 
                                     case 2:
-                                        Debug.Log("ABCDEFGH 3");
                                         Show();
                                       
                                         break;
@@ -591,7 +591,6 @@ namespace GameNameSpace
                                         break;
 
                                     case 2:
-                                        Debug.Log("ABCDEFGH 4");
                                         Show();
                                        
                                         break;
@@ -624,7 +623,6 @@ namespace GameNameSpace
                                         break;
 
                                     case 2:
-                                        Debug.Log("ABCDEFGH 5");
                                         Show();
                                      
                                         break;
@@ -647,7 +645,6 @@ namespace GameNameSpace
                         if (RoundsCompletedWithTwoPlayers >= 2)
                         {
                             Show();
-                          
                         }
                         else
                         {
@@ -691,9 +688,8 @@ namespace GameNameSpace
             }
             else //SomeOneShowed
             {
-                NumberOfPlayerShowed++;
                 Debug.Log((NumberOfPlayerShowed+1) + "PlayerShowed");
-                Debug.Log("ABCDEFGH 8");
+
                 if ((NumberOfPlayerShowed + 1) == PlayersList.Count)
                 {
                     Debugger.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
