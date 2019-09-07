@@ -21,7 +21,7 @@ public class fetchDynamicCoinsApi : MonoBehaviour
 
     IEnumerator GetText()
     {
-        UnityWebRequest www = UnityWebRequest.Get("http://languagelive.xyz/casino/getcoin.php");   //dynamic coin fetch
+        UnityWebRequest www = UnityWebRequest.Get("http://languagelive.xyz/casino/getcoin.php?email=surbhishukla38@yahoo.com");   //dynamic coin fetch
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
@@ -32,21 +32,25 @@ public class fetchDynamicCoinsApi : MonoBehaviour
         else
         {
 
-          //  Debug.Log(www.downloadHandler.text);  // prints data from the url
+           Debug.Log(www.downloadHandler.text);  // prints data from the url
 
             jsonstring = www.downloadHandler.text;
 
 
 
 
-            // JSONArray array = (JSONArray)jsonObject.get("result");
+            //JSONArray array = (JSONArray)jsonObject.get("result");
 
-       
-
-            List<results> r = JsonConvert.DeserializeObject <List<results>>(jsonstring);
-
+             
             
-            
+
+
+
+          List<results> r = JsonConvert.DeserializeObject <List<results>>(jsonstring);
+
+
+
+
 
 
             for (int i = 0; i < r.Count; i++)
@@ -54,7 +58,7 @@ public class fetchDynamicCoinsApi : MonoBehaviour
 
 
                 Debug.Log("Dynamics coin fetched.........");
-                Debug.Log(r[i].coins +"coins fetched");
+               Debug.Log(r[i].coins +"coins fetched");
               
 
 
@@ -68,9 +72,9 @@ public class fetchDynamicCoinsApi : MonoBehaviour
 
 
     {
-        public string coins;
-      
+         public string coins;
 
+      
 
     }
 
