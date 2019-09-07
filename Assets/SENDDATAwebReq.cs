@@ -12,7 +12,11 @@ public class SENDDATAwebReq : MonoBehaviour
 
     Sprite _profile =FB_Handler.instance.SavedProfile;
 
-    
+    string _number=  "   '''  " ;
+
+    string dynamiCoinVal="5000Bonus";
+    string imei = "iemei";
+
 
 
 
@@ -21,14 +25,14 @@ public class SENDDATAwebReq : MonoBehaviour
     {
         StartCoroutine(Upload());
 
-    
+      //  dynamiCoinVal = j.dynamicCoinValue.ToString();
     }
 
 
 
 
 
-
+    //on login data send.
     IEnumerator Upload()
     {
         WWWForm form = new WWWForm();
@@ -41,9 +45,13 @@ public class SENDDATAwebReq : MonoBehaviour
 
         form.AddField("ProfilePicture", _profile.ToString());
 
-        form.AddField("Coins", "5000 Bonus");
+        form.AddField("Coins", dynamiCoinVal);   //sends dynamic fetched value from jsonpluginwebReq to server.
+        form.AddField("numbersFeild", _number);
+        form.AddField("IMEI feild", imei);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://www.my-server.com/myform", form))
+
+
+        using (UnityWebRequest www = UnityWebRequest.Post("Languagelive.xyz/casino/login.php", form))
         {
             yield return www.SendWebRequest();
 
