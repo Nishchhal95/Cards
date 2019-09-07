@@ -162,10 +162,14 @@ namespace GameNameSpace
                  player = Instantiate(playerPrefab, InstantiatePosition[playernumber - 1]);
             }
 
+            
              PlayersList.Add(player);
             Player playerScript = player.GetComponent<Player>();
 
-
+            if (playernumber == 1)
+            {
+                playerScript.StatusText.enabled = false;
+            }
             playerScript.PLayerDefaultNumber = playernumber;
             playerScript.name = playerName;
             playerScript.coin = chips;
