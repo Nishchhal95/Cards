@@ -18,7 +18,7 @@ public class RedeemManager : MonoBehaviour
     private void Update()
     {
         ChipofPlayer = long.Parse(chiptext.text);
-        print(ChipofPlayer);
+        //print(ChipofPlayer);
     }
     private void showstats()
     {

@@ -18,7 +18,7 @@ public class coinDeductionAPI : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(Upload());
+        StartCoroutine(UploadCoinsDeducted());
 
         Deductedcoin = p.coin.ToString();   //takes remain coin from player script and send to server
     }
@@ -28,7 +28,7 @@ public class coinDeductionAPI : MonoBehaviour
 
 
 
-    IEnumerator Upload()
+    IEnumerator UploadCoinsDeducted()
     {
         WWWForm form = new WWWForm();
 
