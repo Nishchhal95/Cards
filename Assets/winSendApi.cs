@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using GameNameSpace;
 
 public class winSendApi : MonoBehaviour
 {
@@ -11,9 +12,13 @@ public class winSendApi : MonoBehaviour
     string winningAmount;
 
 
+    _GameManager g;
+
     void Start()
     {
         StartCoroutine(Upload());
+
+        winningAmount = g.TotalPot.ToString();
     }
 
     IEnumerator Upload()
