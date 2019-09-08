@@ -14,6 +14,10 @@ public class winSendApi : MonoBehaviour
 
     _GameManager g;
 
+
+
+
+    //send data on winning event ...........
     void Start()
     {
         StartCoroutine(Upload());
