@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using GameNameSpace;
+
 
 public class SENDDATAwebReq : MonoBehaviour
 {
@@ -12,19 +14,26 @@ public class SENDDATAwebReq : MonoBehaviour
 
     //Sprite _profile =FB_Handler.instance.SavedProfile;
 
+    fetchDynamicCoinsApi f;
+    _GameManager g;
+
     string _number=  "" ;
 
-    string dynamiCoinVal="5000Bonus";
+
+
+    string dynamiCoinVal;
     string imei = "iemei";
 
-
+    string minimumbet;
 
 
 
     void Start()
     {
         StartCoroutine(Upload());
-
+        dynamiCoinVal = f.coinsFetched;   //ssend dynamic coin fetched from getcoin server and sends it.
+        
+        minimumbet=g.MinimumBettingValue.ToString();
     }
 
 
@@ -47,6 +56,7 @@ public class SENDDATAwebReq : MonoBehaviour
         form.AddField("Coins", dynamiCoinVal);   //sends dynamic fetched value from jsonpluginwebReq to server.
         form.AddField("numbersFeild", _number);
         form.AddField("IMEI feild", imei);
+        form.AddField("MinimumBet", minimumbet);     //sending minimum bet
 
     
 

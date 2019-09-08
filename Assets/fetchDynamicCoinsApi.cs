@@ -9,7 +9,7 @@ public class fetchDynamicCoinsApi : MonoBehaviour
     // Start is called before the first frame update
     string jsonstring;
 
-    string coinsFetched;
+    public string coinsFetched;
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class fetchDynamicCoinsApi : MonoBehaviour
         //TO GET COINS-------------------------------------------------------------------
         WebRequestManager.HttpGetPlayerCoinsData("nishchhal@xyz.com", (string coins) =>
         {
-        Debug.Log("surbhishukla coins " + coins);
+        Debug.Log("fetched  coins " + coins);
 
 
             coinsFetched = coins;// storing in string
