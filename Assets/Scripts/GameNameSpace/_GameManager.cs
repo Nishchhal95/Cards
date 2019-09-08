@@ -378,8 +378,6 @@ namespace GameNameSpace
             ChangeButtonState();
             ChangeSelectionUI();
 
-          
-
             if (PlayersList.Count!=1) //Game move forward, only if there are more than one player.
             {
                 if (PrimaryPlayerDead == true)  //We are dead, Go On in Loop.
@@ -452,18 +450,15 @@ namespace GameNameSpace
                                         ObjectsToDisable[i].GetComponent<Slider>().interactable = false;
                                     }
                                 }
-                                Debug.Log((NumberOfPlayerShowed + 1) + "PlayerShowed CALLING FROM MAIN");
 
                                 if ((NumberOfPlayerShowed + 1) == PlayersList.Count)
                                 {
-                                    Debugger.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
+                                    GameWon();
                                 }
                                 else
                                 {
                                     Utils.DoActionAfterSecondsAsync(Show, WaitingTime); // Auto SHOW.
                                 }
-                                Debug.Log("ABCDEFGH 1");
-                               
                             }
                             else
                             {
@@ -481,8 +476,7 @@ namespace GameNameSpace
             }
             else  // Some Player Won...
             {
-                //Debugger.text = "Yeah !! Player " + PlayerIndex + " won !";
-                Debugger.text = "Yeah! Congo... " + PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " you WON !";
+                GameWon();
             }
 
         }
@@ -635,19 +629,21 @@ namespace GameNameSpace
 
                 if ((NumberOfPlayerShowed + 1) == PlayersList.Count)
                 {
-                    Debugger.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
-
+                    GameWon();
                 }
                 else
                 {
                     Show();
                 }
-               
-               
             }
-            
-
         }
+
+
+        private void GameWon()
+        {
+            Debugger.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
+        }
+
 
         private void ChangeSelectionUI()
         {
