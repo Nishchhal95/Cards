@@ -157,7 +157,7 @@ public class WebRequestManager : MonoBehaviour
         string response = unityWebRequest.downloadHandler.text;
         if (response.Equals("New record created successfully"))
         {
-            Debug.Log("succeful windata send!");
+            Debug.Log("succeful coin deduction!");
             onComplete?.Invoke();
         }
 
@@ -167,6 +167,87 @@ public class WebRequestManager : MonoBehaviour
             onError?.Invoke();
         }
     }
+
+
+    //------------------------coin reduction------------------------
+
+
+
+
+    public static void HttpGetReductedCoin(string playerName, string playerEmail, string DeductedCoinValue, Action onComplete, Action onError = null)
+    {
+        Instance.StartCoroutine(Instance.HttpGetReductedCoinRoutine(playerName, playerEmail, DeductedCoinValue, onComplete, onError));
+    }
+
+
+
+
+    //----------------- for  reduced  coin  api routine
+
+
+    private IEnumerator HttpGetReductedCoinRoutine(string playerName, string playerEmail, string reducedCoin, Action onComplete, Action onError = null)
+    {
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/login.php?name=" + playerName + "&email=" + playerEmail + "&coin=" + reducedCoin);
+        yield return unityWebRequest.SendWebRequest();
+
+        if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+        {
+            Debug.Log(unityWebRequest.error);
+            onError?.Invoke();
+        }
+
+        string response = unityWebRequest.downloadHandler.text;
+        if (response.Equals("New record created successfully"))
+        {
+            Debug.Log("succeful coin reduction!");
+            onComplete?.Invoke();
+        }
+
+        else
+        {
+            Debug.Log("Failed!");
+            onError?.Invoke();
+        }
+    }
+
+
+
+
+    //--------------------add coins if player wins
+
+    public static void HttpGetAddCoin(string playerName, string playerEmail, string addedCoin, Action onComplete, Action onError = null)
+    {
+        Instance.StartCoroutine(Instance.HttpGetAddCoinRoutine(playerName, playerEmail, addedCoin, onComplete, onError));
+    }
+
+
+
+    private IEnumerator HttpGetAddCoinRoutine(string playerName, string playerEmail, string addedCoin, Action onComplete, Action onError = null)
+    {
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/login.php?name=" + playerName + "&email=" + playerEmail + "&coin=" + addedCoin);
+        yield return unityWebRequest.SendWebRequest();
+
+        if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+        {
+            Debug.Log(unityWebRequest.error);
+            onError?.Invoke();
+        }
+
+        string response = unityWebRequest.downloadHandler.text;
+        if (response.Equals("New record created successfully"))
+        {
+            Debug.Log("succeful add coin !");
+            onComplete?.Invoke();
+        }
+
+        else
+        {
+            Debug.Log("Failed!");
+            onError?.Invoke();
+        }
+    }
+
+
 }
 
 
