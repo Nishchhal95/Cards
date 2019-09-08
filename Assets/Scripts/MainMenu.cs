@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
 
     public TextMeshProUGUI amounttext;
     public TextMeshProUGUI date;
-
+    public TMP_InputField share;
     int amounttable;
 
     private void Awake()
@@ -37,7 +37,7 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetString("date", System.DateTime.Now.ToString("MM/dd/yyyy"));
         }
         date.text = PlayerPrefs.GetString("date");
-        
+        share.text = "www.facebook.com/CasinoCards";
     }
 
     void CheckFB()
@@ -134,5 +134,7 @@ public class MainMenu : MonoBehaviour
         buychippanel.SetActive(true);
         redeemblue.SetActive(false);
     }
+
+
 
 }
