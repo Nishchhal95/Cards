@@ -3,21 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using GameNameSpace;
+using UnityEngine.UI;
 
 
 public class SENDDATAwebReq : MonoBehaviour
 {
+    public static SENDDATAwebReq Instance = null;
 
-    //string _name = FB_Handler.instance.SavedUsername;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
 
-    //string _email = FB_Handler.instance.SavedEmail;
+        else
+        {
+            Destroy(this);
+        }
+    }
 
-    //Sprite _profile =FB_Handler.instance.SavedProfile;
 
-    fetchDynamicCoinsApi f;
+
+    public Text messageText;
+    //  string message = "successfully sent data to server";
+
+
+    // ----------------------------------variables---------------
+    string _name = FB_Handler.instance.SavedUsername;
+
+    string _email = FB_Handler.instance.SavedEmail;
+
+    Sprite _profile = FB_Handler.instance.SavedProfile;
+
+    jsonPluginWEBREQ j;
     _GameManager g;
 
-    string _number=  "" ;
+    Player p;
+
+    string _number = "";
 
 
 
@@ -27,13 +51,40 @@ public class SENDDATAwebReq : MonoBehaviour
     string minimumbet;
 
 
+    string winningAmount;
+
+    string Deductedcoin;
+
+
+
+
+
+
 
     void Start()
     {
-        StartCoroutine(Upload());
-        dynamiCoinVal = f.coinsFetched;   //ssend dynamic coin fetched from getcoin server and sends it.
-        
-        minimumbet=g.MinimumBettingValue.ToString();
+        StartCoroutine(UploadLoginData());
+
+        StartCoroutine(UploadWinDATA());
+
+        StartCoroutine(UploadCoinsDeducted());
+
+        //------------------
+
+
+        dynamiCoinVal = j.coinsFetched;   //ssend dynamic coin fetched from getcoin server and sends it.
+
+        minimumbet = g.MinimumBettingValue.ToString();
+
+
+
+        winningAmount = g.TotalPot.ToString();
+
+
+
+
+        Deductedcoin = p.coin.ToString();   //takes remain coin from player script and send to server
+        messageText = GetComponent<Text>();
     }
 
 
@@ -41,7 +92,7 @@ public class SENDDATAwebReq : MonoBehaviour
 
 
     //on login data send.
-    IEnumerator Upload()
+    IEnumerator UploadLoginData()
     {
         WWWForm form = new WWWForm();
 
@@ -49,7 +100,7 @@ public class SENDDATAwebReq : MonoBehaviour
 
         //form.AddField("NameField", _name  ) ;
 
-      //form.AddField("EmailField", _email);
+        //form.AddField("EmailField", _email);
 
         //form.AddField("ProfilePicture", _profile.ToString());
 
@@ -58,9 +109,73 @@ public class SENDDATAwebReq : MonoBehaviour
         form.AddField("IMEI feild", imei);
         form.AddField("MinimumBet", minimumbet);     //sending minimum bet
 
-    
+
 
         using (UnityWebRequest www = UnityWebRequest.Post("Languagelive.xyz/casino/login.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+    }
+
+
+    //--------upload win data
+
+    IEnumerator UploadWinDATA()
+    {
+        WWWForm form = new WWWForm();
+
+
+
+
+        form.AddField("EmailField", _email);
+        form.AddField("winningAmount", winningAmount);
+
+
+
+
+        using (UnityWebRequest www = UnityWebRequest.Post("Languagelive.xyz/casino/login.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+                messageText.text = "netwroking error";
+            }
+            else
+            {
+                // messageText.text = message;
+                Debug.Log("Form login upload complete!");
+            }
+        }
+    }
+
+
+
+    //--------upload deducted coins---------------
+
+    IEnumerator UploadCoinsDeducted()
+    {
+        WWWForm form = new WWWForm();
+
+
+
+        form.AddField("email of user ", _email);
+        form.AddField("Coins deducted ", Deductedcoin);
+
+
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://www.my-server.com/myform", form))
         {
             yield return www.SendWebRequest();
 
@@ -74,4 +189,5 @@ public class SENDDATAwebReq : MonoBehaviour
             }
         }
     }
+
 }
