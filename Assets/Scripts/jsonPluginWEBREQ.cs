@@ -37,19 +37,35 @@ public class jsonPluginWEBREQ : MonoBehaviour
         });
 
         //TO LOGIN---------------------------------------------------------------------------------------------------------------
-        WebRequestManager.HttpGetPlayerLoginData("nishchhal", "nishchhal@xyz.com", "xyzIMAGE", "123456789", "10000", "009", () =>
+        WebRequestManager.HttpGetPlayerLoginData("user123", "Tes123@gmail.com", "xyzIMAGE", "123456789", "10000", "009", () =>
         {
             Debug.Log("CREATED USER SUCCESFULLY");
         });
 
 
         //TO GET COINS-------------------------------------------------------------------
-        // WebRequestManager.HttpGetPlayerCoinsData("nishchhal@xyz.com", (string coins) =>
-        // {
-        //  Debug.Log("nishchhal@xyz.com coins " + coins);
-        // });
+        WebRequestManager.HttpGetPlayerCoinsData("surbhishukla39@.com", (string coins) =>
+        {
+         Debug.Log("nishchhal@xyz.com coins " + coins);
+         });
 
-        FetchCoins();
+
+
+        //.............call  deducted coins
+
+        WebRequestManager.HttpGetDeductedCoin("surbhi", "surbhishukla38@yahoo.com", "20000", () =>
+        {
+            Debug.Log("deductedcoins invoke succeful");
+        });
+
+
+
+        //.............call  win api
+
+        WebRequestManager.HttpGetPlayerWinData("surbhi", "surbhishukla38@yahoo.com", "3000", () =>
+        {
+            Debug.Log("deductedcoins invoke succeful");
+        });
 
     }
 
@@ -111,22 +127,7 @@ public class jsonPluginWEBREQ : MonoBehaviour
 
 
 
-    //-------------------------------
-
-    public void FetchCoins()
-    {
-
-
-        //TO GET COINS-------------------------------------------------------------------
-        WebRequestManager.HttpGetPlayerCoinsData("nishchhal@xyz.com", (string coins) =>
-        {
-            Debug.Log("coins " + coins);
-
-            coinsFetched = coins;// storing in string
-        });
-
-
-    }
+   
 
 
 
