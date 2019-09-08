@@ -6,10 +6,26 @@ using Newtonsoft.Json;
 
 public class fetchDynamicCoinsApi : MonoBehaviour
 {
+
+    public static fetchDynamicCoinsApi instance = null;
+
+
     // Start is called before the first frame update
     string jsonstring;
 
     public string coinsFetched;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     void Start()
     {

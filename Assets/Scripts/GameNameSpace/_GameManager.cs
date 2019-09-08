@@ -131,7 +131,11 @@ namespace GameNameSpace
                     {
                         if (FB_Handler.instance.SavedProfile != null)
                         {
-                            CreatePlayer(FB_Handler.instance.SavedUsername,5000, 1000, FB_Handler.instance.SavedProfile, i);
+                            int ParseCoins;
+
+                            int.TryParse(fetchDynamicCoinsApi.instance.coinsFetched, out ParseCoins);
+
+                            CreatePlayer(FB_Handler.instance.SavedUsername, ParseCoins, 1000, FB_Handler.instance.SavedProfile, i);
                             Greeting.text = "Welcome Back, " + FB_Handler.instance.SavedUsername;
                         }
 
