@@ -37,7 +37,7 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetString("date", System.DateTime.Now.ToString("MM/dd/yyyy"));
         }
         date.text = PlayerPrefs.GetString("date");
-        share.text = "www.facebook.com/CasinoCards";
+        share.text = "https://googl.xom";
     }
 
     void CheckFB()
