@@ -264,7 +264,7 @@ namespace GameNameSpace
             }
             else
             {
-                 int BetValue;
+                 int BetValue = 0;
                  bool CurrentPlayerStatus;
                  bool PreviousPlayerStatus;
 
@@ -286,8 +286,35 @@ namespace GameNameSpace
                     {  //If Player playing Before is Blind.
 
                         //Can Bet x2 OR Same of Minimum Bet
-                        int k = Random.Range(1, 3);  // 1 OR 2
-                        BetValue = (MinimumBettingValue) * k;
+                        if(PlayersList[PlayerIndex - 1].GetComponent<Player>().coin>(MinimumBettingValue*2))  //He can Bet x2
+                        {
+                            int k = Random.Range(1, 5);  // 1 , 2 , 3 , 4
+                            switch(k)
+                            {
+                                //Less Probablity of Betting x2.
+                                case 1:
+                                    BetValue = MinimumBettingValue;
+                                    break;
+
+                                case 2:
+                                    BetValue = MinimumBettingValue;
+                                    break;
+
+                                case 3:
+                                    BetValue = MinimumBettingValue;
+                                    break;
+
+                                case 4:
+                                    BetValue = MinimumBettingValue * 2;
+                                    break;
+                            }
+
+                            
+                        }
+                        else //He can bet Same Only.
+                        {
+                            BetValue = MinimumBettingValue;
+                        }
                     }
                     else
                     {   //If Player playing Before is Seen.
@@ -304,20 +331,79 @@ namespace GameNameSpace
                     {  //If Player playing Before is Blind.
 
                         //Can Bet x2 OR x4 of Minimum Bet
-                        int k = Random.Range(1, 3);  // 1 OR 2
-                        BetValue = (MinimumBettingValue * 2) * k;
+                        if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin > (MinimumBettingValue * 4))  //He can Bet x4
+                        {
+                            int k = Random.Range(1, 5);  // 1 , 2 , 3 , 4
+                            switch (k)
+                            {
+                                //Less Probablity of Betting x4.
+                                case 1:
+                                    BetValue = MinimumBettingValue * 2;
+                                    break;
+
+                                case 2:
+                                    BetValue = MinimumBettingValue * 2;
+                                    break;
+
+                                case 3:
+                                    BetValue = MinimumBettingValue * 2;
+                                    break;
+
+                                case 4:
+                                    BetValue = MinimumBettingValue * 4;
+                                    break;
+                            }
+
+                        }
+                        else if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin > (MinimumBettingValue * 2) )//He can Bet x2
+                        {
+                            BetValue = MinimumBettingValue * 2;
+                        }
+                        else
+                        {
+                            BetValue = MinimumBettingValue;  //For Now.. (Not in How to Play) 
+                        }
+
                     }
                     else
                     {   //If Player playing Before is Seen.
 
                         //Can Bet x2 OR Same of Minimum Bet
-                        int k = Random.Range(1, 3);  // 1 OR 2
-                        BetValue = (MinimumBettingValue) * k;
+                        if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin > (MinimumBettingValue * 2))  //He can Bet x2
+                        {
+                            int k = Random.Range(1, 5);  // 1 , 2 , 3 , 4
+                            switch (k)
+                            {
+                                //Less Probablity of Betting x2.
+                                case 1:
+                                    BetValue = MinimumBettingValue;
+                                    break;
+
+                                case 2:
+                                    BetValue = MinimumBettingValue;
+                                    break;
+
+                                case 3:
+                                    BetValue = MinimumBettingValue;
+                                    break;
+
+                                case 4:
+                                    BetValue = MinimumBettingValue * 2;
+                                    break;
+                            }
+
+
+                        }
+                        else //He can bet Same Only.
+                        {
+                            BetValue = MinimumBettingValue;
+                        }
                     }
-                }
+                 }
                
 
                  MinimumBettingValue = BetValue;
+
                  Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + BetValue + " Chips";
 
                  PlayersList[PlayerIndex - 1].GetComponent<Player>().coin -= BetValue;
@@ -373,6 +459,11 @@ namespace GameNameSpace
             StartGame();
         }
 
+        public void FoldByBot()
+        {
+            Fold(false);
+        }
+
         private void StartGame()
         {
             CurrentTime = 0f;
@@ -402,7 +493,8 @@ namespace GameNameSpace
                             }
                             else //k==2
                             {
-                                Utils.DoActionAfterSecondsAsync(Show, WaitingTime); // Auto FOLD.
+                                Utils.DoActionAfterSecondsAsync(FoldByBot, WaitingTime); // Auto FOLD.
+
                             }
                         }
                        
