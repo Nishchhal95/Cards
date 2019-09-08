@@ -11,7 +11,7 @@ public class WebRequestManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -21,7 +21,7 @@ public class WebRequestManager : MonoBehaviour
             Destroy(this);
         }
     }
-    
+
     public static void HttpGetPlayerData(Action<List<GameNameSpace.Player>> onComplete, Action onError = null)
     {
         Instance.StartCoroutine(Instance.HttpGetPlayerDataRoutine(onComplete, onError));
@@ -51,7 +51,7 @@ public class WebRequestManager : MonoBehaviour
 
     private IEnumerator HttpGetPlayerCoinsDataRoutine(string playerEmail, Action<string> onComplete, Action onError = null)
     {
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/getcoin.php?email="+ playerEmail);
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/getcoin.php?email=" + playerEmail);
         yield return unityWebRequest.SendWebRequest();
 
         if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
@@ -108,7 +108,7 @@ public class WebRequestManager : MonoBehaviour
     //----------------- for  win api routine
     private IEnumerator HttpGetPlayerWinDataRoutine(string playerName, string playerEmail, string winAmount, Action onComplete, Action onError = null)
     {
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/login.php?name=" + playerName + "&email=" + playerEmail + "&winamount=" +winAmount  );
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/login.php?name=" + playerName + "&email=" + playerEmail + "&winamount=" + winAmount);
         yield return unityWebRequest.SendWebRequest();
 
         if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
@@ -248,11 +248,42 @@ public class WebRequestManager : MonoBehaviour
     }
 
 
+
+    //--------------------------------BuyCoins
+    public static void HttpBuyCoin(int amount, string playerEmail, int coins, string id, Action onComplete, Action onError = null)
+    {
+        Instance.StartCoroutine(Instance.HttpGetPlayerCoinsDataRoutine(amount, playerEmail, coins, id, onComplete, onError));
+    }
+
+    private IEnumerator HttpGetPlayerCoinsDataRoutine(int amount, string playerEmail, int coins, string id, Action onComplete, Action onError = null)
+    {
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/buycoins.php?amount=" + amount.ToString() + "&email=" + playerEmail
+            + "&coins=" + coins.ToString() + "&id" + id);
+
+        yield return unityWebRequest.SendWebRequest();
+
+        if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+        {
+            Debug.Log(unityWebRequest.error);
+            onError?.Invoke();
+        }
+
+        string response = unityWebRequest.downloadHandler.text;
+
+        if (response.Equals("Coins Added"))
+        {
+            print("succeful added!");
+            onComplete?.Invoke();
+        }
+        else
+        {
+            Debug.Log("Failed!");
+            onError?.Invoke();
+        }
+
+    }
+
 }
-
-
-
-
 
 public class CoinList
 {
