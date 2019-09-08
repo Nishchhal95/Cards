@@ -6,26 +6,8 @@ using Newtonsoft.Json;
 
 public class jsonPluginWEBREQ : MonoBehaviour
 {
-    public static jsonPluginWEBREQ Instance = null;
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-
-        else
-        {
-            Destroy(this);
-        }
-    }
-
 
     string jsonstring;
-
-
-    public string coinsFetched;
 
     void Start()
     {
@@ -37,19 +19,17 @@ public class jsonPluginWEBREQ : MonoBehaviour
         });
 
         //TO LOGIN---------------------------------------------------------------------------------------------------------------
-         WebRequestManager.HttpGetPlayerLoginData("nishchhal", "nishchhal@xyz.com", "xyzIMAGE", "123456789", "10000","009", () =>
-         {
-           Debug.Log("CREATED USER SUCCESFULLY");
-         });
+      //  WebRequestManager.HttpGetPlayerLoginData("nishchhal", "nishchhal@xyz.com", "xyzIMAGE", "123456789", "10000","009", () =>
+       // {
+        //   Debug.Log("CREATED USER SUCCESFULLY");
+       // });
 
 
         //TO GET COINS-------------------------------------------------------------------
-        // WebRequestManager.HttpGetPlayerCoinsData("nishchhal@xyz.com", (string coins) =>
-        // {
-        //  Debug.Log("nishchhal@xyz.com coins " + coins);
-        // });
-
-        FetchCoins();
+       // WebRequestManager.HttpGetPlayerCoinsData("nishchhal@xyz.com", (string coins) =>
+       // {
+          //  Debug.Log("nishchhal@xyz.com coins " + coins);
+       // });
 
     }
 
@@ -109,24 +89,6 @@ public class jsonPluginWEBREQ : MonoBehaviour
     }
 
 
-
-
-    //-------------------------------
-
-    public void FetchCoins()
-    {
-
-
-        //TO GET COINS-------------------------------------------------------------------
-        WebRequestManager.HttpGetPlayerCoinsData("nishchhal@xyz.com", (string coins) =>
-         {
-          Debug.Log("coins " + coins);
-
-             coinsFetched = coins;// storing in string
-         });
-
-
-    }
 
 
 
