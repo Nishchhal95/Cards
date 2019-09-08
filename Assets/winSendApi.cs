@@ -2,44 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using GameNameSpace;
 
-public class coinDeductionAPI : MonoBehaviour
+public class winSendApi : MonoBehaviour
 {
 
-    string userEmail= FB_Handler.instance.SavedEmail;
+    string _email = FB_Handler.instance.SavedEmail;
 
-    
+    string winningAmount;
 
-    string Deductedcoin;
-
-
-    Player p;
 
     void Start()
     {
         StartCoroutine(Upload());
-
-        Deductedcoin = p.coin.ToString();   //takes remain coin from player script and send to server
     }
-
-
-
-
-
 
     IEnumerator Upload()
     {
         WWWForm form = new WWWForm();
 
+
         
 
-        form.AddField("email of user ", userEmail);
-        form.AddField("Coins deducted ", Deductedcoin);
+        form.AddField("EmailField", _email);
+        form.AddField("winningAmount", winningAmount);
+     
 
 
 
-        using (UnityWebRequest www = UnityWebRequest.Post("http://www.my-server.com/myform", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("Languagelive.xyz/casino/login.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -53,5 +43,5 @@ public class coinDeductionAPI : MonoBehaviour
             }
         }
     }
-
 }
+
