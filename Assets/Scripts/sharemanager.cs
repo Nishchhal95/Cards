@@ -5,7 +5,10 @@ using UnityEngine;
 public class sharemanager : MonoBehaviour
 {
     string subject = "Casino Cards";
-    string body = "https://googl.xom";
+    string body = "Check out this teen patti game you can win real money from this game. " +
+        "." +
+        "." +
+        "https://googl.xom";
 
 #if UNITY_IPHONE
  
