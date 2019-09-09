@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 
 public class WebRequestManager : MonoBehaviour
 {
+    public GameObject welcomepanel;
     public static WebRequestManager Instance = null;
 
     private void Awake()
@@ -83,12 +84,19 @@ public class WebRequestManager : MonoBehaviour
         }
 
         string response = unityWebRequest.downloadHandler.text;
+
+        if (response.Equals("Email id already registered."))
+        {
+            welcomepanel.SetActive(false);
+            onComplete?.Invoke();
+        }
+
+
         if (response.Equals("New record created successfully"))
         {
             Debug.Log("Login Succesful!");
             onComplete?.Invoke();
         }
-
         else
         {
             Debug.Log("Login Failed!");
@@ -282,7 +290,44 @@ public class WebRequestManager : MonoBehaviour
 
     }
 
+    //------------------------------------------add coins if player wins
+
+    public static void Httpredeem(int amount, string email, int coins, int number, Action onComplete, Action onError = null)
+    {
+        Instance.StartCoroutine(Instance.HttpredeemRoutine(amount,email,coins,number, onComplete, onError));
+    }
+
+
+
+    private IEnumerator HttpredeemRoutine(int amount, string email, int coins, int number, Action onComplete, Action onError = null)
+    {
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/Redeem.php?amount=" + amount.ToString() + "&email=" + email + "&coins=" + coins.ToString() + "&number=" + number.ToString());
+        yield return unityWebRequest.SendWebRequest();
+
+        if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+        {
+            Debug.Log(unityWebRequest.error);
+            onError?.Invoke();
+        }
+
+        string response = unityWebRequest.downloadHandler.text;
+        if (response.Equals("Redeemed Success"))
+        {
+            Debug.Log("succefull redeem");
+            onComplete?.Invoke();
+        }
+        else
+        {
+            Debug.Log("Failed!");
+            onError?.Invoke();
+        }
+    }
+
+
+
 }
+
+
 
 public class CoinList
 {
