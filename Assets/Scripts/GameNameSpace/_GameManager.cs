@@ -35,6 +35,10 @@ namespace GameNameSpace
         public TMP_Text BettingValueText;
         public Slider BettingSlider;
 
+        public Button PlusButton;
+        public Button MinusButton;
+
+
 
         //---Private Variables-----------
 
@@ -238,6 +242,12 @@ namespace GameNameSpace
             cardanim =playerScript.GetComponentsInChildren<Animator>();
             playerScript.PopulateCards();
             cardanim[0].Play("CardFlipAnim");
+
+            if(CanBet()==true)
+            {
+                BetUpdate();
+            }
+          
         }
 
 
@@ -356,6 +366,8 @@ namespace GameNameSpace
             else
             {
                 BettingSlider.interactable = false;
+                PlusButton.interactable = false;
+                MinusButton.interactable = false;
                 UserFirstTurn = false;
             }
             
@@ -889,19 +901,6 @@ namespace GameNameSpace
         
         public void BetUpdate()
         {
-            /* BettingValueText.text = MinimumBettingValue.ToString();
-
-             float value = BettingSlider.value / MinimumBettingValue;
-             SliderFloorFunction = Mathf.Floor(value) * MinimumBettingValue;
-
-             if (SliderFloorFunction==0)
-             {
-                 SliderFloorFunction = MinimumBettingValue;
-             }
-             BettingValueText.text = SliderFloorFunction.ToString();*/
-
-             Debug.Log("Max" + MaxBetValueForUser);
-             Debug.Log("Min" + MinBetValueForUser);
 
              BettingSlider.maxValue = MaxBetValueForUser;
              BettingSlider.minValue = MinBetValueForUser;
@@ -929,17 +928,6 @@ namespace GameNameSpace
 
         public void AddBetButton()
         {
-            /* if(SliderFloorFunction<BettingSlider.maxValue)
-             {
-                 SliderFloorFunction += MinimumBettingValue;
-                 BettingSlider.value = SliderFloorFunction;
-                 if (SliderFloorFunction == 0)
-                 {
-                     SliderFloorFunction = MinimumBettingValue;
-                 }
-                 BettingValueText.text = SliderFloorFunction.ToString();
-             }*/
-
             BettingSlider.value = BettingSlider.maxValue;
             BetValue = (int)BettingSlider.value;
             BettingValueText.text = BetValue.ToString();
@@ -947,29 +935,11 @@ namespace GameNameSpace
         }
         public void SubstractBetButton()
         {
-            /*if (SliderFloorFunction > BettingSlider.minValue)
-            {
-                SliderFloorFunction -= MinimumBettingValue;
-                BettingSlider.value = SliderFloorFunction;
-                if (SliderFloorFunction == 0)
-                {
-                    SliderFloorFunction = MinimumBettingValue;
-                }
-                BettingValueText.text = SliderFloorFunction.ToString();
-            }*/
-            //BetValue
             BettingSlider.value = BettingSlider.minValue;
             BetValue = (int)BettingSlider.value;
             BettingValueText.text = BetValue.ToString();
         }
 
-      //  public void RefreshSlider()
-       // {
-           // BettingSlider.minValue = MinimumBettingValue;
-           // BettingSlider.value = SliderFloorFunction;
-           // BettingSlider.maxValue = MainPlayer.GetComponent<Player>().coin;
-
-       // }
 
         public void RefreshPotText()
         {

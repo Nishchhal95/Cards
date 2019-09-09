@@ -654,6 +654,8 @@ MonoBehaviour:
   MainPlayerChips: {fileID: 1051308823}
   BettingValueText: {fileID: 1051308822}
   BettingSlider: {fileID: 1051308821}
+  PlusButton: {fileID: 1051308836}
+  MinusButton: {fileID: 1051308835}
   MinimumBettingValue: 10
   WaitingTime: 5
   TimerUI: {fileID: 1051308834}
@@ -672,6 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3765e63a2ee8b3745a4f86386b7f1bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  welcomepanel: {fileID: 0}
 --- !u!1 &614999128
 GameObject:
   m_ObjectHideFlags: 0
@@ -1514,6 +1517,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1051308835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3397323026242331366, guid: 981d0f9e02627a64fafa57a7c65025b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1051308820}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051308826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1051308836 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 421042043554867112, guid: 981d0f9e02627a64fafa57a7c65025b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1051308820}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051308827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1374743004
