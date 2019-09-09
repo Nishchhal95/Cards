@@ -250,6 +250,18 @@ namespace GameNameSpace
           
         }
 
+        public void WinningCardAnimation()
+        {
+            foreach(GameObject P in PlayersList)
+            {
+                if (P.GetComponent<Player>().PLayerDefaultNumber!=1)
+                {
+                    P.GetComponent<Player>().GetComponentsInChildren<Animator>()[0].Play("CardFlipAnim");
+                    P.GetComponent<Player>().PopulateCards();
+                }
+            }
+        }
+
 
         public void Show()
         {
@@ -327,16 +339,24 @@ namespace GameNameSpace
             Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " clicked : FOLD";
 
 
-            for (int i = 0; i < TopRankers.Count; i++)
+          
+
+           /* for (int i = 0; i<TopRankers.Count; i++)
             {
-                if (TopRankers[i].GetComponent<Player>().PLayerDefaultNumber == PlayerIndex)
+                if (TopRankers[i].GetComponent<Player>().PLayerDefaultNumber==PlayerIndex)
                 {
                     TopRankers.RemoveAt(i);
+                    break;
                 }
-            }
+            }*/
 
-            Destroy(PlayersList[PlayerIndex - 1].gameObject);
-            PlayersList.RemoveAt(PlayerIndex - 1);
+            GameObject G = PlayersList[PlayerIndex - 1];
+
+            PlayersList.Remove(G);
+            TopRankers.Remove(G);
+
+            Destroy(G);
+
 
             if (PlayerIndex == PlayersList.Count + 1)
             {
@@ -824,6 +844,7 @@ namespace GameNameSpace
         private void GameWon()
         {
             Debugger.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
+            WinningCardAnimation();
         }
 
 
