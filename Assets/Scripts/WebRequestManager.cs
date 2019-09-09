@@ -187,7 +187,7 @@ public class WebRequestManager : MonoBehaviour
 
     private IEnumerator HttpGetReductedCoinRoutine(string playerEmail, string reducedCoin, Action onComplete, Action onError = null)
     {
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/reduce_coin.php?email="+ playerEmail + "&coin=" + reducedCoin);
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/reduce_coin.php?coin=" + reducedCoin + "&email=" + playerEmail);
         yield return unityWebRequest.SendWebRequest();
 
         if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
@@ -197,7 +197,7 @@ public class WebRequestManager : MonoBehaviour
         }
 
         string response = unityWebRequest.downloadHandler.text;
-        if (response.Equals(""))
+        if (response.Equals("Updated"))
         {
             Debug.Log("succeful coin reduction!");
             onComplete?.Invoke();
@@ -224,7 +224,7 @@ public class WebRequestManager : MonoBehaviour
 
     private IEnumerator HttpGetAddCoinRoutine(string playerEmail, string addedCoin, Action onComplete, Action onError = null)
     {
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/addcoin.php?email=" + playerEmail + "&coin=" + addedCoin);
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/addcoin.php?coin="+ addedCoin +"&email="  + playerEmail );
         yield return unityWebRequest.SendWebRequest();
 
         if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
@@ -234,7 +234,7 @@ public class WebRequestManager : MonoBehaviour
         }
 
         string response = unityWebRequest.downloadHandler.text;
-        if (response.Equals(""))
+        if (response.Equals("Updated"))
         {
             Debug.Log("succeful add coin !");
             onComplete?.Invoke();
