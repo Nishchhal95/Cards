@@ -73,6 +73,10 @@ namespace GameNameSpace
         public Animator[] cardanim;
         private bool UserFirstTurn = false;
 
+        public GameObject GameWonPanel;
+        public TMP_Text FinalWinnerText;
+        public TMP_Text NextGameText;
+
         private void Start()
         {
             WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
@@ -196,7 +200,7 @@ namespace GameNameSpace
             {
                 playerScript.StatusText.enabled = false;
             }
-            playerScript.PLayerDefaultNumber = playernumber;
+            playerScript.PlayerDefaultNumber = playernumber;
             playerScript.name = playerName;
             playerScript.coin = chips;
             playerScript.XP = XP;
@@ -254,7 +258,7 @@ namespace GameNameSpace
         {
             foreach(GameObject P in PlayersList)
             {
-                if (P.GetComponent<Player>().PLayerDefaultNumber!=1)
+                if (P.GetComponent<Player>().PlayerDefaultNumber != 1)
                 {
                     P.GetComponent<Player>().GetComponentsInChildren<Animator>()[0].Play("CardFlipAnim");
                     P.GetComponent<Player>().PopulateCards();
@@ -405,7 +409,7 @@ namespace GameNameSpace
                     
                     if(CanBet()==false)  //Auto Show/Fold Cards.
                     {
-                        if(TopRankers[0].GetComponent<Player>().PLayerDefaultNumber==PlayerIndex) //Is going to be winner.
+                        if(TopRankers[0].GetComponent<Player>().PlayerDefaultNumber == PlayerIndex) //Is going to be winner.
                         {
                             //It will Show Only.
                             Utils.DoActionAfterSecondsAsync(Show, WaitingTime); // Auto SHOW.
@@ -716,7 +720,7 @@ namespace GameNameSpace
             if(ShowClicked==false)
             {
                 //If MainPLayer is Winner.
-                if (TopRankers[0].GetComponent<Player>().PLayerDefaultNumber == 1)
+                if (TopRankers[0].GetComponent<Player>().PlayerDefaultNumber == 1)
                 {
                     //CAN "FOLD" AFTER 2 ROUNDS.
                     //CAN "SHOW" AFTER 2 ROUNDS.
@@ -843,8 +847,30 @@ namespace GameNameSpace
 
         private void GameWon()
         {
-            Debugger.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
             WinningCardAnimation();
+            Utils.DoActionAfterSecondsAsync(ShowGameWonScreen, 3);
+        }
+
+        private void ShowGameWonScreen()
+        {
+            GameWonPanel.SetActive(true);
+            FinalWinnerText.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
+            StartCoroutine(StartTimer());
+        }
+
+        IEnumerator StartTimer()
+        {
+           
+            int num = 5;
+            while(num>0)
+            {
+               
+                NextGameText.text = "Next Game in " + num;
+                num--;
+                yield return new WaitForSeconds(1);
+            }
+            SceneManager.LoadScene("Player");
+
         }
 
 
@@ -863,6 +889,10 @@ namespace GameNameSpace
                         if(PlayerIndex!=1)
                         {
                             PlayersList[i].GetComponent<Player>().SelectionUI.gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            PlayersList[i].GetComponent<Player>().SelectionUI.gameObject.SetActive(false);
                         }
                     }
                     
