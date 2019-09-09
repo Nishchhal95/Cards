@@ -22,6 +22,7 @@ public class MainMenu : MonoBehaviour
 
     public TextMeshProUGUI amounttext;
     public TextMeshProUGUI cointext;
+    public Text cointextinfo;
     public TextMeshProUGUI date;
     int amounttable;
 
@@ -139,6 +140,6 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        cointext.text = currentcoin.ToString();
+        cointext.text=cointextinfo.text = currentcoin.ToString();
     }
 }

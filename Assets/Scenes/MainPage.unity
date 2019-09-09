@@ -26511,6 +26511,11 @@ PrefabInstance:
       propertyPath: date
       value: 
       objectReference: {fileID: 803787004}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: cointextinfo
+      value: 
+      objectReference: {fileID: 1971006521387475593}
     - target: {fileID: 1805363018674036575, guid: 419e09c7952d88746a8b34922a120956,
         type: 3}
       propertyPath: soundonbutton
