@@ -174,9 +174,9 @@ public class WebRequestManager : MonoBehaviour
 
 
 
-    public static void HttpGetReductedCoin(string playerName, string playerEmail, string DeductedCoinValue, Action onComplete, Action onError = null)
+    public static void HttpGetReductedCoin(string playerEmail, string DeductedCoinValue, Action onComplete, Action onError = null)
     {
-        Instance.StartCoroutine(Instance.HttpGetReductedCoinRoutine(playerName, playerEmail, DeductedCoinValue, onComplete, onError));
+        Instance.StartCoroutine(Instance.HttpGetReductedCoinRoutine(playerEmail, DeductedCoinValue, onComplete, onError));
     }
 
 
@@ -185,19 +185,19 @@ public class WebRequestManager : MonoBehaviour
     //----------------- for  reduced  coin  api routine
 
 
-    private IEnumerator HttpGetReductedCoinRoutine(string playerName, string playerEmail, string reducedCoin, Action onComplete, Action onError = null)
+    private IEnumerator HttpGetReductedCoinRoutine(string playerEmail, string reducedCoin, Action onComplete, Action onError = null)
     {
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/login.php?name=" + playerName + "&email=" + playerEmail + "&coin=" + reducedCoin);
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/reduce_coin.php?email="+ playerEmail + "&coin=" + reducedCoin);
         yield return unityWebRequest.SendWebRequest();
 
         if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
         {
-            Debug.Log(unityWebRequest.error);
-            onError?.Invoke();
+            Debug.Log(unityWebRequest.error); 
+             onError?.Invoke();
         }
 
         string response = unityWebRequest.downloadHandler.text;
-        if (response.Equals("New record created successfully"))
+        if (response.Equals(""))
         {
             Debug.Log("succeful coin reduction!");
             onComplete?.Invoke();
@@ -213,18 +213,18 @@ public class WebRequestManager : MonoBehaviour
 
 
 
-    //--------------------add coins if player wins
+    //------------------------------------------add coins if player wins
 
-    public static void HttpGetAddCoin(string playerName, string playerEmail, string addedCoin, Action onComplete, Action onError = null)
+    public static void HttpGetAddCoin(string playerEmail, string addedCoin, Action onComplete, Action onError = null)
     {
-        Instance.StartCoroutine(Instance.HttpGetAddCoinRoutine(playerName, playerEmail, addedCoin, onComplete, onError));
+        Instance.StartCoroutine(Instance.HttpGetAddCoinRoutine(playerEmail, addedCoin, onComplete, onError));
     }
 
 
 
-    private IEnumerator HttpGetAddCoinRoutine(string playerName, string playerEmail, string addedCoin, Action onComplete, Action onError = null)
+    private IEnumerator HttpGetAddCoinRoutine(string playerEmail, string addedCoin, Action onComplete, Action onError = null)
     {
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/login.php?name=" + playerName + "&email=" + playerEmail + "&coin=" + addedCoin);
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/addcoin.php?email=" + playerEmail + "&coin=" + addedCoin);
         yield return unityWebRequest.SendWebRequest();
 
         if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
@@ -234,12 +234,11 @@ public class WebRequestManager : MonoBehaviour
         }
 
         string response = unityWebRequest.downloadHandler.text;
-        if (response.Equals("New record created successfully"))
+        if (response.Equals(""))
         {
             Debug.Log("succeful add coin !");
             onComplete?.Invoke();
         }
-
         else
         {
             Debug.Log("Failed!");
@@ -249,7 +248,7 @@ public class WebRequestManager : MonoBehaviour
 
 
 
-    //--------------------------------BuyCoins
+    //--------------------------------------------------BuyCoins
     public static void HttpBuyCoin(int amount, string playerEmail, int coins, string id, Action onComplete, Action onError = null)
     {
         Instance.StartCoroutine(Instance.HttpGetPlayerCoinsDataRoutine(amount, playerEmail, coins, id, onComplete, onError));
@@ -272,7 +271,7 @@ public class WebRequestManager : MonoBehaviour
 
         if (response.Equals("Coins Added"))
         {
-            print("succeful added!");
+            Debug.Log("succeful added!");
             onComplete?.Invoke();
         }
         else

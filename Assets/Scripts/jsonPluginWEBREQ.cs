@@ -37,7 +37,7 @@ public class jsonPluginWEBREQ : MonoBehaviour
         });
 
         //TO LOGIN---------------------------------------------------------------------------------------------------------------
-        WebRequestManager.HttpGetPlayerLoginData("user123", "Tes123@gmail.com", "xyzIMAGE", "123456789", "10000", "009", () =>
+        WebRequestManager.HttpGetPlayerLoginData("char", "ssc@xyz.com", "xyzIMAGE", "123456789", "5000", "021", () =>
         {
             Debug.Log("CREATED USER SUCCESFULLY");
         });
