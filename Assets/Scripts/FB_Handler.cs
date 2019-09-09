@@ -97,7 +97,7 @@ public class FB_Handler : MonoBehaviour
         if (isLoggedIn)
         {
             //Things to do if FB login completed.
-
+            FB.Mobile.RefreshCurrentAccessToken();
             if (PlayerPrefs.GetInt("login", 0) == 0)
             {
                 welcomescreen.SetActive(true);

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 public class jsonPluginWEBREQ : MonoBehaviour
 {
     public static jsonPluginWEBREQ Instance = null;
-
+    public int coins;
     private void Awake()
     {
         if (Instance == null)
@@ -37,40 +37,36 @@ public class jsonPluginWEBREQ : MonoBehaviour
         });
 
         //TO LOGIN---------------------------------------------------------------------------------------------------------------
-        WebRequestManager.HttpGetPlayerLoginData("char", "ssc@xyz.com", "xyzIMAGE", "123456789", "5000", "021", () =>
-        {
+        WebRequestManager.HttpGetPlayerLoginData(FB_Handler.instance.FB_UserName.text,FB_Handler.instance.FB_Email.text, "xyzIMAGE", "4545445", "5000", "5459", () =>
+         {
             Debug.Log("CREATED USER SUCCESFULLY");
         });
 
 
         //TO GET COINS-------------------------------------------------------------------
-        WebRequestManager.HttpGetPlayerCoinsData("surbhishukla39@.com", (string coins) =>
-        {
-         Debug.Log("nishchhal@xyz.com coins " + coins);
+        WebRequestManager.HttpGetPlayerCoinsData(FB_Handler.instance.FB_Email.text, (string coins) =>
+         {
+            MainMenu.currentcoin = int.Parse(coins);
+            Debug.Log("ssc@xyz.com " + coins);
          });
-
-
-
-        //.............call  deducted coins
-
-        WebRequestManager.HttpGetDeductedCoin("surbhi", "surbhishukla38@yahoo.com", "20000", () =>
-        {
-            Debug.Log("deductedcoins invoke succeful");
-        });
-
-
-
-        //.............call  win api
-
-        WebRequestManager.HttpGetPlayerWinData("surbhi", "surbhishukla38@yahoo.com", "3000", () =>
-        {
-            Debug.Log("deductedcoins invoke succeful");
-        });
 
     }
 
+    public void getcoins(int coin)
+    {
+        coins= coin;
+    }
 
-    IEnumerator GetText()
+    public void buycoins(int amount)
+    {
+        WebRequestManager.HttpBuyCoin(amount, FB_Handler.instance.FB_Email.text, coins, FB_Handler.instance.FB_Email.text, () =>
+           {
+               Debug.Log("buy");
+           });
+
+    }
+
+        IEnumerator GetText()
     {
         UnityWebRequest www = UnityWebRequest.Get("http://factoryprice.co.in/best_deals/getplayer.php");
         yield return www.SendWebRequest();
@@ -104,31 +100,14 @@ public class jsonPluginWEBREQ : MonoBehaviour
             }
 
         }
-
-
-
-
     }
 
 
-
-
     public class playerData
-
-
     {
         public int coin;
         public string name;
         public string email;
-
-
     }
-
-
-
-
-   
-
-
 
 }

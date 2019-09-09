@@ -52,6 +52,10 @@ MonoBehaviour:
   buychippanel: {fileID: 0}
   buychipblack: {fileID: 0}
   redeemblue: {fileID: 0}
+  TableAmount: {fileID: 0}
+  amounttext: {fileID: 0}
+  cointext: {fileID: 0}
+  date: {fileID: 0}
 --- !u!114 &1805363018674036575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,3 +68,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 109a02f66e3d65945acda1cd61d9ba68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundonbutton: {fileID: 0}
+  soundoffbutton: {fileID: 0}
+  chatonbutton: {fileID: 0}
+  chatoffbutton: {fileID: 0}
+  vibrateonbutton: {fileID: 0}
+  vibrateoffbutton: {fileID: 0}

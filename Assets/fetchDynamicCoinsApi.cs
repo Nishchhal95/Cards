@@ -9,7 +9,6 @@ public class fetchDynamicCoinsApi : MonoBehaviour
 
     public static fetchDynamicCoinsApi instance = null;
 
-
     // Start is called before the first frame update
     string jsonstring;
 
@@ -31,11 +30,9 @@ public class fetchDynamicCoinsApi : MonoBehaviour
     {
 
         //TO GET COINS-------------------------------------------------------------------
-        WebRequestManager.HttpGetPlayerCoinsData("nishchhal@xyz.com", (string coins) =>
+        WebRequestManager.HttpGetPlayerCoinsData("ssc@xyz.com", (string coins) =>
         {
         Debug.Log("fetched  coins " + coins);
-
-
             coinsFetched = coins;// storing in string
          });
 
@@ -47,7 +44,7 @@ public class fetchDynamicCoinsApi : MonoBehaviour
 
     IEnumerator GetText()
     {
-        UnityWebRequest www = UnityWebRequest.Get("http://languagelive.xyz/casino/getcoin.php?email=surbhishukla38@yahoo.com");   //dynamic coin fetch
+        UnityWebRequest www = UnityWebRequest.Get("http://languagelive.xyz/casino/getcoin.php?email=ssc@xyz.com");   //dynamic coin fetch
         yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
@@ -69,14 +66,9 @@ public class fetchDynamicCoinsApi : MonoBehaviour
         }
     }
 
-          public class results
-
-
+    public class results
     {
          public string coins;
-
-      
-
     }
 
 

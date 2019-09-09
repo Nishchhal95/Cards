@@ -8,6 +8,8 @@ using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
+    public static int currentcoin;
+
      public GameObject ShopPanel;
      public GameObject SettingPanel;
      public GameObject mainmenu;
@@ -19,8 +21,8 @@ public class MainMenu : MonoBehaviour
      public GameObject TableAmount;
 
     public TextMeshProUGUI amounttext;
+    public TextMeshProUGUI cointext;
     public TextMeshProUGUI date;
-    public TMP_InputField share;
     int amounttable;
 
     private void Awake()
@@ -37,7 +39,6 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetString("date", System.DateTime.Now.ToString("MM/dd/yyyy"));
         }
         date.text = PlayerPrefs.GetString("date");
-        share.text = "https://googl.xom";
     }
 
     void CheckFB()
@@ -136,5 +137,8 @@ public class MainMenu : MonoBehaviour
     }
 
 
-
+    private void Update()
+    {
+        cointext.text = currentcoin.ToString();
+    }
 }

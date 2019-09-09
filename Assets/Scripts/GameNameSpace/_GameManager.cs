@@ -215,7 +215,8 @@ namespace GameNameSpace
                 {
                     //We Assign Data to it
                     MainPlayerName.text = playerScript.name;
-                    MainPlayerChips.text = playerScript.coin.ToString();
+                    //  MainPlayerChips.text = playerScript.coin.ToString();
+                    MainPlayerChips.text = MainMenu.currentcoin.ToString();
                     MainPlayerImage.sprite = playerScript.playerSprite;
 
 
@@ -296,8 +297,11 @@ namespace GameNameSpace
             {
                 //Debugger.text = "Player " + PlayerIndex + " Betted " + BettingSlider.value + " Chips";
                 Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + BetValue + " Chips";
-
-                MainPlayer.GetComponent<Player>().coin -= BetValue;
+                MainMenu.currentcoin -= BetValue;
+                WebRequestManager.HttpGetReductedCoin(FB_Handler.instance.FB_Email.text, BetValue.ToString(), () =>
+                {
+                    Debug.Log("BET VALUE REDUCTED");
+                });
                 TotalPot += BetValue;
                 MinimumBettingValue = BetValue;
                 //Refresh Data after some Maths..
@@ -999,7 +1003,7 @@ namespace GameNameSpace
 
         public void RefreshChipsText()
         {
-            MainPlayerChips.text = MainPlayer.GetComponent<Player>().coin.ToString();
+            MainPlayerChips.text = MainMenu.currentcoin.ToString();
         }
 
         public void ChangeScene(string Scene)

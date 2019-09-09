@@ -42,7 +42,7 @@ public class WebGetRequest : MonoBehaviour
 
     public void OnLogin()
     {
-        LoginMessage loginMessage = new LoginMessage { email = "ssc@xyz.com", coins = 100 };
+        LoginMessage loginMessage = new LoginMessage { email = FB_Handler.instance.FB_Email.text, coins = 100 };
 
         HttpRequest<LoginMessage> httpRequest = new HttpRequest<LoginMessage>(loginMessage, URL);
 

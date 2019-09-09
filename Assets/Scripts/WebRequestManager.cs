@@ -45,6 +45,8 @@ public class WebRequestManager : MonoBehaviour
         onComplete?.Invoke(playerList);
     }
 
+
+
     public static void HttpGetPlayerCoinsData(string playerEmail, Action<string> onComplete, Action onError = null)
     {
         Instance.StartCoroutine(Instance.HttpGetPlayerCoinsDataRoutine(playerEmail, onComplete, onError));
@@ -67,6 +69,8 @@ public class WebRequestManager : MonoBehaviour
         onComplete?.Invoke(coinList.result[0].coins);
     }
 
+
+
     public static void HttpGetPlayerLoginData(string playerName, string playerEmail, string playerPic, string playerImei, string playerCoins, string playerNumber, Action onComplete, Action onError = null)
     {
         Instance.StartCoroutine(Instance.HttpGetPlayerLoginDataRoutine(playerName, playerEmail, playerPic, playerImei, playerCoins, playerNumber, onComplete, onError));
@@ -88,6 +92,7 @@ public class WebRequestManager : MonoBehaviour
         if (response.Equals("Email id already registered."))
         {
             welcomepanel.SetActive(false);
+
             onComplete?.Invoke();
         }
 
@@ -175,8 +180,6 @@ public class WebRequestManager : MonoBehaviour
             onError?.Invoke();
         }
     }
-
-
     //------------------------coin reduction------------------------
 
 
@@ -191,8 +194,6 @@ public class WebRequestManager : MonoBehaviour
 
 
     //----------------- for  reduced  coin  api routine
-
-
     private IEnumerator HttpGetReductedCoinRoutine(string playerEmail, string reducedCoin, Action onComplete, Action onError = null)
     {
         UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/reduce_coin.php?coin=" + reducedCoin + "&email=" + playerEmail);
@@ -208,9 +209,9 @@ public class WebRequestManager : MonoBehaviour
         if (response.Equals("Updated"))
         {
             Debug.Log("succeful coin reduction!");
+           // MainMenu.currentcoin = MainMenu.currentcoin - int.Parse(reducedCoin);
             onComplete?.Invoke();
         }
-
         else
         {
             Debug.Log("Failed!");
@@ -245,6 +246,7 @@ public class WebRequestManager : MonoBehaviour
         if (response.Equals("Updated"))
         {
             Debug.Log("succeful add coin !");
+            MainMenu.currentcoin = MainMenu.currentcoin +int.Parse(addedCoin);
             onComplete?.Invoke();
         }
         else
@@ -280,6 +282,7 @@ public class WebRequestManager : MonoBehaviour
         if (response.Equals("Coins Added"))
         {
             Debug.Log("succeful added!");
+            MainMenu.currentcoin = MainMenu.currentcoin + coins;
             onComplete?.Invoke();
         }
         else
@@ -290,7 +293,7 @@ public class WebRequestManager : MonoBehaviour
 
     }
 
-    //------------------------------------------add coins if player wins
+    //------------------------------------------redeem
 
     public static void Httpredeem(int amount, string email, int coins, int number, Action onComplete, Action onError = null)
     {
@@ -314,6 +317,7 @@ public class WebRequestManager : MonoBehaviour
         if (response.Equals("Redeemed Success"))
         {
             Debug.Log("succefull redeem");
+            MainMenu.currentcoin = MainMenu.currentcoin -  coins;
             onComplete?.Invoke();
         }
         else
@@ -322,9 +326,6 @@ public class WebRequestManager : MonoBehaviour
             onError?.Invoke();
         }
     }
-
-
-
 }
 
 
