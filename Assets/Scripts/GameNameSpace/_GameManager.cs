@@ -52,7 +52,7 @@ namespace GameNameSpace
         //--
 
         private int MainPlayerTimeoutIndex = 0;  // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
-        private float SliderFloorFunction;
+
 
         private int RoundsCompleted = 0;
         private int RoundsCompletedWithTwoPlayers = 0;
@@ -60,6 +60,10 @@ namespace GameNameSpace
         private int NumberOfPlayerShowed = 0;
 
         private int RandomPlayerStartAt = 0;
+        private int BetValue = 0;  // Value Player is Betting with.
+
+        private int MinBetValueForUser = 0;  // Value Player is Betting with.
+        private int MaxBetValueForUser = 0;  // Value Player is Betting with.
 
         public Animator[] cardanim;
 
@@ -89,7 +93,7 @@ namespace GameNameSpace
 
         private void SecondStart()
         {
-            PlayerIndex = Random.Range(1, numberOfPlayer + 1);
+            PlayerIndex = Random.Range(2, numberOfPlayer + 1);
             RandomPlayerStartAt = PlayerIndex;
             CardsManager.instance.MakeDatabase();
             CreatePlayers(numberOfPlayer);
@@ -101,10 +105,16 @@ namespace GameNameSpace
 
             MinimumBettingValue = GameInstance.new_instance.MinimumBettingValue;
 
+           
+
+            MinBetValueForUser = MinimumBettingValue;
+            MaxBetValueForUser = MinimumBettingValue;
+            BetValue = MinBetValueForUser;
+            BetUpdate();
 
             ChangeSelectionUI();
             ChangeButtonState();
-            RefreshSlider();
+         
             RefreshPotText();
 
             //Ranking Happens Here.
@@ -131,11 +141,11 @@ namespace GameNameSpace
                     {
                         if (FB_Handler.instance.SavedProfile != null)
                         {
-                            int ParseCoins;
+                            //int ParseCoins;
 
-                            int.TryParse(fetchDynamicCoinsApi.instance.coinsFetched, out ParseCoins);
+                           // int.TryParse(fetchDynamicCoinsApi.instance.coinsFetched, out ParseCoins);
 
-                            CreatePlayer(FB_Handler.instance.SavedUsername, ParseCoins, 1000, FB_Handler.instance.SavedProfile, i);
+                            CreatePlayer(FB_Handler.instance.SavedUsername, 100000, 1000, FB_Handler.instance.SavedProfile, i);
                             Greeting.text = "Welcome Back, " + FB_Handler.instance.SavedUsername;
                         }
 
@@ -251,165 +261,26 @@ namespace GameNameSpace
             if (IsPlayer==true)
             {
                 //Debugger.text = "Player " + PlayerIndex + " Betted " + BettingSlider.value + " Chips";
-                Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + SliderFloorFunction + " Chips";
+                Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + BetValue + " Chips";
 
-                MainPlayer.GetComponent<Player>().coin -= (int)SliderFloorFunction;
-                TotalPot += (int)SliderFloorFunction;
-                MinimumBettingValue = (int)SliderFloorFunction;
+                MainPlayer.GetComponent<Player>().coin -= BetValue;
+                TotalPot += BetValue;
+                MinimumBettingValue = BetValue;
                 //Refresh Data after some Maths..
                 MainPlayer.GetComponent<Player>().RefreshData();
-                RefreshSlider();
+               // BetUpdate();
                 RefreshChipsText();
                 RefreshPotText();
             }
             else
             {
-                 int BetValue = 0;
-                 bool CurrentPlayerStatus;
-                 bool PreviousPlayerStatus;
+                MinimumBettingValue = BetValue;
+                Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + BetValue + " Chips";
 
-                 CurrentPlayerStatus = PlayersList[PlayerIndex - 1].GetComponent<Player>().StatusSeen;
-
-                 if (PlayerIndex==1)  //If bot is at player index 1.
-                 {
-                    PreviousPlayerStatus = PlayersList[PlayersList.Count-1].GetComponent<Player>().StatusSeen;
-                 }
-                 else
-                 {
-                    PreviousPlayerStatus = PlayersList[PlayerIndex - 2].GetComponent<Player>().StatusSeen;
-                 }
-
-                 if (CurrentPlayerStatus == false)
-                 {
-                    //If Player playing Blind.
-                    if(PreviousPlayerStatus == false)
-                    {  //If Player playing Before is Blind.
-
-                        //Can Bet x2 OR Same of Minimum Bet
-                        if(PlayersList[PlayerIndex - 1].GetComponent<Player>().coin>(MinimumBettingValue*2))  //He can Bet x2
-                        {
-                            int k = Random.Range(1, 5);  // 1 , 2 , 3 , 4
-                            switch(k)
-                            {
-                                //Less Probablity of Betting x2.
-                                case 1:
-                                    BetValue = MinimumBettingValue;
-                                    break;
-
-                                case 2:
-                                    BetValue = MinimumBettingValue;
-                                    break;
-
-                                case 3:
-                                    BetValue = MinimumBettingValue;
-                                    break;
-
-                                case 4:
-                                    BetValue = MinimumBettingValue * 2;
-                                    break;
-                            }
-
-                            
-                        }
-                        else //He can bet Same Only.
-                        {
-                            BetValue = MinimumBettingValue;
-                        }
-                    }
-                    else
-                    {   //If Player playing Before is Seen.
-
-                        //Can Bet x1/2 OR Same of Minimum Bet
-                        int k = Random.Range(1, 3);  // 1 OR 2
-                        BetValue = (MinimumBettingValue/2) * k;
-                    }
-                 }
-                 else
-                 {
-                    //If Player playing Seen.
-                    if (PreviousPlayerStatus == false)
-                    {  //If Player playing Before is Blind.
-
-                        //Can Bet x2 OR x4 of Minimum Bet
-                        if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin > (MinimumBettingValue * 4))  //He can Bet x4
-                        {
-                            int k = Random.Range(1, 5);  // 1 , 2 , 3 , 4
-                            switch (k)
-                            {
-                                //Less Probablity of Betting x4.
-                                case 1:
-                                    BetValue = MinimumBettingValue * 2;
-                                    break;
-
-                                case 2:
-                                    BetValue = MinimumBettingValue * 2;
-                                    break;
-
-                                case 3:
-                                    BetValue = MinimumBettingValue * 2;
-                                    break;
-
-                                case 4:
-                                    BetValue = MinimumBettingValue * 4;
-                                    break;
-                            }
-
-                        }
-                        else if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin > (MinimumBettingValue * 2) )//He can Bet x2
-                        {
-                            BetValue = MinimumBettingValue * 2;
-                        }
-                        else
-                        {
-                            BetValue = MinimumBettingValue;  //For Now.. (Not in How to Play) 
-                        }
-
-                    }
-                    else
-                    {   //If Player playing Before is Seen.
-
-                        //Can Bet x2 OR Same of Minimum Bet
-                        if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin > (MinimumBettingValue * 2))  //He can Bet x2
-                        {
-                            int k = Random.Range(1, 5);  // 1 , 2 , 3 , 4
-                            switch (k)
-                            {
-                                //Less Probablity of Betting x2.
-                                case 1:
-                                    BetValue = MinimumBettingValue;
-                                    break;
-
-                                case 2:
-                                    BetValue = MinimumBettingValue;
-                                    break;
-
-                                case 3:
-                                    BetValue = MinimumBettingValue;
-                                    break;
-
-                                case 4:
-                                    BetValue = MinimumBettingValue * 2;
-                                    break;
-                            }
-
-
-                        }
-                        else //He can bet Same Only.
-                        {
-                            BetValue = MinimumBettingValue;
-                        }
-                    }
-                 }
-               
-
-                 MinimumBettingValue = BetValue;
-
-                 Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + BetValue + " Chips";
-
-                 PlayersList[PlayerIndex - 1].GetComponent<Player>().coin -= BetValue;
-                 PlayersList[PlayerIndex - 1].GetComponent<Player>().chipsText.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().coin.ToString();
-                 TotalPot += BetValue;
-                 RefreshPotText();
+                PlayersList[PlayerIndex - 1].GetComponent<Player>().coin -= BetValue;
+                PlayersList[PlayerIndex - 1].GetComponent<Player>().chipsText.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().coin.ToString();
+                TotalPot += BetValue;
+                RefreshPotText();
             }
 
             if (PlayerIndex < PlayersList.Count)
@@ -420,7 +291,8 @@ namespace GameNameSpace
             {
                 PlayerIndex = 1;
             }
-            //TurnIndicator.text = "Player " + PlayerIndex + " is playing...";
+
+         
             TurnIndicator.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " is playing...";
             StartGame();
         }
@@ -472,12 +344,16 @@ namespace GameNameSpace
 
             ChangeButtonState();
             ChangeSelectionUI();
+            BetUpdate();
+
 
             if (PlayersList.Count!=1) //Game move forward, only if there are more than one player.
             {
                 if (PrimaryPlayerDead == true)  //We are dead, Go On in Loop.
                 {
-                    if (PlayersList[PlayerIndex-1].GetComponent<Player>().coin < MinimumBettingValue)  //Auto Show/Fold Cards.
+                    RandomToSeen(PlayerIndex);
+                    
+                    if(CanBet()==false)  //Auto Show/Fold Cards.
                     {
                         if(TopRankers[0].GetComponent<Player>().PLayerDefaultNumber==PlayerIndex) //Is going to be winner.
                         {
@@ -497,11 +373,9 @@ namespace GameNameSpace
 
                             }
                         }
-                       
                     }
                     else
                     {
-                        RandomToSeen(PlayerIndex);
                         Utils.DoActionAfterSecondsAsync(StartPlayersTurn, WaitingTime);
                     }
                 }
@@ -509,13 +383,14 @@ namespace GameNameSpace
                 {
                     if (PlayerIndex != 1)  //If index is not 1 , Go On.
                     {
-                        if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin < MinimumBettingValue)  //Auto Show Cards.
+                        RandomToSeen(PlayerIndex);
+
+                        if (CanBet()==false)  //Auto Show Cards.
                         {
                             Utils.DoActionAfterSecondsAsync(Show, WaitingTime); // Auto SHOW.
                         }
                         else
                         {
-                            RandomToSeen(PlayerIndex);
                             Utils.DoActionAfterSecondsAsync(StartPlayersTurn, WaitingTime);
                         }
                     }
@@ -523,7 +398,7 @@ namespace GameNameSpace
                     {
                         //Check if Chips are less than Minimum Bid.
 
-                        if(MainPlayer.GetComponent<Player>().coin < MinimumBettingValue)  //Auto Show Cards.
+                        if(CanBet() == false) //Here Just to know, Can Bet or Not. No need of Bet Value.
                         {
                             ChangeButtonState();
                             Utils.DoActionAfterSecondsAsync(Show, WaitingTime); // Auto SHOW.
@@ -567,7 +442,6 @@ namespace GameNameSpace
                             }
                         }
                     }
-                    
                 }
             }
             else  // Some Player Won...
@@ -587,10 +461,192 @@ namespace GameNameSpace
             }
         }
 
+        private bool CanBet()
+        {
+            bool AbleToBet = true;  //Keep this true.
+            bool CurrentPlayerStatus;
+            bool PreviousPlayerStatus;
+
+            CurrentPlayerStatus = PlayersList[PlayerIndex - 1].GetComponent<Player>().StatusSeen;
+
+            if (PlayerIndex==1)  //If bot is at player index 1.
+            {
+                PreviousPlayerStatus = PlayersList[PlayersList.Count-1].GetComponent<Player>().StatusSeen;
+            }
+            else
+            {
+                PreviousPlayerStatus = PlayersList[PlayerIndex - 2].GetComponent<Player>().StatusSeen;
+            }
+
+            if (CurrentPlayerStatus == false)
+            {
+                //If Player playing Blind.
+                if (PreviousPlayerStatus == false)
+                {  //If Player playing Before is Blind.
+
+                    //Can Bet x2 OR Same of Minimum Bet
+                    MaxBetValueForUser = MinimumBettingValue * 2;
+                    MinBetValueForUser = MinimumBettingValue;
+
+                    if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin >= (MinimumBettingValue * 2))  //He can Bet x2
+                    {
+                        int k = Random.Range(1, 5);  // 1 , 2 , 3 , 4
+                        switch (k)
+                        {
+                            //Less Probablity of Betting x2.
+                            case 1:
+                                BetValue = MinimumBettingValue;
+                                break;
+
+                            case 2:
+                                BetValue = MinimumBettingValue;
+                                break;
+
+                            case 3:
+                                BetValue = MinimumBettingValue;
+                                break;
+
+                            case 4:
+                                BetValue = MinimumBettingValue * 2;
+                                break;
+                        }
+                    }
+                    else if(PlayersList[PlayerIndex - 1].GetComponent<Player>().coin >= (MinimumBettingValue))//He can bet Same Only.
+                    {
+                        BetValue = MinimumBettingValue;
+                    }
+                    else
+                    {
+                        AbleToBet = false;
+                    }
+                }
+                else
+                {
+                    //If Player playing Before is Seen.
+
+                    //Can Bet x1/2 OR Same of Minimum Bet
+                    MaxBetValueForUser = MinimumBettingValue;
+                    MinBetValueForUser = MinimumBettingValue/2;
+
+                    if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin >= MinimumBettingValue)  //He can Bet Same Or Half
+                    {
+                        int k = Random.Range(1, 3);  // 1 , 2 
+                        switch (k)
+                        {
+                            //Less Probablity of Betting x2.
+                            case 1:
+                                BetValue = MinimumBettingValue;
+                                break;
+
+                            case 2:
+                                BetValue = MinimumBettingValue/2;
+                                break;
+                        }
+                    }
+                    else if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin >= (MinimumBettingValue/2)) //He can bet Half Only.
+                    {
+                        BetValue = (MinimumBettingValue/2);
+                    }
+                    else
+                    {
+                        AbleToBet = false;
+                    }
+                }
+            }
+            else
+            {
+                //If Player playing Seen.
+                if (PreviousPlayerStatus == false)
+                {  //If Player playing Before is Blind.
+
+                    //Can Bet x2 OR x4 of Minimum Bet
+                    MaxBetValueForUser = MinimumBettingValue * 4;
+                    MinBetValueForUser = MinimumBettingValue * 2;
+
+                    if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin >= (MinimumBettingValue * 4))  //He can Bet x4 OR x2
+                    {
+                        int k = Random.Range(1, 5);  // 1 , 2 , 3 , 4
+                        switch (k)
+                        {
+                            //Less Probablity of Betting x4.
+                            case 1:
+                                BetValue = MinimumBettingValue * 2;
+                                break;
+
+                            case 2:
+                                BetValue = MinimumBettingValue * 2;
+                                break;
+
+                            case 3:
+                                BetValue = MinimumBettingValue * 2;
+                                break;
+
+                            case 4:
+                                BetValue = MinimumBettingValue * 4;
+                                break;
+                        }
+
+                    }
+                    else if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin >= (MinimumBettingValue * 2)) //He can Bet x2
+                    {
+                        BetValue = MinimumBettingValue * 2;
+                    }
+                    else
+                    {
+                        AbleToBet = false;
+                    }
+
+                }
+                else
+                {   //If Player playing Before is Seen.
+
+                    //Can Bet x2 OR Same of Minimum Bet
+                    MaxBetValueForUser = MinimumBettingValue * 2;
+                    MinBetValueForUser = MinimumBettingValue;
+
+                    if (PlayersList[PlayerIndex - 1].GetComponent<Player>().coin >= (MinimumBettingValue * 2))  //He can Bet x2 Or Same
+                    {
+                        int k = Random.Range(1, 5);  // 1 , 2 , 3 , 4
+                        switch (k)
+                        {
+                            //Less Probablity of Betting x2.
+                            case 1:
+                                BetValue = MinimumBettingValue;
+                                break;
+
+                            case 2:
+                                BetValue = MinimumBettingValue;
+                                break;
+
+                            case 3:
+                                BetValue = MinimumBettingValue;
+                                break;
+
+                            case 4:
+                                BetValue = MinimumBettingValue * 2;
+                                break;
+                        }
+                    }
+                    else if(PlayersList[PlayerIndex - 1].GetComponent<Player>().coin >= (MinimumBettingValue))//He can bet Same Only.
+                    {
+                        BetValue = MinimumBettingValue;
+                    }
+                    else
+                    {
+                        AbleToBet = false;
+                    }
+                }
+            }
+
+            return AbleToBet;
+
+        }
+      
+
         private void StartPlayersTurn() //AI ALL DOWN.
         {
 
-            BetUpdate();
+           // BetUpdate();
 
             if(RandomPlayerStartAt>PlayersList.Count)
             {
@@ -812,36 +868,63 @@ namespace GameNameSpace
         
         public void BetUpdate()
         {
-            BettingValueText.text = MinimumBettingValue.ToString();
+            /* BettingValueText.text = MinimumBettingValue.ToString();
+
+             float value = BettingSlider.value / MinimumBettingValue;
+             SliderFloorFunction = Mathf.Floor(value) * MinimumBettingValue;
+
+             if (SliderFloorFunction==0)
+             {
+                 SliderFloorFunction = MinimumBettingValue;
+             }
+             BettingValueText.text = SliderFloorFunction.ToString();*/
+
+             Debug.Log("Max" + MaxBetValueForUser);
+             Debug.Log("Min" + MinBetValueForUser);
+
+             BettingSlider.maxValue = MaxBetValueForUser;
+             BettingSlider.minValue = MinBetValueForUser;
+
+             if(BettingSlider.value>=((MaxBetValueForUser+MinBetValueForUser) /2))
+             {
+                BetValue = MaxBetValueForUser;
+             }
+             else
+             {
+                BetValue = MinBetValueForUser;
+             }
+
+             if(BetValue==0)
+             {
+                BetValue = MinBetValueForUser;
+             }
+
+             BettingValueText.text = BetValue.ToString();
 
 
-            float value = BettingSlider.value / MinimumBettingValue;
-            SliderFloorFunction = Mathf.Floor(value) * MinimumBettingValue;
-           
-            if (SliderFloorFunction==0)
-            {
-                SliderFloorFunction = MinimumBettingValue;
-            }
-            BettingValueText.text = SliderFloorFunction.ToString();
         }
 
         public void AddBetButton()
         {
-            if(SliderFloorFunction<BettingSlider.maxValue)
-            {
-                SliderFloorFunction += MinimumBettingValue;
-                BettingSlider.value = SliderFloorFunction;
-                if (SliderFloorFunction == 0)
-                {
-                    SliderFloorFunction = MinimumBettingValue;
-                }
-                BettingValueText.text = SliderFloorFunction.ToString();
-            }
+            /* if(SliderFloorFunction<BettingSlider.maxValue)
+             {
+                 SliderFloorFunction += MinimumBettingValue;
+                 BettingSlider.value = SliderFloorFunction;
+                 if (SliderFloorFunction == 0)
+                 {
+                     SliderFloorFunction = MinimumBettingValue;
+                 }
+                 BettingValueText.text = SliderFloorFunction.ToString();
+             }*/
+
+            BettingSlider.value = BettingSlider.maxValue;
+            BetValue = (int)BettingSlider.value;
+            BettingValueText.text = BetValue.ToString();
 
         }
         public void SubstractBetButton()
         {
-            if (SliderFloorFunction > BettingSlider.minValue)
+            /*if (SliderFloorFunction > BettingSlider.minValue)
             {
                 SliderFloorFunction -= MinimumBettingValue;
                 BettingSlider.value = SliderFloorFunction;
@@ -850,15 +933,20 @@ namespace GameNameSpace
                     SliderFloorFunction = MinimumBettingValue;
                 }
                 BettingValueText.text = SliderFloorFunction.ToString();
-            }
+            }*/
+            //BetValue
+            BettingSlider.value = BettingSlider.minValue;
+            BetValue = (int)BettingSlider.value;
+            BettingValueText.text = BetValue.ToString();
         }
 
-        public void RefreshSlider()
-        {
-            BettingSlider.minValue = MinimumBettingValue;
-            BettingSlider.value = SliderFloorFunction;
-            BettingSlider.maxValue = MainPlayer.GetComponent<Player>().coin;
-        }
+      //  public void RefreshSlider()
+       // {
+           // BettingSlider.minValue = MinimumBettingValue;
+           // BettingSlider.value = SliderFloorFunction;
+           // BettingSlider.maxValue = MainPlayer.GetComponent<Player>().coin;
+
+       // }
 
         public void RefreshPotText()
         {
@@ -1171,7 +1259,8 @@ namespace GameNameSpace
                                     Swap();
                                 }
                             }
-                            else {/*DO NOTHING*/  break; }
+                            else {/*DO NOTHING*/
+            break; }
                         }
                         else {/*DO NOTHING*/  break; }
                     }
