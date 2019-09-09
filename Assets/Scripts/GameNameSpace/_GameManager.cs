@@ -35,6 +35,7 @@ namespace GameNameSpace
         public TMP_Text BettingValueText;
         public Slider BettingSlider;
 
+
         //---Private Variables-----------
 
         private bool PrimaryPlayerDead = false;
@@ -66,6 +67,7 @@ namespace GameNameSpace
         private int MaxBetValueForUser = 0;  // Value Player is Betting with.
 
         public Animator[] cardanim;
+        private bool UserFirstTurn = false;
 
         private void Start()
         {
@@ -93,8 +95,13 @@ namespace GameNameSpace
 
         private void SecondStart()
         {
-            PlayerIndex = Random.Range(2, numberOfPlayer + 1);
+            PlayerIndex = Random.Range(1, numberOfPlayer + 1);
             RandomPlayerStartAt = PlayerIndex;
+            if(PlayerIndex==1)
+            {
+                UserFirstTurn = true;
+            }
+
             CardsManager.instance.MakeDatabase();
             CreatePlayers(numberOfPlayer);
         }
@@ -104,17 +111,18 @@ namespace GameNameSpace
             TurnIndicator.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " is playing...";
 
             MinimumBettingValue = GameInstance.new_instance.MinimumBettingValue;
+ 
+            BetValue = MinimumBettingValue;
 
+            BetUpdate();
+            ChangeSelectionUI();
+
+            if(UserFirstTurn==false)
+            {
+                ChangeButtonState();
+            }
            
 
-            MinBetValueForUser = MinimumBettingValue;
-            MaxBetValueForUser = MinimumBettingValue;
-            BetValue = MinBetValueForUser;
-            BetUpdate();
-
-            ChangeSelectionUI();
-            ChangeButtonState();
-         
             RefreshPotText();
 
             //Ranking Happens Here.
@@ -268,7 +276,6 @@ namespace GameNameSpace
                 MinimumBettingValue = BetValue;
                 //Refresh Data after some Maths..
                 MainPlayer.GetComponent<Player>().RefreshData();
-               // BetUpdate();
                 RefreshChipsText();
                 RefreshPotText();
             }
@@ -342,7 +349,18 @@ namespace GameNameSpace
             TimerUI.fillAmount = 0f;
             TimerOn = false;
 
-            ChangeButtonState();
+            if(UserFirstTurn==false)
+            {
+                ChangeButtonState();
+            }
+            else
+            {
+                BettingSlider.interactable = false;
+                UserFirstTurn = false;
+            }
+            
+
+
             ChangeSelectionUI();
             BetUpdate();
 
@@ -830,39 +848,42 @@ namespace GameNameSpace
 
             if (PrimaryPlayerDead == true)  //We are dead, Go On.
             {
-                Interactable = false;
+                 Interactable = false;
             }
             else  //We are not dead.
             {
-                if (PlayerIndex != 1)  //If index is not 1 , Go On.
-                {
-                    Interactable = false;
-                }
-                else  //If index is 1, Wait Player to play. 
-                {
-                    if(MainPlayer.GetComponent<Player>().coin >= MinimumBettingValue)    //If Coins greter than beeting value
-                    {
-                        Interactable = true;
-                    }
-                    else
+                    if (PlayerIndex != 1)  //If index is not 1 , Go On.
                     {
                         Interactable = false;
                     }
-                    
-                }
+                    else  //If index is 1, Wait Player to play. 
+                    {
+
+                        if (CanBet() == false)    //
+                        {
+                            Interactable = false;
+                        }
+                        else
+                        {
+                            Interactable = true;
+                        }
+
+
+                    }
             }
 
-            for (int i = 0; i < ObjectsToDisable.Count ; i++)
+            for (int i = 0; i < ObjectsToDisable.Count; i++)
             {
-                if(ObjectsToDisable[i].GetComponent<Button>()==true)
-                {
-                    ObjectsToDisable[i].GetComponent<Button>().interactable = Interactable;
-                }
-                else
-                {
-                    ObjectsToDisable[i].GetComponent<Slider>().interactable = Interactable;
-                }
+                    if (ObjectsToDisable[i].GetComponent<Button>() == true)
+                    {
+                        ObjectsToDisable[i].GetComponent<Button>().interactable = Interactable;
+                    }
+                    else
+                    {
+                        ObjectsToDisable[i].GetComponent<Slider>().interactable = Interactable;
+                    }
             }
+           
         }
 
         
@@ -885,14 +906,16 @@ namespace GameNameSpace
              BettingSlider.maxValue = MaxBetValueForUser;
              BettingSlider.minValue = MinBetValueForUser;
 
-             if(BettingSlider.value>=((MaxBetValueForUser+MinBetValueForUser) /2))
+            
+             if (BettingSlider.value >= ((MaxBetValueForUser + MinBetValueForUser) / 2))
              {
-                BetValue = MaxBetValueForUser;
+                 BetValue = MaxBetValueForUser;
              }
              else
              {
-                BetValue = MinBetValueForUser;
+                 BetValue = MinBetValueForUser;
              }
+        
 
              if(BetValue==0)
              {
