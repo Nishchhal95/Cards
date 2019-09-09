@@ -25075,9 +25075,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1971006522369520488}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eea5a5b00006e134c8ad015c037ee230, type: 3}
+  m_Script: {fileID: 11500000, guid: 4cebef8d44d9cc645b78c17970a4eba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FB_UserName: {fileID: 283444703}
+  FB_UserName2: {fileID: 1971006521502707212}
+  FB_Email: {fileID: 171483224}
+  FB_Profile: {fileID: 16244658}
+  FB_Profile2: {fileID: 1971006523412467644}
 --- !u!224 &1971006522369520491
 RectTransform:
   m_ObjectHideFlags: 0
