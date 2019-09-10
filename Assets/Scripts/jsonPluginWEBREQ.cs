@@ -8,6 +8,7 @@ public class jsonPluginWEBREQ : MonoBehaviour
 {
     public static jsonPluginWEBREQ Instance = null;
     public int coins;
+
     private void Awake()
     {
         if (Instance == null)
@@ -19,6 +20,11 @@ public class jsonPluginWEBREQ : MonoBehaviour
         {
             Destroy(this);
         }
+    }
+
+    private void Start()
+    {
+
     }
 
 

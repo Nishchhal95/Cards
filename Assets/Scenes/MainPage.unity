@@ -1346,26 +1346,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: getcoins
-        m_Mode: 3
+      - m_Target: {fileID: 1971006522369520490}
+        m_MethodName: BuyChips
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 700000000
+          m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: buycoins
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4999
-          m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 499900
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -1646,26 +1635,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: getcoins
-        m_Mode: 3
+      - m_Target: {fileID: 1971006522369520490}
+        m_MethodName: BuyChips
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 15000000
+          m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: buycoins
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 499
-          m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 499900
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -2153,26 +2131,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: getcoins
-        m_Mode: 3
+      - m_Target: {fileID: 1971006522369520490}
+        m_MethodName: BuyChips
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5000000
+          m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: buycoins
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 49
-          m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 4900
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -3310,6 +3277,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 200134198}
   m_CullTransparentMesh: 0
+--- !u!1 &206580563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 206580564}
+  - component: {fileID: 206580565}
+  m_Layer: 0
+  m_Name: WebViewHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &206580564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206580563}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &206580565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206580563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0560822295840499ca65d5fd076e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  webViewObject: {fileID: 0}
 --- !u!1 &211333829
 GameObject:
   m_ObjectHideFlags: 0
@@ -8986,26 +8997,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: getcoins
-        m_Mode: 3
+      - m_Target: {fileID: 1971006522369520490}
+        m_MethodName: BuyChips
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2147483647
+          m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: buycoins
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 15999
-          m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 1599900
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -12179,26 +12179,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: getcoins
-        m_Mode: 3
+      - m_Target: {fileID: 1971006522369520490}
+        m_MethodName: BuyChips
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 87500000
+          m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: buycoins
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 999
-          m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 99900
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -14314,26 +14303,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: getcoins
-        m_Mode: 3
+      - m_Target: {fileID: 1971006522369520490}
+        m_MethodName: BuyChips
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2147483647
+          m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1866097463}
-        m_MethodName: buycoins
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 9999
-          m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 999900
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -21827,18 +21805,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865355073}
   m_CullTransparentMesh: 0
---- !u!114 &1866097463 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5135484746130765740, guid: df362646af4dda540a87bbcaf48fd14e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1411381501}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7241724a4418d1649b29f0fc6a2cf462, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1868408704
 GameObject:
   m_ObjectHideFlags: 0
@@ -25209,6 +25175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1971006522369520491}
   - component: {fileID: 1971006522369520489}
+  - component: {fileID: 1971006522369520490}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -25233,6 +25200,18 @@ MonoBehaviour:
   FB_Email: {fileID: 171483224}
   FB_Profile: {fileID: 16244658}
   FB_Profile2: {fileID: 1971006523412467644}
+--- !u!114 &1971006522369520490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971006522369520488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b500ae6336d7b498518afe07fd2cff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1971006522369520491
 RectTransform:
   m_ObjectHideFlags: 0

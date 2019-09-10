@@ -327,6 +327,40 @@ public class WebRequestManager : MonoBehaviour
             onError?.Invoke();
         }
     }
+
+
+
+
+
+    //BUY COINS
+    public static void HttpCreateCoinsOrderID(string postData, Action<OrderResponse> onComplete, Action onError = null)
+    {
+        Instance.StartCoroutine(Instance.HttpHttpCreateCoinsOrderIDRoutine(postData, onComplete, onError));
+    }
+
+    private IEnumerator HttpHttpCreateCoinsOrderIDRoutine(string postData, Action<OrderResponse> onComplete, Action onError = null)
+    {
+        UnityWebRequest unityWebRequest = UnityWebRequest.Post("http://languagelive.xyz/casino/v1/api/create-order.php", postData);
+
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(postData);
+        unityWebRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+        unityWebRequest.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        unityWebRequest.SetRequestHeader("Content-Type", "application/json");
+
+        yield return unityWebRequest.SendWebRequest();
+
+        if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+        {
+            Debug.Log(unityWebRequest.error);
+            onError?.Invoke();
+        }
+
+        string jsonData = unityWebRequest.downloadHandler.text;
+        OrderResponse orderResponse = JsonConvert.DeserializeObject<OrderResponse>(jsonData);
+
+        onComplete?.Invoke(orderResponse);
+    }
+
 }
 
 
@@ -340,3 +374,37 @@ public class Result
 {
     public string coins { get; set; }
 }
+
+
+[System.Serializable]
+public class OrderMessage
+{
+    public string email;
+    public string name;
+    public string amount;
+}
+
+[System.Serializable]
+public class OrderResponse
+{
+    public string status;
+    public int code;
+    public string msg;
+    public Data data;
+}
+
+[System.Serializable]
+public class Data
+{
+    public string id;
+    public int amount;
+    public string currency;
+    public string receipt;
+    public string status;
+    public int attempts;
+    public string created_at;
+    public string name;
+    public string email;
+}
+
+
