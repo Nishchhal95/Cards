@@ -78,7 +78,7 @@ public class WebRequestManager : MonoBehaviour
 
     private IEnumerator HttpGetPlayerLoginDataRoutine(string playerName, string playerEmail, string playerPic, string playerImei, string playerCoins, string playerNumber, Action onComplete, Action onError = null)
     {
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/login.php?name=" + playerName + "&email=" + playerEmail + "&pic=" + playerEmail + "&imei=" + playerImei + "&coins=" + playerCoins + "&number=" + playerNumber);
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/login.php?name=" + playerName + "&email=" + playerEmail + "&pic=" + playerPic + "&imei=" + playerImei + "&coins=" + playerCoins + "&number=" + playerNumber);
         yield return unityWebRequest.SendWebRequest();
 
         if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
@@ -92,7 +92,7 @@ public class WebRequestManager : MonoBehaviour
         if (response.Equals("Email id already registered."))
         {
             welcomepanel.SetActive(false);
-
+            print("Already Available");
             onComplete?.Invoke();
         }
 
@@ -246,7 +246,7 @@ public class WebRequestManager : MonoBehaviour
         if (response.Equals("Updated"))
         {
             Debug.Log("succeful add coin !");
-            MainMenu.currentcoin = MainMenu.currentcoin +int.Parse(addedCoin);
+            MainMenu.currentcoin = MainMenu.currentcoin + int.Parse(addedCoin);
             onComplete?.Invoke();
         }
         else
@@ -295,16 +295,16 @@ public class WebRequestManager : MonoBehaviour
 
     //------------------------------------------redeem
 
-    public static void Httpredeem(int amount, string email, int coins, int number, Action onComplete, Action onError = null)
+    public static void Httpredeem(int amount, string email, int coins, long number, Action onComplete, Action onError = null)
     {
         Instance.StartCoroutine(Instance.HttpredeemRoutine(amount,email,coins,number, onComplete, onError));
     }
 
 
 
-    private IEnumerator HttpredeemRoutine(int amount, string email, int coins, int number, Action onComplete, Action onError = null)
+    private IEnumerator HttpredeemRoutine(int amount, string email, int coins, long number, Action onComplete, Action onError = null)
     {
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/Redeem.php?amount=" + amount.ToString() + "&email=" + email + "&coins=" + coins.ToString() + "&number=" + number.ToString());
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get("http://languagelive.xyz/casino/redeem.php?amount=" + amount.ToString() + "&email=" + email + "&coins=" + coins.ToString() + "&number=" + number.ToString());
         yield return unityWebRequest.SendWebRequest();
 
         if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
@@ -317,6 +317,7 @@ public class WebRequestManager : MonoBehaviour
         if (response.Equals("Redeemed Success"))
         {
             Debug.Log("succefull redeem");
+
             MainMenu.currentcoin = MainMenu.currentcoin -  coins;
             onComplete?.Invoke();
         }

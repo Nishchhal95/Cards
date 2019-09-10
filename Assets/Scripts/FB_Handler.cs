@@ -9,6 +9,7 @@ public class FB_Handler : MonoBehaviour
 {
     public string SavedUsername;
     public string SavedEmail;
+    public string imei;
     public Sprite SavedProfile;
 
     public Text FB_UserName;
@@ -19,6 +20,9 @@ public class FB_Handler : MonoBehaviour
     public GameObject MainMenuScreen;
     public GameObject welcomescreen;
     public Button LoginButton;
+    public static bool email;
+    public static bool name;
+    public static bool photo;
 
     /* While using this prefab, You will need Username Text, Profile Image, and Login Button to Call FBLogin() Function inside Canvas. */
 
@@ -39,7 +43,8 @@ public class FB_Handler : MonoBehaviour
 
     private void Awake()
     {
-
+        email = name = photo = false;
+        imei= SystemInfo.deviceUniqueIdentifier;
         if (instance == null)
         {
             instance = this;
@@ -107,11 +112,9 @@ public class FB_Handler : MonoBehaviour
             MainMenuScreen.SetActive(true);
             LoginButton.gameObject.SetActive(false);
 
-            FB.API("/me?fields=first_name", HttpMethod.GET, DisplayUsername);
-            FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic);
             FB.API("/me?fields=email", HttpMethod.GET, DisplayEmail);
-         
-          
+            FB.API("/me?fields=first_name", HttpMethod.GET, DisplayUsername);
+            FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic); 
         }
         else
         {
@@ -127,10 +130,12 @@ public class FB_Handler : MonoBehaviour
     {
         if (result.Error == null)
         {
+            name = true;
             SavedUsername = "" + result.ResultDictionary["first_name"];
             FB_UserName.text = SavedUsername;
             FB_UserName2.text = SavedUsername;
             Debug.Log("" + SavedUsername);
+            registerPlayerData();
         }
         else
         {
@@ -142,10 +147,12 @@ public class FB_Handler : MonoBehaviour
     {
         if (result.Texture != null)
         {
+            photo = true;
             Debug.Log("Profile Pic");
             SavedProfile = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2());
             FB_Profile.sprite = SavedProfile;
             FB_Profile2.sprite = SavedProfile;
+            registerPlayerData();
         }
         else
         {
@@ -158,13 +165,28 @@ public class FB_Handler : MonoBehaviour
     {
         if (result.Error == null)
         {
+            email = true;
             SavedEmail = "" + result.ResultDictionary["email"];
             FB_Email.text = SavedEmail;
             Debug.Log("" + SavedEmail);
+            registerPlayerData();
         }
         else
         {
             Debug.Log(result.Error);
         }
     }
+
+
+    public void registerPlayerData()
+    {
+        if(name && photo && email)
+        { 
+            jsonPluginWEBREQ.Instance.initData(imei);
+        }
+    }
+
+
+
+           
 }

@@ -140,6 +140,6 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        cointext.text=cointextinfo.text = currentcoin.ToString();
+        cointext.text = cointextinfo.text = currentcoin.ToString();
     }
 }

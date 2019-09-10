@@ -14,17 +14,15 @@ public class RedeemManager : MonoBehaviour
     public TMP_InputField Redeemamounttext;
     int redeemamount;
     int redeemchip;
-
+    long MobieNumber;
     private void Update()
     {
         ChipofPlayer = long.Parse(chiptext.text);
     }
     private void showstats()
     {
-     
         Name.text = FB_Handler.instance.FB_UserName.text;
         Email.text = FB_Handler.instance.FB_Email.text;
-   
     }
 
 
@@ -63,4 +61,14 @@ public class RedeemManager : MonoBehaviour
         }
     }
 
+
+    public void redeemchipApi()
+    {
+        MobieNumber = long.Parse(Paytm.text);
+        WebRequestManager.Httpredeem(redeemamount, FB_Handler.instance.FB_Email.text, redeemchip, MobieNumber, () =>
+            {
+                Debug.Log("success redeem");
+                Redeempanel.SetActive(false);
+            });
+    }
 }
