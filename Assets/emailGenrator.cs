@@ -4,33 +4,33 @@ using UnityEngine;
 
 public class emailGenrator : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public string email="support@jungleeteenpatti.com";
+
+    private string email="support@jungleeteenpatti.com";
+
+    private string subject;
+
+    private string body = "<< How can we help you? >>";
 
 
-    public string subject= "support request from userName= Guest858886 user id= 675005994";
-
-
-
-    public string body = "<<HOW an we help you?>>                              "    +
-        "              ======DO NOT MODIFY BELOW====            "                    +
-
-        " player id: 67500944      device id: dc206768677868      game id : no game in proggress" +
-      "============================";
-
-
-
-
-
-
-    public void SendEmailBtn()
+    public void SendEmailButton()
     {
+        if(FB_Handler.instance.SavedUsername == null)
+        {
+            subject = "Support Request";
+        }
+        else
+        {
+            subject = "Support Request from " + FB_Handler.instance.SavedUsername.ToString();
+        }
+        SendEmail(email,subject,body);
+    }
 
-        Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
-    }
-    string MyEscapeURL(string URL)
+    private void SendEmail(string toEmail, string emailSubject, string emailBody)
     {
-        return WWW.EscapeURL(URL).Replace("+", "%20");
+        emailSubject = System.Uri.EscapeUriString(emailSubject);
+        emailBody = System.Uri.EscapeUriString(emailBody);
+        Application.OpenURL("mailto:" + toEmail + "?subject=" + emailSubject + "&body=" + emailBody);
     }
+
 
 }

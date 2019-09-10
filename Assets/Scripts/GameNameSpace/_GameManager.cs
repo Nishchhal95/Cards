@@ -299,7 +299,7 @@ namespace GameNameSpace
                 Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + BetValue + " Chips";
                 MainPlayer.GetComponent<Player>().coin -= BetValue;
                 MainMenu.currentcoin -= BetValue;
-                WebRequestManager.HttpGetReductedCoin(FB_Handler.instance.FB_Email.text, BetValue.ToString(), () =>
+                WebRequestManager.HttpGetReductedCoin(FB_Handler.instance.SavedEmail, BetValue.ToString(), () =>
                 {
                     Debug.Log("BET VALUE REDUCTED");
                 });
@@ -860,7 +860,7 @@ namespace GameNameSpace
         {
             GameWonPanel.SetActive(true);
             FinalWinnerText.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
-            if(TopRankers[0].GetComponent<Player>().email == FB_Handler.instance.FB_Email.text)
+            if(TopRankers[0].GetComponent<Player>().email == FB_Handler.instance.SavedEmail)
             {
                 WebRequestManager.HttpGetAddCoin(TopRankers[0].GetComponent<Player>().email, TotalPot.ToString(), () =>
                 {
