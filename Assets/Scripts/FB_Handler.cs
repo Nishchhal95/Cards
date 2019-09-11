@@ -116,7 +116,6 @@ public class FB_Handler : MonoBehaviour
         else
         {
             //Things to do if FB login failed.
-            welcomescreen.SetActive(false);
             MainMenuScreen.SetActive(false);
             LoginButton.gameObject.SetActive(true);
 
