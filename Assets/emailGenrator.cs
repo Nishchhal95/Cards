@@ -20,7 +20,7 @@ public class emailGenrator : MonoBehaviour
         }
         else
         {
-            subject = "Support Request from " + FB_Handler.instance.SavedUsername.ToString();
+            subject = "Support Request from " + FB_Handler.instance.SavedUsername.ToString() + ".  Email : " + FB_Handler.instance.SavedEmail.ToString();
         }
         SendEmail(email,subject,body);
     }
