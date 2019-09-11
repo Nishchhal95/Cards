@@ -169,7 +169,7 @@ namespace GameNameSpace
                         //Here i starts from 2.
                        /* if(NewPlayerList[i- next].coin >= (MinimumBettingValue*300))
                         {*/
-                            CreatePlayer(NewPlayerList[i - next].name, NewPlayerList[i - next].coin, 100, DummySprite, i);
+                            CreatePlayer(NewPlayerList[i - 2].name, NewPlayerList[i - 2].coin, 100, DummySprite, i);
                         /*}
                         else
                         {
