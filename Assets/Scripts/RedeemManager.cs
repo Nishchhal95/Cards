@@ -6,6 +6,7 @@ using TMPro;
 public class RedeemManager : MonoBehaviour
 {
     public GameObject Redeempanel;
+    public GameObject lesspanel;
     public TextMeshProUGUI chiptext;
     public long ChipofPlayer;
     public TMP_InputField Name;
@@ -43,7 +44,7 @@ public class RedeemManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("less chip");
+            lesspanel.SetActive(true);
         }
 
     }

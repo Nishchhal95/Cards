@@ -99,6 +99,11 @@ public class WebRequestManager : MonoBehaviour
 
         if (response.Equals("New record created successfully"))
         {
+            if (PlayerPrefs.GetInt("login", 0) == 0)
+            {
+                welcomepanel.SetActive(true);
+                PlayerPrefs.SetInt("login", 1);
+            }
             Debug.Log("Login Succesful!");
             onComplete?.Invoke();
         }

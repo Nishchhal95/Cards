@@ -43,7 +43,7 @@ public class jsonPluginWEBREQ : MonoBehaviour
         });
 
         //TO LOGIN---------------------------------------------------------------------------------------------------------------
-        WebRequestManager.HttpGetPlayerLoginData(FB_Handler.instance.FB_UserName.text,FB_Handler.instance.FB_Email.text, "xyzIMAGE", imei, "5000", "", () =>
+        WebRequestManager.HttpGetPlayerLoginData(FB_Handler.instance.FB_UserName.text,FB_Handler.instance.FB_Email.text, "https"+"://graph.facebook.com/" + FB_Handler.instance.SavedId + "/picture?type=large", imei, "5000", "", () =>
          {
             Debug.Log("CREATED USER SUCCESFULLY");
            

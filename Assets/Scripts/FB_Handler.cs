@@ -9,6 +9,7 @@ public class FB_Handler : MonoBehaviour
 {
     public string SavedUsername;
     public string SavedEmail;
+    public string SavedId;
     public string imei;
     public Sprite SavedProfile;
 
@@ -18,11 +19,12 @@ public class FB_Handler : MonoBehaviour
     public Image FB_Profile;
     public Image FB_Profile2;
     public GameObject MainMenuScreen;
-    public GameObject welcomescreen;
+
     public Button LoginButton;
     public static bool email;
     public static bool name;
     public static bool photo;
+    public static bool id;
 
     /* While using this prefab, You will need Username Text, Profile Image, and Login Button to Call FBLogin() Function inside Canvas. */
 
@@ -103,17 +105,12 @@ public class FB_Handler : MonoBehaviour
         {
             //Things to do if FB login completed.
             FB.Mobile.RefreshCurrentAccessToken();
-            if (PlayerPrefs.GetInt("login", 0) == 0)
-            {
-                welcomescreen.SetActive(true);
-                PlayerPrefs.SetInt("login", 1);
-            }
-
             MainMenuScreen.SetActive(true);
             LoginButton.gameObject.SetActive(false);
 
             FB.API("/me?fields=email", HttpMethod.GET, DisplayEmail);
             FB.API("/me?fields=first_name", HttpMethod.GET, DisplayUsername);
+            FB.API("/me?fields=id", HttpMethod.GET, DisplayId);
             FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic); 
         }
         else
@@ -142,6 +139,22 @@ public class FB_Handler : MonoBehaviour
             Debug.Log(result.Error);
         }
     }
+
+    void DisplayId(IResult result)    //Displays Username
+    {
+        if (result.Error == null)
+        {
+            id = true;
+            SavedId = "" + result.ResultDictionary["id"];
+            Debug.Log("iD= " +SavedId );
+            registerPlayerData();
+        }
+        else
+        {
+            Debug.Log(result.Error);
+        }
+    }
+
 
     void DisplayProfilePic(IGraphResult result)   //Displays Profile Picture
     {
@@ -180,10 +193,11 @@ public class FB_Handler : MonoBehaviour
 
     public void registerPlayerData()
     {
-        if(name && photo && email)
-        { 
+        if(name && photo && email && id)
+        {
             jsonPluginWEBREQ.Instance.initData(imei);
         }
     }
-      
+  
+
 }
