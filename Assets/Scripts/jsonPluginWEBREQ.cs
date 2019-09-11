@@ -35,7 +35,6 @@ public class jsonPluginWEBREQ : MonoBehaviour
 
     public void initData(string imei)
     {
-        print("jsasdaiduaoiudiaiysdgfcaadbgon");
         // TO GET PLAYER LIST----------------------------------------------------------
         WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> playerList) =>
         {
@@ -47,15 +46,18 @@ public class jsonPluginWEBREQ : MonoBehaviour
         WebRequestManager.HttpGetPlayerLoginData(FB_Handler.instance.FB_UserName.text,FB_Handler.instance.FB_Email.text, "xyzIMAGE", imei, "5000", "", () =>
          {
             Debug.Log("CREATED USER SUCCESFULLY");
-        });
+           
+         });
 
 
-        //TO GET COINS-------------------------------------------------------------------
+
         WebRequestManager.HttpGetPlayerCoinsData(FB_Handler.instance.FB_Email.text, (string coins) =>
-         {
+        {
             MainMenu.currentcoin = int.Parse(coins);
             Debug.Log(FB_Handler.instance.FB_Email.text + coins);
-         });
+        });
+        //TO GET COINS-------------------------------------------------------------------
+
 
     }
 

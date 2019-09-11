@@ -84,7 +84,6 @@ namespace GameNameSpace
                 numberOfPlayer = NewPlayerList.Count + 1;
                 SecondStart();
             });
-
         }
 
         private float TimeTakeToComplete = 45f;
@@ -856,14 +855,15 @@ namespace GameNameSpace
         {
             GameWonPanel.SetActive(true);
             FinalWinnerText.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
-            if(TopRankers[0].GetComponent<Player>().email == FB_Handler.instance.SavedEmail)
+            string email = TopRankers[0].GetComponent<Player>().name;
+            if (email == FB_Handler.instance.SavedUsername)
             {
-                WebRequestManager.HttpGetAddCoin(TopRankers[0].GetComponent<Player>().email, TotalPot.ToString(), () =>
+                WebRequestManager.HttpGetAddCoin(FB_Handler.instance.SavedEmail, TotalPot.ToString(), () =>
                 {
                     Debug.Log("Added win coin");
                 });
             }
-           
+            
             StartCoroutine(StartTimer());
         }
 

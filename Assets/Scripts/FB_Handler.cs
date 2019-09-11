@@ -185,8 +185,5 @@ public class FB_Handler : MonoBehaviour
             jsonPluginWEBREQ.Instance.initData(imei);
         }
     }
-
-
-
-           
+      
 }
