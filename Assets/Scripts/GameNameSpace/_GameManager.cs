@@ -150,7 +150,7 @@ namespace GameNameSpace
             {
                 //Call Your Create Player Method From Here and Pass playerList there and loop through that playerList
 
-                int next = 2;  //temporary variable if bot have less coins than expected.
+                //int next = 2;  //temporary variable if bot have less coins than expected.
 
                 for (int i = 1; i <= playerNumbers; i++)
                 {
@@ -167,15 +167,16 @@ namespace GameNameSpace
                     {
 
                         //Here i starts from 2.
-                        if(NewPlayerList[i- next].coin >= (MinimumBettingValue*300))
-                        {
+                       /* if(NewPlayerList[i- next].coin >= (MinimumBettingValue*300))
+                        {*/
                             CreatePlayer(NewPlayerList[i - next].name, NewPlayerList[i - next].coin, 100, DummySprite, i);
-                        }
+                        /*}
                         else
                         {
                             next--;
+                            playerNumbers--;
                             CreatePlayer(NewPlayerList[i - next].name, NewPlayerList[i - next].coin, 100, DummySprite, i);
-                        }
+                        }*/
                         
                     }
 
