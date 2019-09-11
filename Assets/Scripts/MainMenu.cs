@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
      public GameObject ShopPanel;
      public GameObject SettingPanel;
      public GameObject mainmenu;
-     public GameObject howtoplaypanel;
+     public GameObject NotEnoughCoinPanel;
      public GameObject redeempanel;
      public GameObject buychippanel;
      public GameObject buychipblack;
@@ -78,6 +78,16 @@ public class MainMenu : MonoBehaviour
     public void SetAmount()
     {
         GameInstance.new_instance.MinimumBettingValue = amounttable;
+        if((amounttable*300)<= currentcoin)
+        {
+            PlayGame();
+        }
+        else
+        {
+            //Can not Play.
+            TableAmount.SetActive(false);
+            NotEnoughCoinPanel.SetActive(true);
+        }
     }
 
     public void PlayGame()
@@ -116,11 +126,7 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("howToPlay");
     }
 
-    public void howtoplayhide()
-    {
-        howtoplaypanel.SetActive(false);
-        mainmenu.SetActive(true);
-    }
+
 
     public void showredeem()
     {
