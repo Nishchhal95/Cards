@@ -661,6 +661,8 @@ MonoBehaviour:
   TimerUI: {fileID: 1051308834}
   Greeting: {fileID: 1051308833}
   WinnerText: {fileID: 201828150}
+  ChaalSprite: {fileID: 21300000, guid: f12ee51cfa14cc54c99a95119ce73051, type: 3}
+  BetButton: {fileID: 1051308837}
   cardanim: []
   GameWonPanel: {fileID: 1155963336}
   FinalWinnerText: {fileID: 2014049535}
@@ -1698,6 +1700,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 1051308820}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051308827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1051308837 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8015691443196728484, guid: 981d0f9e02627a64fafa57a7c65025b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1051308820}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051308831}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}

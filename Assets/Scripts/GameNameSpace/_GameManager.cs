@@ -56,6 +56,9 @@ namespace GameNameSpace
         public TMP_Text WinnerText;
         //--
 
+        public Sprite ChaalSprite;
+        public Button BetButton;
+
         private int MainPlayerTimeoutIndex = 0;  // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
 
 
@@ -252,6 +255,7 @@ namespace GameNameSpace
             Player playerScript = PlayersList[0].GetComponent<Player>();
             playerScript.StatusSeen = true;
             playerScript.StatusText.text = "SEEN";
+            BetButton.GetComponent<Image>().sprite = ChaalSprite;
             cardanim =playerScript.GetComponentsInChildren<Animator>();
             playerScript.PopulateCards();
             cardanim[0].Play("CardFlipAnim");
