@@ -78,7 +78,17 @@ public class MainMenu : MonoBehaviour
 
     public void minusamount()
     {
-        if(amounttable > 20)
+        if(amounttable > 200)
+        {
+            amounttable = amounttable - 50;
+            amounttext.text = amounttable.ToString();
+        }
+        else if(amounttable==200)
+        {
+            amounttable = amounttable - 10;
+            amounttext.text = amounttable.ToString();
+        }
+        else if(amounttable < 200 && amounttable > 10)
         {
             amounttable = amounttable - 20;
             amounttext.text = amounttable.ToString();
