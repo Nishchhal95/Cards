@@ -60,8 +60,8 @@ namespace GameNameSpace
         private int MainPlayerTimeoutIndex = 0;  // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
 
 
-        private int RoundsCompleted = 0;
-        private int RoundsCompletedWithTwoPlayers = 0;
+        private int RoundsCompleted = -1;  //Keep this -1.
+        //private int RoundsCompletedWithTwoPlayers = 0;
         private bool ShowClicked = false;
         private int NumberOfPlayerShowed = 0;
 
@@ -83,6 +83,7 @@ namespace GameNameSpace
 
         private void Start()
         {
+            RoundsCompleted = -1;
             WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
             {
                 numberOfPlayer = NewPlayerList.Count + 1;
@@ -272,6 +273,14 @@ namespace GameNameSpace
                 {
                     P.GetComponent<Player>().GetComponentsInChildren<Animator>()[0].Play("CardFlipAnim");
                     P.GetComponent<Player>().PopulateCards();
+                }
+                else
+                {
+                    if(ShowClicked==false)
+                    {
+                        MainPlayer.GetComponent<Player>().GetComponentsInChildren<Animator>()[0].Play("CardFlipAnim");
+                        MainPlayer.GetComponent<Player>().PopulateCards();
+                    }
                 }
             }
         }
@@ -725,10 +734,6 @@ namespace GameNameSpace
             {
                 RoundsCompleted++;
                 Debug.Log(RoundsCompleted + "Round Completed");
-                if(PlayersList.Count==2)
-                {
-                    RoundsCompletedWithTwoPlayers++;
-                }
             }
 
             if(ShowClicked==false)
@@ -738,7 +743,7 @@ namespace GameNameSpace
                 {
                     //CAN "FOLD" AFTER 2 ROUNDS.
                     //CAN "SHOW" AFTER 2 ROUNDS.
-                    if (RoundsCompletedWithTwoPlayers >= 3) //Three Round Completed. 
+                    if (RoundsCompleted >= 3) //Three Round Completed. 
                     {
                         int k = Random.Range(1, 3);
                         switch (k)
@@ -752,7 +757,7 @@ namespace GameNameSpace
                                 break;
                         }
                     }
-                    else if (RoundsCompletedWithTwoPlayers == 2) //Two Round Completed. 
+                    else if (RoundsCompleted == 2) //Two Round Completed. 
                     {
                         int k = Random.Range(1, 6);  // 1, 2, 3, 4, 5
                         switch (k)
@@ -779,12 +784,29 @@ namespace GameNameSpace
                                 break;
                         }
                     }
-                    else  //No Round Completed.
+                    else if (RoundsCompleted == 1)
+                    {
+                        int k = Random.Range(1, 4);  // 1, 2, 3
+                        switch (k)
+                        {
+                            //Probablity of Show and Fold will increase afetr 2 turns.
+                            case 1:
+                                Bet(false);
+                                break;
+
+                            case 2:
+                                Fold(false);
+                                break;
+
+                            case 3:
+                                Fold(false);
+                                break;
+                        }
+                    }
+                    else
                     {
                         Bet(false);
                     }
-
-                    
                 }
                 else //IF Bot will be the winner.
                 {
