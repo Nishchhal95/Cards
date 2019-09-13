@@ -251,7 +251,7 @@ public class WebRequestManager : MonoBehaviour
         if (response.Equals("Updated"))
         {
             Debug.Log("succeful add coin !");
-            MainMenu.currentcoin = MainMenu.currentcoin + int.Parse(addedCoin);
+            MainMenu.UserCurrentChips = MainMenu.UserCurrentChips + int.Parse(addedCoin);
             onComplete?.Invoke();
         }
         else
@@ -287,7 +287,7 @@ public class WebRequestManager : MonoBehaviour
         if (response.Equals("Coins Added"))
         {
             Debug.Log("succeful added!");
-            MainMenu.currentcoin = MainMenu.currentcoin + coins;
+            MainMenu.UserCurrentChips = MainMenu.UserCurrentChips + coins;
             onComplete?.Invoke();
         }
         else
@@ -323,7 +323,7 @@ public class WebRequestManager : MonoBehaviour
         {
             Debug.Log("succefull redeem");
 
-            MainMenu.currentcoin = MainMenu.currentcoin -  coins;
+            MainMenu.UserCurrentChips = MainMenu.UserCurrentChips -  coins;
             onComplete?.Invoke();
         }
         else

@@ -38,8 +38,6 @@ namespace GameNameSpace
         public Button PlusButton;
         public Button MinusButton;
 
-
-
         //---Private Variables-----------
 
         private bool PrimaryPlayerDead = false;
@@ -80,6 +78,9 @@ namespace GameNameSpace
         public TMP_Text FinalWinnerText;
         public TMP_Text NextGameText;
 
+        public Slider LoadingSlider;
+        public GameObject LoadingPanel;
+
         private void Start()
         {
             WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
@@ -99,6 +100,15 @@ namespace GameNameSpace
             {
                 CurrentTime += Time.deltaTime;
                 TimerUI.fillAmount = (CurrentTime / TimeTakeToComplete);
+            }
+
+            if(LoadingPanel.activeSelf==true)
+            {
+                LoadingSlider.value += Time.deltaTime/2;
+                if(LoadingSlider.value>=0.98f)
+                {
+                    LoadingPanel.SetActive(false);
+                }
             }
             
         }
@@ -153,7 +163,6 @@ namespace GameNameSpace
             {
                 //Call Your Create Player Method From Here and Pass playerList there and loop through that playerList
 
-                //int next = 2;  //temporary variable if bot have less coins than expected.
 
                 for (int i = 1; i <= playerNumbers; i++)
                 {
@@ -161,26 +170,14 @@ namespace GameNameSpace
                     {
                         if (FB_Handler.instance.SavedProfile != null)
                         {
-                            CreatePlayer(FB_Handler.instance.SavedUsername, MainMenu.currentcoin, 1000, FB_Handler.instance.SavedProfile, i);
+                            CreatePlayer(FB_Handler.instance.SavedUsername, MainMenu.UserCurrentChips, 1000, FB_Handler.instance.SavedProfile, i);
                             Greeting.text = "Welcome Back, " + FB_Handler.instance.SavedUsername;
                         }
 
                     }
                     else
                     {
-
-                        //Here i starts from 2.
-                       /* if(NewPlayerList[i- next].coin >= (MinimumBettingValue*300))
-                        {*/
-                            CreatePlayer(NewPlayerList[i - 2].name, NewPlayerList[i - 2].coin, 100, DummySprite, i);
-                        /*}
-                        else
-                        {
-                            next--;
-                            playerNumbers--;
-                            CreatePlayer(NewPlayerList[i - next].name, NewPlayerList[i - next].coin, 100, DummySprite, i);
-                        }*/
-                        
+                        CreatePlayer(NewPlayerList[i - 2].name, NewPlayerList[i - 2].coin, 100, DummySprite, i);
                     }
 
                 }
@@ -227,7 +224,7 @@ namespace GameNameSpace
                     //We Assign Data to it
                     MainPlayerName.text = playerScript.name;
                     //  MainPlayerChips.text = playerScript.coin.ToString();
-                    MainPlayerChips.text = MainMenu.currentcoin.ToString();
+                    MainPlayerChips.text = MainMenu.UserCurrentChips.ToString();
                     MainPlayerImage.sprite = playerScript.playerSprite;
 
 
@@ -310,7 +307,7 @@ namespace GameNameSpace
                 //Debugger.text = "Player " + PlayerIndex + " Betted " + BettingSlider.value + " Chips";
                 Debugger.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " Betted " + BetValue + " Chips";
                 MainPlayer.GetComponent<Player>().coin -= BetValue;
-                MainMenu.currentcoin -= BetValue;
+                MainMenu.UserCurrentChips -= BetValue;
                 WebRequestManager.HttpGetReductedCoin(FB_Handler.instance.SavedEmail, BetValue.ToString(), () =>
                 {
                     Debug.Log("BET VALUE REDUCTED");
@@ -872,12 +869,29 @@ namespace GameNameSpace
         {
             GameWonPanel.SetActive(true);
             FinalWinnerText.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
-            string email = TopRankers[0].GetComponent<Player>().name;
-            if (email == FB_Handler.instance.SavedUsername)
+            string name = TopRankers[0].GetComponent<Player>().name;
+
+            if(TopRankers[0].GetComponent<Player>().PlayerDefaultNumber==1)  //If Player is Winner.
+            {
+                if(TotalPot>MainMenu.LargestPotWin)
+                {
+                    PlayerPrefs.SetInt("LargestPot", MainMenu.LargestPotWin);
+                }
+
+
+
+                if (MainMenu.UserCurrentChips> MainMenu.HighestChipsEver)
+                {
+                    PlayerPrefs.SetInt("HighestChips", MainMenu.HighestChipsEver);
+                }
+            }
+
+            if (name == FB_Handler.instance.SavedUsername)
             {
                 WebRequestManager.HttpGetAddCoin(FB_Handler.instance.SavedEmail, TotalPot.ToString(), () =>
                 {
                     Debug.Log("Added win coin");
+                    TopRankers[0].GetComponent<Player>().coin += TotalPot;
                 });
             }
             
@@ -1025,7 +1039,7 @@ namespace GameNameSpace
 
         public void RefreshChipsText()
         {
-            MainPlayerChips.text = MainMenu.currentcoin.ToString();
+            MainPlayerChips.text = MainMenu.UserCurrentChips.ToString();
         }
 
         public void ChangeScene(string Scene)

@@ -53,7 +53,7 @@ public class jsonPluginWEBREQ : MonoBehaviour
 
         WebRequestManager.HttpGetPlayerCoinsData(FB_Handler.instance.FB_Email.text, (string coins) =>
         {
-            MainMenu.currentcoin = int.Parse(coins);
+            MainMenu.UserCurrentChips = int.Parse(coins);
             Debug.Log(FB_Handler.instance.FB_Email.text + coins);
         });
         //TO GET COINS-------------------------------------------------------------------

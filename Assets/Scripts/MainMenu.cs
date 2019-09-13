@@ -8,7 +8,9 @@ using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    public static int currentcoin;
+     public static int UserCurrentChips;
+     public static int LargestPotWin;
+     public static int HighestChipsEver;
 
      public GameObject ShopPanel;
      public GameObject SettingPanel;
@@ -20,26 +22,44 @@ public class MainMenu : MonoBehaviour
      public GameObject redeemblue;
      public GameObject TableAmount;
 
-    public TextMeshProUGUI amounttext;
-    public TextMeshProUGUI cointext;
-    public Text cointextinfo;
-    public TextMeshProUGUI date;
-    int amounttable;
+    public TextMeshProUGUI BetTableText;  //Text on Betting Table Choosen Bet Text.
+    public TextMeshProUGUI MainMenuChipsText;  //Text on Main Menu.
+    public Text PlayerInfoChipsText;
+    public TextMeshProUGUI DateText;
+
+    public TextMeshProUGUI LargestPotText;
+    public TextMeshProUGUI HighestChipsText;
+
+    int BetAmount;
 
     private void Awake()
     {
         Utils.DoActionAfterSecondsAsync(CheckFB, 0.1f);
-        amounttable = 10;
-        amounttext.text = amounttable.ToString();
+        BetAmount = 10;
+        BetTableText.text = BetAmount.ToString();
     }
 
     private void Start()
     {
-        if(PlayerPrefs.GetString("date","0") == "0")
+        if(PlayerPrefs.GetString("Date", "0") == "0")
         {
-            PlayerPrefs.SetString("date", System.DateTime.Now.ToString("MM/dd/yyyy"));
+            PlayerPrefs.SetString("Date", System.DateTime.Now.ToString("dd/mm/yyyy"));
         }
-        date.text = PlayerPrefs.GetString("date");
+        DateText.text = PlayerPrefs.GetString("Date");
+
+        if (PlayerPrefs.GetInt("LargestPot", 0) == 0)
+        {
+            PlayerPrefs.SetInt("LargestPot", LargestPotWin);
+        }
+        LargestPotText.text = PlayerPrefs.GetInt("LargestPot").ToString() + "Chips";
+
+
+        if (PlayerPrefs.GetInt("HighestChips", 0) == 0)
+        {
+            PlayerPrefs.SetInt("HighestChips", HighestChipsEver);
+        }
+        HighestChipsText.text = PlayerPrefs.GetInt("HighestChips").ToString() + "Chips";
+
     }
 
     void CheckFB()
@@ -50,7 +70,6 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-
     public void tableamountpanel()
     {
         TableAmount.SetActive(true);
@@ -58,47 +77,46 @@ public class MainMenu : MonoBehaviour
 
     public void plusamount()
     {
-        if (amounttable < 190)
+        if (BetAmount < 190)
         {
-            amounttable = amounttable + 20;
-            amounttext.text = amounttable.ToString();
+            BetAmount = BetAmount + 20;
         }
-        else if(amounttable == 190)
+        else if(BetAmount == 190)
         {
-            amounttable = amounttable + 10;
-            amounttext.text = amounttable.ToString();
+            BetAmount = BetAmount + 10;
         }
-        else if (amounttable >= 200 && amounttable < 500)
+        else if (BetAmount >= 200 && BetAmount < 500)
         {
-            amounttable = amounttable + 50;
-            amounttext.text = amounttable.ToString();
+            BetAmount = BetAmount + 50;
         }
+
+        BetTableText.text = BetAmount.ToString();
+
     }
 
 
     public void minusamount()
     {
-        if(amounttable > 200)
+        if(BetAmount > 200)
         {
-            amounttable = amounttable - 50;
-            amounttext.text = amounttable.ToString();
+            BetAmount = BetAmount - 50;
         }
-        else if(amounttable==200)
+        else if(BetAmount == 200)
         {
-            amounttable = amounttable - 10;
-            amounttext.text = amounttable.ToString();
+            BetAmount = BetAmount - 10;
         }
-        else if(amounttable < 200 && amounttable > 10)
+        else if(BetAmount < 200 && BetAmount > 10)
         {
-            amounttable = amounttable - 20;
-            amounttext.text = amounttable.ToString();
+            BetAmount = BetAmount - 20;
         }
+
+        BetTableText.text = BetAmount.ToString();
     }
 
     public void SetAmount()
     {
-        GameInstance.new_instance.MinimumBettingValue = amounttable;
-        if((amounttable*300)<= currentcoin)
+        GameInstance.new_instance.MinimumBettingValue = BetAmount;
+        if((BetAmount * 300)<= UserCurrentChips)
         {
             PlayGame();
         }
@@ -146,8 +164,6 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("howToPlay");
     }
 
-
-
     public void showredeem()
     {
         buychipblack.SetActive(true);
@@ -166,6 +182,6 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        cointext.text = cointextinfo.text = currentcoin.ToString();
+        PlayerInfoChipsText.text = MainMenuChipsText.text = UserCurrentChips.ToString();
     }
 }

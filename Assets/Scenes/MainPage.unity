@@ -9839,7 +9839,7 @@ GameObject:
   - component: {fileID: 803787005}
   - component: {fileID: 803787004}
   m_Layer: 5
-  m_Name: date
+  m_Name: Date
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10425,7 +10425,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00019455, y: 0.00000095367}
+  m_AnchoredPosition: {x: 0.00018310547, y: 0}
   m_SizeDelta: {x: 0.00054932, y: 0.0000076294}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &831403324
@@ -12969,7 +12969,7 @@ GameObject:
   - component: {fileID: 995896999}
   - component: {fileID: 995896998}
   m_Layer: 5
-  m_Name: Text (TMP) (7)
+  m_Name: Largest_Pot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19094,7 +19094,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449932457}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1449932459
 Camera:
   m_ObjectHideFlags: 0
@@ -22727,7 +22727,7 @@ GameObject:
   - component: {fileID: 1868408707}
   - component: {fileID: 1868408706}
   m_Layer: 5
-  m_Name: chip
+  m_Name: ChipsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22772,7 +22772,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 10000000
+  m_text: 100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -22841,7 +22841,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1868408706}
-    characterCount: 8
+    characterCount: 3
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
@@ -24708,7 +24708,7 @@ GameObject:
   - component: {fileID: 2035860665}
   - component: {fileID: 2035860664}
   m_Layer: 5
-  m_Name: Text (TMP) (8)
+  m_Name: HighestChips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25735,7 +25735,7 @@ GameObject:
   - component: {fileID: 1971006521387475592}
   - component: {fileID: 1971006521387475593}
   m_Layer: 5
-  m_Name: Text
+  m_Name: CoinsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28061,6 +28061,36 @@ PrefabInstance:
       propertyPath: cointextinfo
       value: 
       objectReference: {fileID: 1971006521387475593}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: BetTableText
+      value: 
+      objectReference: {fileID: 906554196}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: PlayerInfoChipsText
+      value: 
+      objectReference: {fileID: 1971006521387475593}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: MainMenuChipsText
+      value: 
+      objectReference: {fileID: 1868408706}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: DateText
+      value: 
+      objectReference: {fileID: 803787004}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: LargestPotText
+      value: 
+      objectReference: {fileID: 995896998}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: HighestChipsText
+      value: 
+      objectReference: {fileID: 2035860664}
     - target: {fileID: 1805363018674036575, guid: 419e09c7952d88746a8b34922a120956,
         type: 3}
       propertyPath: soundonbutton
