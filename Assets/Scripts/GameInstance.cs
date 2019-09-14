@@ -10,6 +10,9 @@ public class GameInstance : MonoBehaviour
     public int MinimumBettingValue;
     public GameObject InternetPanel;
 
+    public static int MakePlayerWin =  Random.Range(0, 5);
+    public static int WinCounter = 0;
+
     private void Awake()
     {
         if (new_instance == null)

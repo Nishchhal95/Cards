@@ -148,9 +148,83 @@ namespace GameNameSpace
 
             //Ranking Happens Here.
             ReviewCards();
+
+            //Changing List to Let User Win.
+
+           
+            if(GameInstance.WinCounter==GameInstance.MakePlayerWin)
+            {
+                HandleUserWin(true);
+                GameInstance.MakePlayerWin = Random.Range(0, 5);
+            }
+            else
+            {
+                HandleUserWin(false);
+            }
+
+            GameInstance.WinCounter++;
+            if(GameInstance.WinCounter>4)
+            {
+               GameInstance.WinCounter = 0;
+            }
+
             WinnerText.text = "Winner is : " + TopRankers[0].GetComponent<Player>().name;
 
             Utils.DoActionAfterSecondsAsync(StartGame, 1f);
+        }
+
+        private void HandleUserWin(bool LetUserWin)
+        {
+            if(LetUserWin == true) //User should win.
+            {
+                if(TopRankers[0].GetComponent<Player>().PlayerDefaultNumber!=1)  //User is not winner. Make him winner.
+                {
+                    for(int i=0; i<TopRankers.Count; i++)
+                    {
+                        if (TopRankers[i].GetComponent<Player>().PlayerDefaultNumber == 1)
+                        {
+                            GameObject B = TopRankers[0]; //Get Topper Bot.
+                            //Remove User from existing position and Add to Top position.
+                            GameObject P = TopRankers[i];
+                            TopRankers.Remove(P);
+                            TopRankers.Insert(0, P);
+                            //Remove Topper and Put to Early User Position.
+                            TopRankers.Remove(B);
+                            TopRankers.Insert(i, B);
+                            //-----------------------------------------------
+                            //Swap their Cards.
+                            List<CardsManager.Card> TempCards = TopRankers[0].GetComponent<Player>().cardList;
+                            TopRankers[0].GetComponent<Player>().cardList = TopRankers[i].GetComponent<Player>().cardList;
+                            TopRankers[i].GetComponent<Player>().cardList = TempCards;
+                            //-----
+                            break;
+                        }
+                    }
+                }
+            }
+            else //User should lose.
+            {
+                if (TopRankers[0].GetComponent<Player>().PlayerDefaultNumber == 1)  //User is winner. Make him loser.
+                {
+                    int i = Random.Range(1, TopRankers.Count);
+
+                    GameObject P= TopRankers[0]; //Get User.
+
+                    //Remove Bot from existing position and Add to Top position.
+                    GameObject B = TopRankers[i];
+                    TopRankers.Remove(B);
+                    TopRankers.Insert(0, B);
+                    //Remove User and Put to Early User Position.
+                    TopRankers.Remove(P);
+                    TopRankers.Insert(i, P);
+                    //-----------------------------------------------
+                    //Swap their Cards.
+                    List<CardsManager.Card> TempCards = TopRankers[0].GetComponent<Player>().cardList;
+                    TopRankers[0].GetComponent<Player>().cardList = TopRankers[i].GetComponent<Player>().cardList;
+                    TopRankers[i].GetComponent<Player>().cardList = TempCards;
+                }
+                     
+            }
         }
 
         public void RestartGame()
