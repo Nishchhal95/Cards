@@ -78,8 +78,7 @@ namespace GameNameSpace
         public TMP_Text FinalWinnerText;
         public TMP_Text NextGameText;
 
-        public Slider LoadingSlider;
-        public GameObject LoadingPanel;
+        public Button SeeCardsButton;
 
         private void Start()
         {
@@ -102,16 +101,6 @@ namespace GameNameSpace
                 CurrentTime += Time.deltaTime;
                 TimerUI.fillAmount = (CurrentTime / TimeTakeToComplete);
             }
-
-            if(LoadingPanel.activeSelf==true)
-            {
-                LoadingSlider.value += Time.deltaTime/2;
-                if(LoadingSlider.value>=0.98f)
-                {
-                    LoadingPanel.SetActive(false);
-                }
-            }
-            
         }
 
         private void SecondStart()
@@ -434,6 +423,7 @@ namespace GameNameSpace
             if (IsPlayer==true)
             {
                 PrimaryPlayerDead = true;
+                SeeCardsButton.gameObject.SetActive(false);
             }
 
             //Debugger.text = "Player " + PlayerIndex + " clicked : FOLD";

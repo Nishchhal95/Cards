@@ -378,6 +378,7 @@ GameObject:
   - component: {fileID: 393157156}
   - component: {fileID: 393157155}
   - component: {fileID: 393157154}
+  - component: {fileID: 393157157}
   m_Layer: 5
   m_Name: LoadingScreen
   m_TagString: Untagged
@@ -441,8 +442,22 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &393157157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393157153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 577ad7a5cde659349b2d8bffee433ec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadingSlider: {fileID: 44394086}
+  LoadingPanel: {fileID: 393157153}
 --- !u!1001 &505797866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -833,8 +848,7 @@ MonoBehaviour:
   GameWonPanel: {fileID: 1155963336}
   FinalWinnerText: {fileID: 2014049535}
   NextGameText: {fileID: 853390905}
-  LoadingSlider: {fileID: 44394086}
-  LoadingPanel: {fileID: 393157153}
+  SeeCardsButton: {fileID: 1669014469}
 --- !u!114 &574372548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1956,8 +1970,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0024414062, y: -0.00048828125}
-  m_SizeDelta: {x: -0.0050659, y: -0.00097656}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1155963338
 MonoBehaviour:
@@ -1972,7 +1986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.54901963}
+  m_Color: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 0.972549}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2032,8 +2046,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 220.1, y: 75.7}
+  m_AnchoredPosition: {x: 0, y: -5}
+  m_SizeDelta: {x: 361.7, y: 105}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1177687334
 MonoBehaviour:
