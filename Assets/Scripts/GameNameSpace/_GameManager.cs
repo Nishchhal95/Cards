@@ -80,14 +80,37 @@ namespace GameNameSpace
 
         public Button SeeCardsButton;
 
+        private int ErrorRetryCount = 5;
+        public GameObject ErrorConnectingPanel;
+
         private void Start()
         {
             RoundsCompleted = -1;
+            RequestData();
+        }
+
+        private void RequestData()
+        {
             WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
             {
                 numberOfPlayer = NewPlayerList.Count + 1;
                 SecondStart();
+            }, () => {
+                ErrorConnecting();
             });
+        }
+
+        private void ErrorConnecting()
+        {
+            if(ErrorRetryCount>0)
+            {
+                RequestData();
+                ErrorRetryCount--;
+            }
+            else
+            {
+                ErrorConnectingPanel.SetActive(true);
+            }
         }
 
         private float TimeTakeToComplete = 45f;
@@ -161,6 +184,8 @@ namespace GameNameSpace
 
             Utils.DoActionAfterSecondsAsync(StartGame, 1f);
         }
+
+      
 
         private void HandleUserWin(bool LetUserWin)
         {

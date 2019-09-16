@@ -12,7 +12,7 @@ public class GameInstance : MonoBehaviour
 
     public static int MakePlayerWin;
     public static int WinCounter = 0;
-
+    public static int ErrorRetryCount = 5;
     private void Awake()
     {
         if (new_instance == null)
