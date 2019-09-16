@@ -44,21 +44,36 @@ public class MainMenu : MonoBehaviour
         if(PlayerPrefs.GetString("Date", "0") == "0")
         {
             PlayerPrefs.SetString("Date", System.DateTime.Now.ToString("dd/mm/yyyy"));
+            DateText.text = ": ------------";
         }
-        DateText.text = PlayerPrefs.GetString("Date");
+        else
+        {
+            DateText.text = ": " +  PlayerPrefs.GetString("Date");
+        }
+      
 
         if (PlayerPrefs.GetInt("LargestPot", 0) == 0)
         {
             PlayerPrefs.SetInt("LargestPot", LargestPotWin);
+            LargestPotText.text = ": ------------";
         }
-        LargestPotText.text = PlayerPrefs.GetInt("LargestPot").ToString() + "Chips";
+        else
+        {
+            LargestPotText.text = ": " + PlayerPrefs.GetInt("LargestPot").ToString() + "Chips";
+        }
+       
 
 
         if (PlayerPrefs.GetInt("HighestChips", 0) == 0)
         {
             PlayerPrefs.SetInt("HighestChips", HighestChipsEver);
+            HighestChipsText.text = ": ------------";
         }
-        HighestChipsText.text = PlayerPrefs.GetInt("HighestChips").ToString() + "Chips";
+        else
+        {
+            HighestChipsText.text = ": " + PlayerPrefs.GetInt("HighestChips").ToString() + "Chips";
+        }
+       
 
     }
 
