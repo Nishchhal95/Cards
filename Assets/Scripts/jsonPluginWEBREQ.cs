@@ -25,6 +25,25 @@ public class jsonPluginWEBREQ : MonoBehaviour
     private void Start()
     {
 
+        //PLAYER REFIL--------------------------------------------------------
+
+        //RefilPlayerMessage refilPlayerMessage = new RefilPlayerMessage
+        //{
+        //    minimumBet = 1000,
+        //    noOfPlayers = 3
+        //};
+
+        //string json = JsonConvert.SerializeObject(refilPlayerMessage);
+
+        //WebRequestManager.HttpRefilsPlayers(json, (List<PlayerData> playerDataList) => 
+        //{
+        //    for (int i = 0; i < playerDataList.Count; i++)
+        //    {
+        //        Debug.Log("Player Refil Item " + playerDataList[i].name);
+        //    }
+        //});
+
+        //PLAYER REFIL--------------------------------------------------------
     }
 
 

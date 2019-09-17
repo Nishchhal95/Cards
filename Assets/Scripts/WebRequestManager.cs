@@ -116,6 +116,41 @@ public class WebRequestManager : MonoBehaviour
 
 
 
+    public static void HttpRefilsPlayers(string postData, Action<List<PlayerData>> onComplete, Action onError = null)
+    {
+        Instance.StartCoroutine(Instance.HttpRefilsPlayersRoutine(postData, onComplete, onError));
+    }
+
+    private IEnumerator HttpRefilsPlayersRoutine(string postData, Action<List<PlayerData>> onComplete, Action onError = null)
+    {
+        UnityWebRequest unityWebRequest = UnityWebRequest.Post("http://languagelive.xyz/casino/getPlayers.php", postData);
+
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(postData);
+        unityWebRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+        unityWebRequest.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        unityWebRequest.SetRequestHeader("Content-Type", "application/json");
+
+        yield return unityWebRequest.SendWebRequest();
+
+        if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+        {
+            Debug.Log(unityWebRequest.error);
+            onError?.Invoke();
+        }
+
+        string jsonData = unityWebRequest.downloadHandler.text;
+        RefilPlayerResponse orderResponse = JsonConvert.DeserializeObject<RefilPlayerResponse>(jsonData);
+
+        if(orderResponse.data != null || orderResponse.data.Count <= 0)
+        {
+            onError?.Invoke();
+        }
+
+        onComplete?.Invoke(orderResponse.data);
+    }
+
+
+
     //-------------------win api 
 
     public static void HttpGetPlayerWinData(string playerName, string playerEmail, string winAmount, Action onComplete, Action onError = null)
@@ -410,6 +445,34 @@ public class Data
     public string created_at;
     public string name;
     public string email;
+}
+
+[System.Serializable]
+public class RefilPlayerMessage
+{
+    public int minimumBet;
+    public int noOfPlayers;
+}
+
+[System.Serializable]
+public class PlayerData
+{
+    public string sno;
+    public string name;
+    public string email;
+    public string pic;
+    public string imei;
+    public string coins;
+    public string number;
+}
+
+[System.Serializable]
+public class RefilPlayerResponse
+{
+    public string status;
+    public int code;
+    public string msg;
+    public List<PlayerData> data;
 }
 
 
