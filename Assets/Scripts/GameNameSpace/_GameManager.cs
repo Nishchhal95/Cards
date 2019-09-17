@@ -91,7 +91,15 @@ namespace GameNameSpace
 
         private void RequestData()
         {
-            WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
+           /* WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
+            {
+                numberOfPlayer = NewPlayerList.Count + 1;
+                SecondStart();
+            }, () => {
+                ErrorConnecting();
+            });*/
+
+            WebRequestManager.HttpRefilsPlayers("dsd",(List<PlayerData> NewPlayerList) =>
             {
                 numberOfPlayer = NewPlayerList.Count + 1;
                 SecondStart();
