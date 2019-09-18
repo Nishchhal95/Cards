@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Newtonsoft.Json;
+using UnityEngine.Networking;
 
 namespace GameNameSpace
 {
@@ -13,7 +14,7 @@ namespace GameNameSpace
         public GameObject playerPrefab;
         public GameObject playerPrefab2;
         public Transform[] InstantiatePosition;
-        public static int numberOfPlayer;
+        public static int numberOfPlayer = 3;
 
         public List<GameObject> ObjectsToDisable;
         
@@ -43,25 +44,21 @@ namespace GameNameSpace
         private bool PrimaryPlayerDead = false;
         private int PlayerIndex;
         private GameObject MainPlayer;
-
         //-----
         public int MinimumBettingValue;
         public float WaitingTime = 5f;   //Waiting Time for all the actions.
         public Image TimerUI;
-
         //--
         public TMP_Text Greeting;
-        public TMP_Text WinnerText;
+       // public TMP_Text WinnerText;
         //--
-
         public Sprite ChaalSprite;
         public Button BetButton;
 
         private int MainPlayerTimeoutIndex = 0;  // Index to stop Mismatching 45 seconds of Previous Turn and Current Turn.
 
-
         private int RoundsCompleted = -1;  //Keep this -1.
-        //private int RoundsCompletedWithTwoPlayers = 0;
+
         private bool ShowClicked = false;
         private int NumberOfPlayerShowed = 0;
 
@@ -83,6 +80,8 @@ namespace GameNameSpace
         private int ErrorRetryCount = 5;
         public GameObject ErrorConnectingPanel;
 
+        private string json;
+        public Sprite BotSprite;
         private void Start()
         {
             RoundsCompleted = -1;
@@ -91,21 +90,26 @@ namespace GameNameSpace
 
         private void RequestData()
         {
-           /* WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
-            {
-                numberOfPlayer = NewPlayerList.Count + 1;
-                SecondStart();
-            }, () => {
-                ErrorConnecting();
-            });*/
+            /* WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
+             {
+                 numberOfPlayer = NewPlayerList.Count + 1;
+                 SecondStart();
+             }, () => {
+                 ErrorConnecting();
+             });
+             */
 
-            WebRequestManager.HttpRefilsPlayers("dsd",(List<PlayerData> NewPlayerList) =>
+            int MinEarlyBet = GameInstance.new_instance.MinimumBettingValue*100;
+
+            RefilPlayerMessage refilPlayerMessage = new RefilPlayerMessage
             {
-                numberOfPlayer = NewPlayerList.Count + 1;
-                SecondStart();
-            }, () => {
-                ErrorConnecting();
-            });
+                minimumBet = MinEarlyBet,
+                noOfPlayers = numberOfPlayer - 1
+            };
+
+            json = JsonConvert.SerializeObject(refilPlayerMessage);
+
+            SecondStart();
         }
 
         private void ErrorConnecting()
@@ -188,7 +192,7 @@ namespace GameNameSpace
                GameInstance.WinCounter = 0;
             }
 
-            WinnerText.text = "Winner is : " + TopRankers[0].GetComponent<Player>().name;
+           // WinnerText.text = "Winner is : " + TopRankers[0].GetComponent<Player>().name;
 
             Utils.DoActionAfterSecondsAsync(StartGame, 1f);
         }
@@ -256,11 +260,8 @@ namespace GameNameSpace
 
         private void CreatePlayers(int playerNumbers)
         {
-            WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
+            WebRequestManager.HttpRefilsPlayers(json, (List<PlayerData> NewPlayerList) =>
             {
-                //Call Your Create Player Method From Here and Pass playerList there and loop through that playerList
-
-
                 for (int i = 1; i <= playerNumbers; i++)
                 {
                     if (i == 1)
@@ -270,18 +271,45 @@ namespace GameNameSpace
                             CreatePlayer(FB_Handler.instance.SavedUsername, MainMenu.UserCurrentChips, 1000, FB_Handler.instance.SavedProfile, i);
                             Greeting.text = "Welcome Back, " + FB_Handler.instance.SavedUsername;
                         }
-
                     }
                     else
                     {
-                        CreatePlayer(NewPlayerList[i - 2].name, NewPlayerList[i - 2].coin, 100, DummySprite, i);
+                        StartCoroutine(GetTexture(NewPlayerList, i));
                     }
+                }
+            });
+        }
 
+        IEnumerator GetTexture(List<PlayerData> P, int index)
+        {
+            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(P[index - 2].pic))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    Texture myTexture = DownloadHandlerTexture.GetContent(www);
+                    BotSprite = Sprite.Create((Texture2D)myTexture, new Rect(0, 0, myTexture.width, myTexture.height), new Vector2(0, 0));
                 }
 
-                ThirdStart();
-            });
+                CreatePlayer(P[index - 2].name, int.Parse(P[index - 2].coins), 100, BotSprite, index);
 
+                if(index==numberOfPlayer)
+                {
+                    StartCoroutine(StartThird());
+                   
+                }
+            }
+        }
+
+        IEnumerator StartThird()
+        {
+            yield return new WaitForSeconds(0.2f);
+            ThirdStart();
         }
 
         private void CreatePlayer(string playerName, int chips, float XP, Sprite sprite, int playernumber)
