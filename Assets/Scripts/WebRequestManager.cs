@@ -139,6 +139,7 @@ public class WebRequestManager : MonoBehaviour
         }
 
         string jsonData = unityWebRequest.downloadHandler.text;
+        Debug.Log(unityWebRequest.downloadHandler.text);
         RefilPlayerResponse orderResponse = JsonConvert.DeserializeObject<RefilPlayerResponse>(jsonData);
 
         if(orderResponse.data != null || orderResponse.data.Count <= 0)
