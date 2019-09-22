@@ -8,17 +8,24 @@ public class LoadingScript : MonoBehaviour
 
     public Slider LoadingSlider;
     public GameObject LoadingPanel;
-
+    private bool WaitForAPI = false;
     
     void Update()
     {
-        if (LoadingPanel.activeSelf == true)
+        if(WaitForAPI==false)
         {
-            LoadingSlider.value += Time.deltaTime / 4;
+            //LoadingSlider.value += Time.deltaTime / 4;
+            LoadingSlider.value = Mathf.Lerp(LoadingSlider.value, 1, Time.deltaTime);
             if (LoadingSlider.value >= 0.98f)
             {
-                LoadingPanel.SetActive(false);
+                WaitForAPI = true;
             }
         }
     }
+
+    public void SetDisable()
+    {
+        LoadingPanel.SetActive(false);
+    }
+
 }

@@ -194,9 +194,11 @@ public class MainMenu : MonoBehaviour
         redeemblue.SetActive(false);
     }
 
+    
 
-    private void Update()
+    public void SetChipsText()
     {
         PlayerInfoChipsText.text = MainMenuChipsText.text = UserCurrentChips.ToString();
     }
+    
 }

@@ -207,13 +207,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb815a490f889d841878ae4f1ae413e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PLayerDefaultNumber: 0
+  PlayerDefaultNumber: 0
   name: 
   email: 
   playerSprite: {fileID: 0}
   coin: 0
   XP: 0
   cardList: []
+  CardSet: {fileID: 8072345007242619685}
   Ordered: 0
   NoOfSameSuit: 0
   NoOfSameRank: 0
@@ -880,6 +881,7 @@ GameObject:
   - component: {fileID: 1870997412275927933}
   - component: {fileID: 146839963187331795}
   - component: {fileID: 376902403947691828}
+  - component: {fileID: 1341128563917122606}
   m_Layer: 5
   m_Name: SelectionUI
   m_TagString: Untagged
@@ -935,14 +937,26 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 33d8275a3b4571a4faeb177ab8db4bdb, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &1341128563917122606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8026955206808366950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae5c4d98e7285e14b81c61d9acba9442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8072345007242619685
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,12 @@ public class jsonPluginWEBREQ : MonoBehaviour
     public static jsonPluginWEBREQ Instance = null;
     public int coins;
 
+    public GameObject Menu;
+    public GameObject LoadingBar;
+
+    private MainMenu mainmenuscript;
+    private LoadingScript loadingscript;
+
     private void Awake()
     {
         if (Instance == null)
@@ -22,26 +28,28 @@ public class jsonPluginWEBREQ : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void Start()
     {
+         mainmenuscript = Menu.GetComponent<MainMenu>();
+         loadingscript = LoadingBar.GetComponent<LoadingScript>();
 
         //PLAYER REFIL--------------------------------------------------------
 
-       /* RefilPlayerMessage refilPlayerMessage = new RefilPlayerMessage
-        {
-            minimumBet = 1000,
-            noOfPlayers = 3
-        };
+        /*  RefilPlayerMessage refilPlayerMessage = new RefilPlayerMessage
+          {
+              minimumBet = 6000,
+              noOfPlayers = 3
+          };
 
-        string json = JsonConvert.SerializeObject(refilPlayerMessage);
+          string json = JsonConvert.SerializeObject(refilPlayerMessage);
 
-        WebRequestManager.HttpRefilsPlayers(json, (List<PlayerData> playerDataList) =>
-        {
-            for (int i = 0; i < playerDataList.Count; i++)
-            {
-                Debug.Log("Player Refil Item " + playerDataList[i].name);
-            }
-        });*/
+          WebRequestManager.HttpRefilsPlayers(json, (List<PlayerData> playerDataList) =>
+          {
+              for (int i = 0; i < playerDataList.Count; i++)
+              {
+                  Debug.Log("Player Refil Item " + playerDataList[i].name);
+              }
+          });*/
 
         //PLAYER REFIL--------------------------------------------------------
     }
@@ -74,6 +82,10 @@ public class jsonPluginWEBREQ : MonoBehaviour
         {
             MainMenu.UserCurrentChips = int.Parse(coins);
             Debug.Log(FB_Handler.instance.FB_Email.text + coins);
+
+            mainmenuscript.SetChipsText();
+            loadingscript.SetDisable();
+
         });
         //TO GET COINS-------------------------------------------------------------------
 

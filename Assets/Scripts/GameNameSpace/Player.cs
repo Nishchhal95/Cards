@@ -14,6 +14,8 @@ namespace GameNameSpace {
         public float XP;
         public List<CardsManager.Card> cardList = new List<CardsManager.Card>();
 
+        public GameObject CardSet;
+
         //------------------------------------------------
 
         public bool Ordered;

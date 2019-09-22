@@ -82,6 +82,8 @@ namespace GameNameSpace
 
         private string json;
         public Sprite BotSprite;
+
+        public GameObject LoadingBarPanel;
         private void Start()
         {
             RoundsCompleted = -1;
@@ -99,7 +101,7 @@ namespace GameNameSpace
              });
              */
 
-            int MinEarlyBet = GameInstance.new_instance.MinimumBettingValue*100;
+            int MinEarlyBet = GameInstance.new_instance.MinimumBettingValue*100;  //THIS SHOULD BE X * 300
 
             RefilPlayerMessage refilPlayerMessage = new RefilPlayerMessage
             {
@@ -153,6 +155,8 @@ namespace GameNameSpace
 
         private void ThirdStart()
         {
+            LoadingBarPanel.GetComponent<LoadingScript>().SetDisable();
+
             TurnIndicator.text = PlayersList[PlayerIndex - 1].GetComponent<Player>().name + " is playing...";
 
             MinimumBettingValue = GameInstance.new_instance.MinimumBettingValue;
@@ -352,6 +356,7 @@ namespace GameNameSpace
                     MainPlayerChips.text = MainMenu.UserCurrentChips.ToString();
                     MainPlayerImage.sprite = playerScript.playerSprite;
 
+                    playerScript.CardSet.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
 
                     //Main Player will get its own UI.
                     playerScript.nameText.gameObject.SetActive(false);
