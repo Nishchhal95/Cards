@@ -14,7 +14,7 @@ namespace GameNameSpace
         public GameObject playerPrefab;
         public GameObject playerPrefab2;
         public Transform[] InstantiatePosition;
-        public static int numberOfPlayer = 3;
+        public static int numberOfPlayer = 5;
 
         public List<GameObject> ObjectsToDisable;
         
@@ -87,10 +87,10 @@ namespace GameNameSpace
         private void Start()
         {
             RoundsCompleted = -1;
-            RequestData();
+            StartCoroutine(RequestData());
         }
 
-        private void RequestData()
+        IEnumerator RequestData()
         {
             /* WebRequestManager.HttpGetPlayerData((List<GameNameSpace.Player> NewPlayerList) =>
              {
@@ -101,7 +101,7 @@ namespace GameNameSpace
              });
              */
 
-            int MinEarlyBet = GameInstance.new_instance.MinimumBettingValue*100;  //THIS SHOULD BE X * 300
+            int MinEarlyBet = GameInstance.new_instance.MinimumBettingValue;  
 
             RefilPlayerMessage refilPlayerMessage = new RefilPlayerMessage
             {
@@ -109,7 +109,11 @@ namespace GameNameSpace
                 noOfPlayers = numberOfPlayer - 1
             };
 
+            yield return new WaitForSeconds(0.1f);
+
             json = JsonConvert.SerializeObject(refilPlayerMessage);
+
+            yield return new WaitForSeconds(0.1f);
 
             SecondStart();
         }
@@ -151,6 +155,62 @@ namespace GameNameSpace
 
             CardsManager.instance.MakeDatabase();
             CreatePlayers(numberOfPlayer);
+        }
+
+        private void CreatePlayers(int playerNumbers)
+        {
+            WebRequestManager.HttpRefilsPlayers(json, (List<PlayerData> NewPlayerList) =>
+            {
+                StartCoroutine(SetPlayers(NewPlayerList, playerNumbers));
+            });
+        }
+
+        IEnumerator SetPlayers(List<PlayerData> NewPlayerList, int playerNumbers)
+        {
+            for (int i = 1; i <= playerNumbers; i++)
+            {
+                if (i == 1)
+                {
+                    if (FB_Handler.instance.SavedProfile != null)
+                    {
+                        CreatePlayer(FB_Handler.instance.SavedUsername, MainMenu.UserCurrentChips, 1000, FB_Handler.instance.SavedProfile, i);
+                        Greeting.text = "Welcome Back, " + FB_Handler.instance.SavedUsername;
+                    }
+                }
+                else
+                {
+                    yield return new WaitForSeconds(1f);  //THIS IS VERY IMPORTANT TO HOLD FOR LOOP FOR WHILE.
+                    StartCoroutine(GetTexture(NewPlayerList, i));  // i passes 2, 3, till number of players
+                }
+               
+            }
+        }
+
+        IEnumerator GetTexture(List<PlayerData> P, int index)
+        {
+            UnityWebRequest www = UnityWebRequestTexture.GetTexture(P[index - 2].pic);
+
+            yield return www.SendWebRequest();
+
+           
+
+            if (www.isNetworkError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Image Load Succefully " + index);
+                Texture myTexture = DownloadHandlerTexture.GetContent(www);
+                BotSprite = Sprite.Create((Texture2D)myTexture, new Rect(0, 0, myTexture.width, myTexture.height), new Vector2(0, 0));
+
+                CreatePlayer(P[index - 2].name, int.Parse(P[index - 2].coins), 100, BotSprite, index);
+
+                if (index == numberOfPlayer)
+                {
+                    ThirdStart();
+                }
+            }
         }
 
         private void ThirdStart()
@@ -262,59 +322,7 @@ namespace GameNameSpace
             SceneManager.LoadScene("Player");
         }
 
-        private void CreatePlayers(int playerNumbers)
-        {
-            WebRequestManager.HttpRefilsPlayers(json, (List<PlayerData> NewPlayerList) =>
-            {
-                for (int i = 1; i <= playerNumbers; i++)
-                {
-                    if (i == 1)
-                    {
-                        if (FB_Handler.instance.SavedProfile != null)
-                        {
-                            CreatePlayer(FB_Handler.instance.SavedUsername, MainMenu.UserCurrentChips, 1000, FB_Handler.instance.SavedProfile, i);
-                            Greeting.text = "Welcome Back, " + FB_Handler.instance.SavedUsername;
-                        }
-                    }
-                    else
-                    {
-                        StartCoroutine(GetTexture(NewPlayerList, i));
-                    }
-                }
-            });
-        }
-
-        IEnumerator GetTexture(List<PlayerData> P, int index)
-        {
-            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(P[index - 2].pic))
-            {
-                yield return www.SendWebRequest();
-
-                if (www.isNetworkError)
-                {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    Texture myTexture = DownloadHandlerTexture.GetContent(www);
-                    BotSprite = Sprite.Create((Texture2D)myTexture, new Rect(0, 0, myTexture.width, myTexture.height), new Vector2(0, 0));
-                }
-
-                CreatePlayer(P[index - 2].name, int.Parse(P[index - 2].coins), 100, BotSprite, index);
-
-                if(index==numberOfPlayer)
-                {
-                    StartCoroutine(StartThird());
-                   
-                }
-            }
-        }
-
-        IEnumerator StartThird()
-        {
-            yield return new WaitForSeconds(0.2f);
-            ThirdStart();
-        }
+     
 
         private void CreatePlayer(string playerName, int chips, float XP, Sprite sprite, int playernumber)
         {
@@ -330,7 +338,7 @@ namespace GameNameSpace
             }
 
             
-             PlayersList.Add(player);
+            PlayersList.Add(player);
             Player playerScript = player.GetComponent<Player>();
 
             if (playernumber == 1)
@@ -375,6 +383,8 @@ namespace GameNameSpace
                    //playerScript.PopulateCards();
                 }
             }
+
+            Debug.Log("Player Added with Default Number " + playernumber);
         }
 
         public void cardspopulate()
@@ -1027,15 +1037,18 @@ namespace GameNameSpace
             {
                 if(TotalPot>MainMenu.LargestPotWin)
                 {
+                    MainMenu.LargestPotWin = TotalPot;
                     PlayerPrefs.SetInt("LargestPot", MainMenu.LargestPotWin);
                 }
 
-
-
                 if (MainMenu.UserCurrentChips> MainMenu.HighestChipsEver)
                 {
+                    MainMenu.HighestChipsEver = MainMenu.UserCurrentChips;
                     PlayerPrefs.SetInt("HighestChips", MainMenu.HighestChipsEver);
                 }
+
+                MainMenu.BestHandString = "A-A-A";
+                PlayerPrefs.SetString("BestHand", MainMenu.BestHandString);
             }
 
             if (name == FB_Handler.instance.SavedUsername)

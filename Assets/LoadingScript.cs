@@ -15,7 +15,7 @@ public class LoadingScript : MonoBehaviour
         if(WaitForAPI==false)
         {
             //LoadingSlider.value += Time.deltaTime / 4;
-            LoadingSlider.value = Mathf.Lerp(LoadingSlider.value, 1, Time.deltaTime);
+            LoadingSlider.value = Mathf.Lerp(LoadingSlider.value, 1, Time.deltaTime/2);
             if (LoadingSlider.value >= 0.98f)
             {
                 WaitForAPI = true;

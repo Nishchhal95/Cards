@@ -10144,7 +10144,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 803787004}
-    characterCount: 15
+    characterCount: 14
     spriteCount: 0
     spaceCount: 1
     wordCount: 1
@@ -11111,7 +11111,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 847258471}
-    characterCount: 15
+    characterCount: 14
     spriteCount: 0
     spaceCount: 1
     wordCount: 1
@@ -13524,7 +13524,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 995896998}
-    characterCount: 15
+    characterCount: 14
     spriteCount: 0
     spaceCount: 1
     wordCount: 1
@@ -25670,7 +25670,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2035860664}
-    characterCount: 15
+    characterCount: 14
     spriteCount: 0
     spaceCount: 1
     wordCount: 1
@@ -28944,6 +28944,11 @@ PrefabInstance:
       propertyPath: NotEnoughCoinPanel
       value: 
       objectReference: {fileID: 1353110632}
+    - target: {fileID: 9203215786014412435, guid: 419e09c7952d88746a8b34922a120956,
+        type: 3}
+      propertyPath: BestHandChipsText
+      value: 
+      objectReference: {fileID: 847258471}
     - target: {fileID: 1805363018674036575, guid: 419e09c7952d88746a8b34922a120956,
         type: 3}
       propertyPath: soundonbutton

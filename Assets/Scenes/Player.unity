@@ -838,7 +838,7 @@ MonoBehaviour:
   PlusButton: {fileID: 1051308836}
   MinusButton: {fileID: 1051308835}
   MinimumBettingValue: 10
-  WaitingTime: 5
+  WaitingTime: 2
   TimerUI: {fileID: 1051308834}
   Greeting: {fileID: 1051308833}
   ChaalSprite: {fileID: 21300000, guid: f12ee51cfa14cc54c99a95119ce73051, type: 3}

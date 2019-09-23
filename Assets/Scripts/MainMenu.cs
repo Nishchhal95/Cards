@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
      public static int UserCurrentChips;
      public static int LargestPotWin;
      public static int HighestChipsEver;
+     public static string BestHandString;
 
      public GameObject ShopPanel;
      public GameObject SettingPanel;
@@ -29,6 +30,7 @@ public class MainMenu : MonoBehaviour
 
     public TextMeshProUGUI LargestPotText;
     public TextMeshProUGUI HighestChipsText;
+    public TextMeshProUGUI BestHandChipsText;
 
     int BetAmount;
 
@@ -41,20 +43,16 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        if(PlayerPrefs.GetString("Date", "0") == "0")
+        if (PlayerPrefs.GetString("Date", "0") == "0")
         {
-            PlayerPrefs.SetString("Date", System.DateTime.Now.ToString("dd/mm/yyyy"));
-            DateText.text = ": ------------";
+            //If Date is NULL , Save Current Time and Show it.
+            PlayerPrefs.SetString("Date", System.DateTime.Now.ToString("dd-MM-yyyy"));
         }
-        else
-        {
-            DateText.text = ": " +  PlayerPrefs.GetString("Date");
-        }
-      
+
+        DateText.text = ": " + PlayerPrefs.GetString("Date");
 
         if (PlayerPrefs.GetInt("LargestPot", 0) == 0)
-        {
-            PlayerPrefs.SetInt("LargestPot", LargestPotWin);
+        { 
             LargestPotText.text = ": ------------";
         }
         else
@@ -66,14 +64,21 @@ public class MainMenu : MonoBehaviour
 
         if (PlayerPrefs.GetInt("HighestChips", 0) == 0)
         {
-            PlayerPrefs.SetInt("HighestChips", HighestChipsEver);
             HighestChipsText.text = ": ------------";
         }
         else
         {
             HighestChipsText.text = ": " + PlayerPrefs.GetInt("HighestChips").ToString() + "Chips";
         }
-       
+
+        if (PlayerPrefs.GetString("BestHand", null) == null)
+        {
+            BestHandChipsText.text = ": ------------";
+        }
+        else
+        {
+            BestHandChipsText.text = ": " + PlayerPrefs.GetString("BestHand");
+        }
 
     }
 
