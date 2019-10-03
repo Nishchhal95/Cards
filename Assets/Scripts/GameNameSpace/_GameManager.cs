@@ -1552,6 +1552,15 @@ namespace GameNameSpace
 
         #endregion
 
+        public void ClearServerList()
+        {
+            GameInstance.new_instance.ServerPlayersCoins.Clear();
+            GameInstance.new_instance.ServerPlayersImages.Clear();
+            GameInstance.new_instance.ServerPlayersNames.Clear();
+        }
+            
+
+
 
       /*  #region  Card_Algorithm_For_TopChart
 

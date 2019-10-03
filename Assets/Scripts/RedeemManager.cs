@@ -14,7 +14,7 @@ public class RedeemManager : MonoBehaviour
     public TMP_InputField Email;
     public TMP_InputField Redeemamounttext;
     int redeemamount;
-    int redeemchip;
+    int redeemdiamonds;
     long MobieNumber;
     private void Update()
     {
@@ -33,10 +33,10 @@ public class RedeemManager : MonoBehaviour
         Redeemamounttext.text = redeemamount.ToString();
     }
     
-    public void chipredeem( int chip)
+    public void diamondreedeem( int diamonds)
     {
        
-        redeemchip = chip;
+        redeemdiamonds = diamonds;
         if (checkeligible())
         {
             Redeempanel.SetActive(true);
@@ -52,7 +52,7 @@ public class RedeemManager : MonoBehaviour
 
     public bool checkeligible()
     {
-        if(ChipofPlayer >= redeemchip)
+        if(ChipofPlayer >= redeemdiamonds)
         {
             return true;
         }
@@ -65,11 +65,17 @@ public class RedeemManager : MonoBehaviour
 
     public void redeemchipApi()
     {
-        MobieNumber = long.Parse(Paytm.text);
+        /*MobieNumber = long.Parse(Paytm.text);
         WebRequestManager.Httpredeem(redeemamount, FB_Handler.instance.FB_Email.text, redeemchip, MobieNumber, () =>
-            {
-                Debug.Log("success redeem");
-                Redeempanel.SetActive(false);
-            });
+        {
+              Debug.Log("success redeem");
+              Redeempanel.SetActive(false);
+        });
+        */
+
+        MainMenu.UserCurrentDiamonds += redeemdiamonds;
+        Redeempanel.SetActive(false);
     }
+
+
 }
