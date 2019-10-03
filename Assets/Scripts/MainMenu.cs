@@ -9,6 +9,7 @@ using TMPro;
 public class MainMenu : MonoBehaviour
 {
      public static int UserCurrentChips;
+     public static int UserCurrentDiamonds; 
      public static int LargestPotWin;
      public static int HighestChipsEver;
      public static string BestHandString;
@@ -25,7 +26,10 @@ public class MainMenu : MonoBehaviour
 
     public TextMeshProUGUI BetTableText;  //Text on Betting Table Choosen Bet Text.
     public TextMeshProUGUI MainMenuChipsText;  //Text on Main Menu.
+    public TextMeshProUGUI MainMenuDiamondsText;  //Text on Main Menu.
+
     public Text PlayerInfoChipsText;
+    public Text PlayerInfoDiamondsText;
     public TextMeshProUGUI DateText;
 
     public TextMeshProUGUI LargestPotText;
@@ -205,5 +209,10 @@ public class MainMenu : MonoBehaviour
     {
         PlayerInfoChipsText.text = MainMenuChipsText.text = UserCurrentChips.ToString();
     }
-    
+
+    public void SetDiamondsText()
+    {
+        PlayerInfoDiamondsText.text = MainMenuDiamondsText.text = UserCurrentDiamonds.ToString();
+    }
+
 }

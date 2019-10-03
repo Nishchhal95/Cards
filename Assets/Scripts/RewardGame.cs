@@ -7,7 +7,7 @@ using System;
 
 public class RewardGame : MonoBehaviour {
 
-	private RewardBasedVideoAd rewardBasedVideoAd; 
+	private RewardBasedVideoAd rewardBasedVideoAd;
 
 	private static string outputMessage = "";
 
@@ -27,6 +27,7 @@ public class RewardGame : MonoBehaviour {
 		rewardBasedVideoAd.OnAdClosed += HandleOnAdClosed;
 		rewardBasedVideoAd.OnAdRewarded += HandleOnAdRewarded;
 		rewardBasedVideoAd.OnAdLeavingApplication += HandleIOnAdLeavingApplication;
+
 	}
 
 	void Update()
@@ -97,6 +98,7 @@ public class RewardGame : MonoBehaviour {
 		public void HandleOnAdRewarded(object sender, Reward args)
 		{
 		  print("Reward HERE");
+          MainMenu.UserCurrentDiamonds += 2000;
         //manager.Coins += 2000;
 		 
 		}
