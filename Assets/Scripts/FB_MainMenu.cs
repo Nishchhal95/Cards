@@ -10,10 +10,12 @@ public class FB_MainMenu : MonoBehaviour
     public Text FB_Email;
     public Image FB_Profile;
     public Image FB_Profile2;
+    private string imei;
 
     private void Awake()
     {
-        Utils.DoActionAfterSecondsAsync(SetData, 0.1f);
+        Utils_X.DoActionAfterSecondsAsync(SetData, 0.1f);
+        imei = SystemInfo.deviceUniqueIdentifier;
     }
 
     void SetData()
@@ -23,6 +25,7 @@ public class FB_MainMenu : MonoBehaviour
         FB_Email.text = FB_Handler.instance.SavedEmail;
         FB_Profile.sprite = FB_Handler.instance.SavedProfile;
         FB_Profile2.sprite = FB_Handler.instance.SavedProfile;
+        jsonPluginWEBREQ.Instance.initData(imei);
     }
 
 }

@@ -36,7 +36,7 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-        Utils.DoActionAfterSecondsAsync(CheckFB, 0.1f);
+        Utils_X.DoActionAfterSecondsAsync(CheckFB, 0.1f);
         BetAmount = 10;
         BetTableText.text = BetAmount.ToString();
     }

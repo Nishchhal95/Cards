@@ -13,6 +13,13 @@ public class GameInstance : MonoBehaviour
     public static int MakePlayerWin;
     public static int WinCounter = 0;
     public static int ErrorRetryCount = 5;
+
+    public List<Sprite> ServerPlayersImages = null;
+    public List<string> ServerPlayersNames = null;
+    public List<int> ServerPlayersCoins = null;
+    public bool GetPlayersFromServer = true;
+
+
     private void Awake()
     {
         if (new_instance == null)
@@ -30,6 +37,7 @@ public class GameInstance : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         CheckConnection();
+        GetPlayersFromServer = true;
         MakePlayerWin = Random.Range(0, 5);
     }
 

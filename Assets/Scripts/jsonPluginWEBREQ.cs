@@ -70,7 +70,7 @@ public class jsonPluginWEBREQ : MonoBehaviour
         });
 
         //TO LOGIN---------------------------------------------------------------------------------------------------------------
-        WebRequestManager.HttpGetPlayerLoginData(FB_Handler.instance.FB_UserName.text,FB_Handler.instance.FB_Email.text, "https"+"://graph.facebook.com/" + FB_Handler.instance.SavedId + "/picture?type=large", imei, "5000", "", () =>
+        WebRequestManager.HttpGetPlayerLoginData(FB_Handler.instance.SavedUsername,FB_Handler.instance.SavedEmail, "https"+"://graph.facebook.com/" + FB_Handler.instance.SavedId + "/picture?type=large", imei, "5000", "", () =>
          {
             Debug.Log("CREATED USER SUCCESFULLY");
            
@@ -78,10 +78,10 @@ public class jsonPluginWEBREQ : MonoBehaviour
 
 
 
-        WebRequestManager.HttpGetPlayerCoinsData(FB_Handler.instance.FB_Email.text, (string coins) =>
+        WebRequestManager.HttpGetPlayerCoinsData(FB_Handler.instance.SavedEmail, (string coins) =>
         {
             MainMenu.UserCurrentChips = int.Parse(coins);
-            Debug.Log(FB_Handler.instance.FB_Email.text + coins);
+            Debug.Log(FB_Handler.instance.SavedEmail + coins);
 
             mainmenuscript.SetChipsText();
             loadingscript.SetDisable();
@@ -99,7 +99,7 @@ public class jsonPluginWEBREQ : MonoBehaviour
 
     public void buycoins(int amount)
     {
-        WebRequestManager.HttpBuyCoin(amount, FB_Handler.instance.FB_Email.text, coins, FB_Handler.instance.FB_Email.text, () =>
+        WebRequestManager.HttpBuyCoin(amount, FB_Handler.instance.SavedUsername, coins, FB_Handler.instance.SavedEmail, () =>
            {
                Debug.Log("buy");
            });

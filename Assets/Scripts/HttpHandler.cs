@@ -80,33 +80,33 @@ public class HttpHandler : MonoBehaviour
 
     private IEnumerator HttpGetRoutine<T, U>(HttpRequest<U> httpRequest, Action<T> onRequestComplete, Action onError = null)
     {
-        Utils.ColorLog("cyan", "Making Http Request at URI : " + httpRequest.URI + httpRequest.message);
+        Utils_X.ColorLog("cyan", "Making Http Request at URI : " + httpRequest.URI + httpRequest.message);
         UnityWebRequest unityWebRequest = UnityWebRequest.Get(httpRequest.URI + httpRequest.message);
         yield return unityWebRequest.SendWebRequest();
 
         if (unityWebRequest.isNetworkError)
         {
-            Utils.ColorLog("red", "Network Error");
+            Utils_X.ColorLog("red", "Network Error");
             onError?.Invoke();
             yield break;
         }
 
         if (unityWebRequest.isHttpError)
         {
-            Utils.ColorLog("red", "Http Error");
+            Utils_X.ColorLog("red", "Http Error");
             onError?.Invoke();
             yield break;
         }
 
         string json = unityWebRequest.downloadHandler.text;
-        Utils.ColorLog("green", "Http Response " + json);
+        Utils_X.ColorLog("green", "Http Response " + json);
         T reseponse = JsonConvert.DeserializeObject<T>(json);
         onRequestComplete?.Invoke(reseponse);
     }
 
     private IEnumerator HttpPostRoutine<T, U>(HttpRequest<U> httpRequest, Action<T> onRequestComplete, Action onError = null)
     {
-        Utils.ColorLog("cyan", "Making Http Request at URI : " + httpRequest.URI + httpRequest.message);
+        Utils_X.ColorLog("cyan", "Making Http Request at URI : " + httpRequest.URI + httpRequest.message);
         UnityWebRequest unityWebRequest = UnityWebRequest.Post(httpRequest.URI, httpRequest.message);
 
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(httpRequest.message);
@@ -118,20 +118,20 @@ public class HttpHandler : MonoBehaviour
 
         if (unityWebRequest.isNetworkError)
         {
-            Utils.ColorLog("red", "Network Error");
+            Utils_X.ColorLog("red", "Network Error");
             onError?.Invoke();
             yield break;
         }
 
         if (unityWebRequest.isHttpError)
         {
-            Utils.ColorLog("red", "Http Error");
+            Utils_X.ColorLog("red", "Http Error");
             onError?.Invoke();
             yield break;
         }
 
         string json = unityWebRequest.downloadHandler.text;
-        Utils.ColorLog("green", "Http Response " + json);
+        Utils_X.ColorLog("green", "Http Response " + json);
         T response = JsonConvert.DeserializeObject<T>(json);
         onRequestComplete?.Invoke(response);
     }
