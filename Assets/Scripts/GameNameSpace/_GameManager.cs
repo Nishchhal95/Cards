@@ -543,7 +543,7 @@ namespace GameNameSpace
             PlayersList.Remove(G);
             TopRankers.Remove(G);
 
-            Destroy(G);
+            //Destroy(G);
 
 
             if (PlayerIndex == PlayersList.Count + 1)

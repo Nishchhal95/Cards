@@ -77,7 +77,7 @@ public class RewardGame : MonoBehaviour {
 
 		public void HandleOnFailedToLoad(object sender, AdFailedToLoadEventArgs args)
 		{
-		  
+            Debug.Log("Reward AD Failed to Load");
 		}
 
 		public void HandleOnOpening(object sender, EventArgs args)
