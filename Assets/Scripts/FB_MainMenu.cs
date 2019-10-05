@@ -14,7 +14,7 @@ public class FB_MainMenu : MonoBehaviour
 
     private void Awake()
     {
-        Utils_X.DoActionAfterSecondsAsync(SetData, 0.1f);
+        //Utils_X.DoActionAfterSecondsAsync(SetData, 0.1f);
         imei = SystemInfo.deviceUniqueIdentifier;
     }
 

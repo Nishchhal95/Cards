@@ -102,6 +102,7 @@ public class WebRequestManager : MonoBehaviour
             if (PlayerPrefs.GetInt("login", 0) == 0)
             {
                 welcomepanel.SetActive(true);
+                PlayerPrefs.SetInt("diamond", 100);
                 PlayerPrefs.SetInt("login", 1);
             }
             Debug.Log("Login Succesful!");

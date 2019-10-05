@@ -9,7 +9,11 @@ public class RewardGame : MonoBehaviour {
 
 	private RewardBasedVideoAd rewardBasedVideoAd;
 
+    public delegate void OnDiamondsChanged();
+    public static OnDiamondsChanged onDiamondsChanged;
+
 	private static string outputMessage = "";
+    MainMenu menuScript;
 
 	public static string OutputMessage
 	{
@@ -18,19 +22,40 @@ public class RewardGame : MonoBehaviour {
 
 	public void Start()
 	{
-		rewardBasedVideoAd = RewardBasedVideoAd.Instance;
+        menuScript = FindObjectOfType<MainMenu>();
+        MobileAds.Initialize(initStatus => {
+            RequestRewardBasedAd();
+        });
 
-		rewardBasedVideoAd.OnAdLoaded += HandleOnAdLoaded;
-		rewardBasedVideoAd.OnAdFailedToLoad += HandleOnFailedToLoad;
-		rewardBasedVideoAd.OnAdOpening += HandleOnOpening;
-		rewardBasedVideoAd.OnAdStarted += HandleOnStarted;
-		rewardBasedVideoAd.OnAdClosed += HandleOnAdClosed;
-		rewardBasedVideoAd.OnAdRewarded += HandleOnAdRewarded;
-		rewardBasedVideoAd.OnAdLeavingApplication += HandleIOnAdLeavingApplication;
+        rewardBasedVideoAd = RewardBasedVideoAd.Instance;
 
-	}
+        rewardBasedVideoAd.OnAdLoaded += HandleOnAdLoaded;
+        rewardBasedVideoAd.OnAdFailedToLoad += HandleOnFailedToLoad;
+        rewardBasedVideoAd.OnAdOpening += HandleOnOpening;
+        rewardBasedVideoAd.OnAdStarted += HandleOnStarted;
+        rewardBasedVideoAd.OnAdClosed += HandleOnAdClosed;
+        rewardBasedVideoAd.OnAdRewarded += RewardBasedVideoAd_OnAdRewarded;
+        rewardBasedVideoAd.OnAdLeavingApplication += HandleIOnAdLeavingApplication;
+    }
 
-	void Update()
+    private void RewardBasedVideoAd_OnAdRewarded(object sender, Reward e)
+    {
+        Debug.Log("Reward HERE");
+
+        int coins = MainMenu.UserCurrentChips + 2000;
+        MainMenu.UserCurrentChips = coins;
+        Debug.Log(FB_Handler.instance.SavedEmail + coins);
+
+        menuScript.SetChipsText();
+        WebRequestManager.HttpGetAddCoin(FB_Handler.instance.SavedEmail, 2000.ToString(), () =>
+        {
+            Debug.Log("Added win coin");
+        });
+
+        RequestRewardBasedAd();
+    }
+
+    void Update()
 	{
 		//	ShowRewardBasedAd();
 	}
@@ -45,26 +70,27 @@ public class RewardGame : MonoBehaviour {
 		string adUnitId = "INSERT_IOS_INTERSTITIAL_AD_UNIT_ID_HERE";
 #else
         string adUnitId = "unexpected_platform";
-		#endif
+#endif
 
-		// Register for ad events.
+        // Register for ad events.
 
-		// Load an reward ad.
-		//rewardBasedVideoAd.LoadAd(new AdRequest.Builder().Build(), adUnitId);
+        // Load an reward ad.
+        //rewardBasedVideoAd.LoadAd(new AdRequest.Builder().Build(), adUnitId);
 
-
-		rewardBasedVideoAd.LoadAd(new AdRequest.Builder().Build(), adUnitId);
+        if(rewardBasedVideoAd != null)
+        rewardBasedVideoAd.LoadAd(new AdRequest.Builder().Build(), adUnitId);
 	}
 
 	public void ShowRewardBasedAd()
 	{
 		if (rewardBasedVideoAd.IsLoaded())
 		{
-		   rewardBasedVideoAd.Show();
+            rewardBasedVideoAd.Show();
 		}
 		else
 		{
-		    print("Reward is not ready yet.");
+            RequestRewardBasedAd();
+            print("Reward is not ready yet.");
 		}
 	}
 
@@ -72,17 +98,17 @@ public class RewardGame : MonoBehaviour {
 
 		public void HandleOnAdLoaded(object sender, EventArgs args)
 		{
-		 
+		    
 		}
 
 		public void HandleOnFailedToLoad(object sender, AdFailedToLoadEventArgs args)
 		{
             Debug.Log("Reward AD Failed to Load");
-		}
+        }
 
 		public void HandleOnOpening(object sender, EventArgs args)
 		{
-		print("Opening");
+		    print("Opening");
 		}
 
 		public void HandleOnStarted(object sender, EventArgs args)
@@ -92,16 +118,14 @@ public class RewardGame : MonoBehaviour {
 
 		public void HandleOnAdClosed(object sender, EventArgs args)
 		{
-		   
-		}
+            RequestRewardBasedAd();
+        }
 
 		public void HandleOnAdRewarded(object sender, Reward args)
 		{
-		  print("Reward HERE");
-          MainMenu.UserCurrentDiamonds += 2000;
-        //manager.Coins += 2000;
-		 
-		}
+
+
+        }
 
 		public void HandleIOnAdLeavingApplication(object sender, EventArgs args)
 		{

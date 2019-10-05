@@ -35,6 +35,8 @@ public class sceneLOader : MonoBehaviour
     public void onbackclick()
     {
         SceneManager.LoadScene("MainPage");
+
+        FB_Handler.instance.ResetMainMenu();
     }
 
 }

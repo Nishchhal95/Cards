@@ -16,6 +16,7 @@ public class RedeemManager : MonoBehaviour
     int redeemamount;
     int redeemdiamonds;
     long MobieNumber;
+
     private void Update()
     {
         ChipofPlayer = long.Parse(chiptext.text);
@@ -33,15 +34,26 @@ public class RedeemManager : MonoBehaviour
         Redeemamounttext.text = redeemamount.ToString();
     }
     
-    public void diamondreedeem( int diamonds)
+    public void diamondreedeem(int diamonds)
     {
        
-        redeemdiamonds = diamonds;
-        if (checkeligible())
+        //redeemdiamonds = diamonds;
+        //if (checkeligible())
+        //{
+        //    Redeempanel.SetActive(true);
+        //    showstats();
+        //}
+        //else
+        //{
+        //    lesspanel.SetActive(true);
+        //}
+
+        if(GetCurrentDiamondCount() >= diamonds)
         {
             Redeempanel.SetActive(true);
             showstats();
         }
+
         else
         {
             lesspanel.SetActive(true);
@@ -76,6 +88,13 @@ public class RedeemManager : MonoBehaviour
         MainMenu.UserCurrentDiamonds += redeemdiamonds;
         Redeempanel.SetActive(false);
     }
+
+    public static int GetCurrentDiamondCount()
+    {
+        return PlayerPrefs.GetInt("diamond", 0);
+    }
+
+
 
 
 }

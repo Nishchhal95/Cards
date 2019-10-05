@@ -190,16 +190,16 @@ public class MainMenu : MonoBehaviour
 
     public void showredeem()
     {
-        buychipblack.SetActive(true);
+        //buychipblack.SetActive(true);
         redeempanel.SetActive(true);
-        buychippanel.SetActive(false);
+        //buychippanel.SetActive(false);
         redeemblue.SetActive(true);
     }
     public void showbuychip()
     {
-        buychipblack.SetActive(false);
+        //buychipblack.SetActive(false);
         redeempanel.SetActive(false);
-        buychippanel.SetActive(true);
+        //buychippanel.SetActive(true);
         redeemblue.SetActive(false);
     }
 

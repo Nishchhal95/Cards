@@ -72,7 +72,7 @@ public class jsonPluginWEBREQ : MonoBehaviour
         //TO LOGIN---------------------------------------------------------------------------------------------------------------
         WebRequestManager.HttpGetPlayerLoginData(FB_Handler.instance.SavedUsername,FB_Handler.instance.SavedEmail, "https"+"://graph.facebook.com/" + FB_Handler.instance.SavedId + "/picture?type=large", imei, "5000", "", () =>
          {
-            Debug.Log("CREATED USER SUCCESFULLY");
+             Debug.Log("CREATED USER SUCCESFULLY");
            
          });
 

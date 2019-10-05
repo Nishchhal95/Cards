@@ -196,7 +196,20 @@ namespace GameNameSpace
 
                         if (www.isNetworkError)
                         {
-                            Debug.Log(www.error);
+                            Debug.Log(www.error + " : " + NewPlayerList[i - 2].pic);
+                            UnityWebRequest defWWW = UnityWebRequestTexture.GetTexture("https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/dde50c85963513.5d8b73a656202.jpg");
+
+                            yield return defWWW.SendWebRequest();
+
+                            Debug.Log("Image Load Succefully " + i);
+                            Texture myTexture = ((DownloadHandlerTexture)defWWW.downloadHandler).texture;
+                            BotSprite = Sprite.Create((Texture2D)myTexture, new Rect(0, 0, myTexture.width, myTexture.height), new Vector2(0, 0));
+                            CreatePlayer(NewPlayerList[i - 2].name, int.Parse(NewPlayerList[i - 2].coins), 100, BotSprite, i);
+
+                            if (i == playerNumbers)
+                            {
+                                ThirdStart();
+                            }
                             //GetTexture(P, index);
                         }
                         else
@@ -1050,6 +1063,7 @@ namespace GameNameSpace
 
         private void ShowGameWonScreen()
         {
+            PlayerPrefs.SetInt("diamond", (RedeemManager.GetCurrentDiamondCount() + TotalPot));
             GameWonPanel.SetActive(true);
             FinalWinnerText.text = "Yeah! Congo... " + TopRankers[0].GetComponent<Player>().name + " you WON !";
             string name = TopRankers[0].GetComponent<Player>().name;
@@ -1074,6 +1088,7 @@ namespace GameNameSpace
 
             if (name == FB_Handler.instance.SavedUsername)
             {
+                PlayerPrefs.SetInt("diamond", (RedeemManager.GetCurrentDiamondCount() + TotalPot));
                 WebRequestManager.HttpGetAddCoin(FB_Handler.instance.SavedEmail, TotalPot.ToString(), () =>
                 {
                     Debug.Log("Added win coin");
@@ -1238,6 +1253,8 @@ namespace GameNameSpace
             GameInstance.new_instance.ServerPlayersCoins.Clear();
             GameInstance.new_instance.ServerPlayersImages.Clear();
             GameInstance.new_instance.ServerPlayersNames.Clear();
+
+            FB_Handler.instance.ResetMainMenu();
         }
 
 

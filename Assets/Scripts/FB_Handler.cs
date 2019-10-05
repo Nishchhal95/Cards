@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Facebook.Unity;
 using UnityEngine.UI;
+using TMPro;
 
 public class FB_Handler : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class FB_Handler : MonoBehaviour
     public Text FB_UserName;
     public Text FB_UserName2;
     public Text FB_Email;
+    public TextMeshProUGUI diamondsText;
     public Image FB_Profile;
     public Image FB_Profile2;
     public GameObject MainMenuScreen;
@@ -50,21 +52,90 @@ public class FB_Handler : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(this);
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    private void OnEnable()
+    {
+        RewardGame.onDiamondsChanged += UpdateDiamonds;
+    }
+
+    private void OnDisable()
+    {
+        RewardGame.onDiamondsChanged -= UpdateDiamonds;
+    }
+
+    private void UpdateDiamonds()
+    {
+        diamondsText.text = RedeemManager.GetCurrentDiamondCount().ToString();
+    }
+
+    public void Start()
     {
         FB.Init(SetInit, onHidenUnity);  //Trigger on Game start.
     }
 
-    void SetInit()
+    public void ResetMainMenu()
     {
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+    }
+
+    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        SetInit();
+        SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+    }
+
+    public void SetInit()
+    {
+        MainMenuUIReset mainMenuUIReset = FindObjectOfType<MainMenuUIReset>();
+        if(FB_UserName == null)
+        {
+            FB_UserName = mainMenuUIReset.FB_UserName;
+        }
+
+        if (FB_UserName2 == null)
+        {
+            FB_UserName2 = mainMenuUIReset.FB_UserName2;
+        }
+
+        if (FB_Email == null)
+        {
+            FB_Email = mainMenuUIReset.FB_Email;
+        }
+
+        if (diamondsText == null)
+        {
+            diamondsText = mainMenuUIReset.diamondsText;
+        }
+
+        if (FB_Profile == null)
+        {
+            FB_Profile = mainMenuUIReset.FB_Profile;
+        }
+
+        if (FB_Profile2 == null)
+        {
+            FB_Profile2 = mainMenuUIReset.FB_Profile2;
+        }
+
+        if (MainMenuScreen == null)
+        {
+            MainMenuScreen = mainMenuUIReset.MainMenuScreen;
+        }
+
+        if (LoginButton == null)
+        {
+            LoginButton = mainMenuUIReset.LoginButton;
+        }
+
+
         CheckLoginState(FB.IsLoggedIn);
     }
 
@@ -111,7 +182,8 @@ public class FB_Handler : MonoBehaviour
             FB.API("/me?fields=email", HttpMethod.GET, DisplayEmail);
             FB.API("/me?fields=first_name", HttpMethod.GET, DisplayUsername);
             FB.API("/me?fields=id", HttpMethod.GET, DisplayId);
-            FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic); 
+            FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic);
+            diamondsText.text = RedeemManager.GetCurrentDiamondCount().ToString();
         }
         else
         {
@@ -197,6 +269,4 @@ public class FB_Handler : MonoBehaviour
             jsonPluginWEBREQ.Instance.initData(imei);
         }
     }
-  
-
 }
